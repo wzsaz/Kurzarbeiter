@@ -11,5 +11,5 @@
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="['name', 'position']"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: ['name', 'position'];" (click)="onItemClicked()"></mat-row>
+  <mat-row *matRowDef="let row; columns: ['name', 'position'];" (click)="onItemClicked(row)"></mat-row>
 </mat-table>

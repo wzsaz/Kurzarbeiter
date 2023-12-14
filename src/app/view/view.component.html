@@ -1,3 +1,14 @@
 <!-- src/app/view/view.component.html -->
-<app-table (itemClicked)="onItemClicked()"></app-table>
+<app-table (itemClicked)="onItemClicked($event)"></app-table>
 <app-editor *ngIf="showEditor"></app-editor>
+
+<!-- src/app/view/view.component.html
+<mat-grid-list cols="2" rowHeight="fit" gutterSize="10px">
+  <mat-grid-tile>
+    <app-table (itemClicked)="onItemClicked($event)"></app-table>
+  </mat-grid-tile>
+  <mat-grid-tile *ngIf="showEditor">
+    <app-editor></app-editor>
+  </mat-grid-tile>
+</mat-grid-list>
+-->

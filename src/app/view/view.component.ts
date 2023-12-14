@@ -18,7 +18,8 @@ import {NgIf} from "@angular/common";
 export class ViewComponent {
   showEditor = false;
 
-  onItemClicked() {
+  onItemClicked(employee: any) {
     this.showEditor = true;
+    console.log(employee); // to check if the clicked employee data is received
   }
 }

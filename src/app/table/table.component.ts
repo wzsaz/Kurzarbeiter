@@ -21,9 +21,10 @@ export class TableComponent implements OnInit {
 
   ngOnInit() {
     this.employees = this.mockDataService.getEmployees();
+    console.log(this.employees);
   }
 
-  onItemClicked() {
-    // Handle item click
+  onItemClicked(employee: any) {
+    this.itemClicked.emit(employee);
   }
 }
