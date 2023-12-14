@@ -1,0 +1,15 @@
+<!-- src/app/table/table.component.html -->
+<mat-table [dataSource]="employees">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.name}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="position">
+    <mat-header-cell *matHeaderCellDef> Position </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.position}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="['name', 'position']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['name', 'position'];" (click)="onItemClicked()"></mat-row>
+</mat-table>
