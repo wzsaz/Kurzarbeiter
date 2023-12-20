@@ -14,10 +14,10 @@ export class EmployeeService {
 
   async getEmployees(): Promise<Observable<any>> {
     console.log("Getting employees...")
-    const user = await this.authService.getUser();
-    if (user) {
-      console.log("Using token: " + user.access_token);
-      const headers = new HttpHeaders().set('Authorization', 'Bearer ' + user.access_token);
+    const accessToken = await this.authService.getAccessToken();
+    if (accessToken) {
+      console.log("Using token: " + accessToken);
+      const headers = new HttpHeaders().set('Authorization', 'Bearer ' + accessToken);
       return this.http.get(this.apiUrl, {headers}).pipe(
         tap(data => console.log("Got employees: ", data)),
         catchError(error => {
@@ -26,7 +26,7 @@ export class EmployeeService {
         })
       );
     } else {
-      console.log("User is null")
+      console.log("Access token is null")
       // Handle the case when the user is not logged in
       return of(null);
     }

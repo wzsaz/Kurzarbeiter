@@ -11,12 +11,18 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  async getUser(): Promise<any> {
+  async getAccessToken(): Promise<any> {
     console.log("Trying to get user: " + this.user.username);
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     const body = `grant_type=password&client_id=employee-management-service&username=${this.user.username}&password=${this.user.password}`;
-    const response = await this.http.post(this.apiUrl, body, {headers}).toPromise();
-    console.log("Got user: " + response);
-    return response;
+
+    try {
+      const response = await this.http.post<any>(this.apiUrl, body, {headers}).toPromise();
+      console.log("Got user: ", response);
+      return response.access_token;
+    } catch (error) {
+      console.error("Error getting user: ", error);
+      throw error;
+    }
   }
 }
