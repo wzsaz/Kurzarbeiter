@@ -25,4 +25,15 @@ export class AuthService {
       throw error;
     }
   }
+
+  async getAccessTokenV2(): Promise<any> {
+    try {
+      const response = await this.http.get<any>('http://localhost:5000/get-token').toPromise();
+      console.log("Got token: ", response);
+      return response.access_token;
+    } catch (error) {
+      console.error("Error getting token: ", error);
+      throw error;
+    }
+  }
 }

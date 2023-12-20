@@ -7,6 +7,14 @@
       "^/employees": ""
     }
   },
+"/get-token": {
+    "target": "http://localhost:5000/get-token",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/get-token": ""
+    }
+  },
   "/auth": {
     "target": "http://keycloak.szut.dev",
     "secure": false,

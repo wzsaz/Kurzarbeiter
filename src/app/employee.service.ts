@@ -14,7 +14,7 @@ export class EmployeeService {
 
   async getEmployees(): Promise<Observable<any>> {
     console.log("Getting employees...")
-    const accessToken = await this.authService.getAccessToken();
+    const accessToken = await this.authService.getAccessTokenV2();
     if (accessToken) {
       console.log("Using token: " + accessToken);
       const headers = new HttpHeaders().set('Authorization', 'Bearer ' + accessToken);
