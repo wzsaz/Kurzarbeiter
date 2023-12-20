@@ -1,8 +1,6 @@
-// src/app/table/table.component.ts
 import {Component, Output, EventEmitter, OnInit} from '@angular/core';
 import {MatTableModule} from "@angular/material/table";
-import {MockDataService} from "../mock-data-service.service";
-
+import {MockEmployeeService} from "../mock-employee.service";
 
 @Component({
   selector: 'app-table',
@@ -17,11 +15,14 @@ export class TableComponent implements OnInit {
   employees: any[] = [];
   @Output() itemClicked = new EventEmitter<any>();
 
-  constructor(private mockDataService: MockDataService) { }
+  constructor(private employeeService: MockEmployeeService) { }
 
-  ngOnInit() {
-    this.employees = this.mockDataService.getEmployees();
-    console.log(this.employees);
+  async ngOnInit() {
+    const employees$ = await this.employeeService.getEmployees();
+    employees$.subscribe((data: any) => {
+      this.employees = data;
+      console.log(this.employees);
+    });
   }
 
   onItemClicked(employee: any) {

@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MockDataService {
-  employees = [
+export class MockEmployeeService {
+  private employees = [
     { id: 1, name: 'John Doe', position: 'Developer' },
     { id: 2, name: 'Jane Doe', position: 'Designer' },
     // Add more employees as needed
   ];
 
-  getEmployees() {
-    return this.employees;
+  async getEmployees(): Promise<Observable<any>> {
+    return of(this.employees);
   }
 }
