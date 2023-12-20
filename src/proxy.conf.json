@@ -1,13 +1,13 @@
 {
   "/employees": {
-    "target": "https://employee.szut.dev",
+    "target": "https://employeeold.szut.dev/employees",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
       "^/employees": ""
     }
   },
-"/get-token": {
+  "/get-token": {
     "target": "http://localhost:5000/get-token",
     "secure": false,
     "changeOrigin": true,

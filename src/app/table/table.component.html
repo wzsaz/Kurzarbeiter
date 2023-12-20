@@ -1,15 +1,20 @@
 <!-- src/app/table/table.component.html -->
 <mat-table [dataSource]="employees">
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let employee"> {{employee.name}} </mat-cell>
+  <ng-container matColumnDef="firstName">
+    <mat-header-cell *matHeaderCellDef> First Name</mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{ employee.firstName }}</mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="position">
-    <mat-header-cell *matHeaderCellDef> Position </mat-header-cell>
-    <mat-cell *matCellDef="let employee"> {{employee.position}} </mat-cell>
+  <ng-container matColumnDef="lastName">
+    <mat-header-cell *matHeaderCellDef> Last Name</mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{ employee.lastName }}</mat-cell>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="['name', 'position']"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: ['name', 'position'];" (click)="onItemClicked(row)"></mat-row>
+  <ng-container matColumnDef="skillSet">
+    <mat-header-cell *matHeaderCellDef> Skill Set</mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{ employee.skillSet.join(', ') }}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="['firstName', 'lastName', 'skillSet']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['firstName', 'lastName', 'skillSet'];" (click)="onItemClicked(row)"></mat-row>
 </mat-table>
