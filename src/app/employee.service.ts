@@ -1,22 +1,32 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { AuthService } from './auth.service';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {catchError, Observable, of, tap} from 'rxjs';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
-  private apiUrl = 'https://employee.szut.dev/employees';
+  private apiUrl = '/employees';
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {
+  }
 
   async getEmployees(): Promise<Observable<any>> {
+    console.log("Getting employees...")
     const user = await this.authService.getUser();
     if (user) {
+      console.log("Using token: " + user.access_token);
       const headers = new HttpHeaders().set('Authorization', 'Bearer ' + user.access_token);
-      return this.http.get(this.apiUrl, { headers });
+      return this.http.get(this.apiUrl, {headers}).pipe(
+        tap(data => console.log("Got employees: ", data)),
+        catchError(error => {
+          console.error("Error getting employees: ", error);
+          return of(null);
+        })
+      );
     } else {
+      console.log("User is null")
       // Handle the case when the user is not logged in
       return of(null);
     }

@@ -1,0 +1,18 @@
+{
+  "/employees": {
+    "target": "https://employee.szut.dev",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/employees": ""
+    }
+  },
+  "/auth": {
+    "target": "http://keycloak.szut.dev",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/auth": "/auth/realms/szut/protocol/openid-connect/token"
+    }
+  }
+}
