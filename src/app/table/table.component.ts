@@ -1,6 +1,6 @@
-import {Component, Output, EventEmitter, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MatTableModule} from "@angular/material/table";
-import {MockEmployeeService} from "../mock-employee.service";
+import {EmployeeService} from "../employee.service";
 
 @Component({
   selector: 'app-table',
@@ -15,7 +15,7 @@ export class TableComponent implements OnInit {
   employees: any[] = [];
   @Output() itemClicked = new EventEmitter<any>();
 
-  constructor(private employeeService: MockEmployeeService) { }
+  constructor(private employeeService: EmployeeService) { }
 
   async ngOnInit() {
     const employees$ = await this.employeeService.getEmployees();

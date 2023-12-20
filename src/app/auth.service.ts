@@ -1,41 +1,20 @@
-import { Injectable } from '@angular/core';
-import { UserManager, User, UserManagerSettings } from 'oidc-client';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private userManager: UserManager;
+  private apiUrl = 'http://keycloak.szut.dev/auth/realms/szut/protocol/openid-connect/token';
+  private user = {username: 'user', password: 'test'};
 
-  constructor() {
-    const settings: UserManagerSettings = {
-      authority: 'https://your-identity-provider.com',
-      client_id: 'your-client-id',
-      redirect_uri: 'http://localhost:4200/auth-callback',
-      response_type: 'code',
-      scope: 'openid profile api1',
-      post_logout_redirect_uri: 'http://localhost:4200/',
-    };
-
-    this.userManager = new UserManager(settings);
+  constructor(private http: HttpClient) {
   }
 
-  login(): Promise<void> {
-    return this.userManager.signinRedirect();
-  }
-
-  async completeLogin(): Promise<User> {
-    return this.userManager.signinRedirectCallback();
-  }
-
-  async getUser(): Promise<User | null> {
-    const user = await this.userManager.getUser();
-    if (user) {
-      // Use the user object
-      return user;
-    } else {
-      // Handle the case when the user is not logged in
-      return null;
-    }
+  async getUser(): Promise<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    const body = `grant_type=password&client_id=employee-management-service&username=${this.user.username}&password=${this.user.password}`;
+    const response = await this.http.post(this.apiUrl, body, {headers}).toPromise();
+    return response;
   }
 }
