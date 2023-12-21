@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>My App</span>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <!-- Your sidenav content here -->
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- The rest of your content here -->
+  </mat-sidenav-content>
+</mat-sidenav-container>
