@@ -1,7 +1,7 @@
 $username = "user"
 $password = "test"
 $client_id = "employee-management-service"
-$uri = "http://localhost:4200/auth"
+$uri = "http://keycloak.szut.dev/auth/realms/szut/protocol/openid-connect/token"
 $body = "grant_type=password&client_id=$client_id&username=$username&password=$password"
 $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
 $headers.Add("Content-Type", "application/x-www-form-urlencoded")
