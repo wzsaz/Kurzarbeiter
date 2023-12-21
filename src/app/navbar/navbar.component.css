@@ -1,10 +1,17 @@
-/* styles.css */
-mat-toolbar {
-  background-color: #1976D2; /* Example color */
-  color: white; /* Text color */
+.sidenav-container {
+  height: 100%;
 }
 
-mat-sidenav {
-  width: 240px; /* Set the width of the sidenav */
-  background-color: #f5f5f5; /* Example background color */
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
