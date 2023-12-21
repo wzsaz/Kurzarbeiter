@@ -4,6 +4,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {RouterLink} from "@angular/router";
+import {MatListModule} from "@angular/material/list";
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,8 @@ import {RouterLink} from "@angular/router";
     MatSidenavModule,
     MatIconModule,
     MatButtonModule,
-    RouterLink
+    RouterLink,
+    MatListModule
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'

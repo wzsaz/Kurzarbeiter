@@ -1,0 +1,10 @@
+/* styles.css */
+mat-toolbar {
+  background-color: #1976D2; /* Example color */
+  color: white; /* Text color */
+}
+
+mat-sidenav {
+  width: 240px; /* Set the width of the sidenav */
+  background-color: #f5f5f5; /* Example background color */
+}
