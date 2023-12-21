@@ -1,38 +1,14 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError, EMPTY, Observable, of, tap} from 'rxjs';
-import {AuthService} from './auth.service';
+import {EMPTY, Observable, of} from 'rxjs';
 import {EmployeeRequestDTO, EmployeeResponseDTO} from './types';
 import {switchMap} from 'rxjs/operators';
+import {BaseService} from "./base.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService {
+export class EmployeeService extends BaseService {
   private apiUrl = '/employees';
-  constructor(private http: HttpClient, private authService: AuthService) {
-  }
-
-  private getHeaders(): Observable<HttpHeaders | null> {
-    console.log("Generating headers...");
-    return this.authService.getAccessTokenV2().pipe(
-      switchMap(accessToken => {
-        console.log("Got access token: ", accessToken);
-        return accessToken ? of(new HttpHeaders().set('Authorization', 'Bearer ' + accessToken.access_token)) : of(null);
-      })
-    );
-  }
-
-  private handleRequest<T>(request: Observable<T>): Observable<T> {
-    console.log("Handling request: ", request);
-    return request.pipe(
-      tap(data => console.log("Got data: ", data)),
-      catchError(error => {
-        console.error("Error: ", error);
-        return EMPTY;
-      })
-    );
-  }
 
   getEmployees(): Observable<EmployeeResponseDTO[]> {
     return this.getHeaders().pipe(
