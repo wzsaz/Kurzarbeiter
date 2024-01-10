@@ -1,13 +1,14 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {EmployeeResponseDTO, EmployeeUIState} from "../types";
 import {EmployeeService} from "../employee.service";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-detailview',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './detailview.component.html',
   styleUrl: './detailview.component.css'
