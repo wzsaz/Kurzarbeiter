@@ -4,6 +4,14 @@
     <mat-card-title>Editor</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <!-- Your editor content goes here -->
+    <form #employeeForm="ngForm">
+      <mat-form-field>
+        <input matInput [(ngModel)]="employee.firstName" name="firstName" placeholder="First Name">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(ngModel)]="employee.lastName" name="lastName" placeholder="Last Name">
+      </mat-form-field>
+      <!-- Add other fields as necessary -->
+    </form>
   </mat-card-content>
 </mat-card>

@@ -3,6 +3,7 @@ import {RouterOutlet} from '@angular/router';
 import {ViewComponent} from "./view/view.component";
 import {CommonModule} from "@angular/common";
 import {NavbarComponent} from "./navbar/navbar.component";
+import {EditorComponent} from "./editor/editor.component";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import {NavbarComponent} from "./navbar/navbar.component";
     CommonModule,
     RouterOutlet,
     NavbarComponent,
-    ViewComponent
+    ViewComponent,
+    EditorComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

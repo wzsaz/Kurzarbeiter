@@ -5,6 +5,7 @@ import {TableComponent} from "../table/table.component";
 import {CommonModule, NgIf} from "@angular/common";
 import {EmployeeResponseDTO} from "../types";
 import {DetailviewComponent} from "../detailview/detailview.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-view',
@@ -22,11 +23,15 @@ export class ViewComponent {
   selectedEmployee: EmployeeResponseDTO | null = null;
   detailedEmployee: EmployeeResponseDTO | null = null;
 
+  constructor(private router: Router) { }
+
   onEdit(employee: EmployeeResponseDTO): void {
-    this.selectedEmployee = employee;
+    console.log('onEdit called for: ', employee);
+    this.router.navigate(['/editor', employee.id]).then(r => console.log('navigated to editor'));
   }
 
   onDetails(employee: EmployeeResponseDTO): void {
+    console.log('onDetails called for: ', employee);
     this.detailedEmployee = employee;
   }
 }
