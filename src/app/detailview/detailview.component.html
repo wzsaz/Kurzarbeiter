@@ -1,0 +1,16 @@
+<div *ngFor="let employee of employees">
+  <img [src]="employee.pictureUrl" alt="Employee Picture">
+  <p>{{employee.firstName}} {{employee.lastName}}</p>
+  <p>{{employee.phone}}</p>
+  <button (click)="onEdit(employee)">Edit</button>
+  <button (click)="onDetails(employee)">Details</button>
+
+  <div *ngIf="employee.showDetails">
+    <p>{{employee.street}}</p>
+    <p>{{employee.postcode}}</p>
+    <p>{{employee.city}}</p>
+    <div *ngFor="let skill of employee.skillSet">
+      <p>{{skill.skill}}</p>
+    </div>
+  </div>
+</div>

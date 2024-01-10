@@ -45,17 +45,6 @@ export interface EmployeeNameAndSkillDataDTO {
   skillSet: QualificationPostDTO[];
 }
 
-export interface EmployeeNameDataDTO {
-  id: number;
-  lastName: string;
-  firstName: string;
-}
-
-export interface EmployeesForAQualificationDTO {
-  qualification: QualificationGetDTO;
-  employees: EmployeeNameDataDTO[];
-}
-
 export interface TokenResponseDTO {
   access_token: string;
   expires_in: number;
@@ -65,4 +54,9 @@ export interface TokenResponseDTO {
   'not-before-policy': number;
   session_state: string;
   scope: string;
+}
+
+export interface EmployeeUIState extends EmployeeResponseDTO {
+  showDetails: boolean;
+  pictureUrl: string;
 }

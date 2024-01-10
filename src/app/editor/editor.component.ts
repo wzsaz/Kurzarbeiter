@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
+import {EmployeeResponseDTO} from "../types";
 
 @Component({
   selector: 'app-editor',
@@ -11,5 +12,5 @@ import {MatCardModule} from "@angular/material/card";
   styleUrl: './editor.component.css'
 })
 export class EditorComponent {
-
+  @Input() employee!: EmployeeResponseDTO;
 }
