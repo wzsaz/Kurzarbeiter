@@ -1,16 +1,17 @@
-import {ApplicationConfig} from '@angular/core';
+import {APP_INITIALIZER, ApplicationConfig} from '@angular/core';
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
-import {HTTP_INTERCEPTORS, provideHttpClient} from "@angular/common/http";
+import {provideHttpClient} from "@angular/common/http";
 import {provideAnimations} from "@angular/platform-browser/animations";
-import {KeycloakInterceptor} from "./app.http-interceptors";
+import {KeycloakService} from "keycloak-angular";
+import {initializeKeycloak} from "../main";
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    {provide: APP_INITIALIZER, useFactory: initializeKeycloak, multi: true, deps: [KeycloakService]},
     provideRouter(routes),
     provideHttpClient(),
-    provideAnimations(),
-    {provide: HTTP_INTERCEPTORS, useClass: KeycloakInterceptor, multi: true}
+    provideAnimations()
   ]
 };
