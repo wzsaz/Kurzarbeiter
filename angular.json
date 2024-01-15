@@ -61,10 +61,18 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "Kurzarbeiter:build:production"
+              "buildTarget": "Kurzarbeiter:build:production",
+              "browserTarget": "Kurzarbeiter:build:production",
+              "host": "localhost",
+              "port": 4200,
+              "ssl": false
             },
             "development": {
-              "buildTarget": "Kurzarbeiter:build:development"
+              "buildTarget": "Kurzarbeiter:build:development",
+              "browserTarget": "Kurzarbeiter:build:development",
+              "host": "localhost",
+              "port": 4200,
+              "ssl": false
             }
           },
           "defaultConfiguration": "development"
@@ -95,5 +103,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
