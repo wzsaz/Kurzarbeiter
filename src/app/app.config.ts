@@ -20,14 +20,13 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
   return (): Promise<boolean> =>
     keycloak.init({
       config: {
-        url: 'http://keycloak.szut.dev/auth',
+        url: 'https://keycloak.szut.dev/auth/',
         realm: 'szut',
-        clientId: 'employee-management-service-frontend',
+        clientId: 'employee-management-service',
       },
       initOptions: {
         //onLoad: 'check-sso',
         onLoad: 'login-required',
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
       },
       enableBearerInterceptor: true,
       bearerExcludedUrls: [],
