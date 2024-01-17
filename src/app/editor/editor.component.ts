@@ -100,7 +100,7 @@ export class EditorComponent implements OnInit {
       postcode: employee.postcode,
       city: employee.city,
       phone: employee.phone,
-      skillSet: employee.skillSet.map(skill => skill.id), // Assuming skillSet in EmployeeResponseDTO is an array of objects with an id property
+      skillSet: Array.isArray(employee.skillSet) ? employee.skillSet.map(skill => skill.id) : [], // Check if skillSet is an array before mapping
     };
   }
 }
