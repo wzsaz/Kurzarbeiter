@@ -1,6 +1,6 @@
 {
   "/employees": {
-    "target": "https://employeeold.szut.dev/employees",
+    "target": "http://localhost:8089/employees",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {

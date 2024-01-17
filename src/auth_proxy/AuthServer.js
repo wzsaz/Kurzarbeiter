@@ -6,8 +6,14 @@ const app = express();
 
 app.use(cors());
 
-app.get('/get-token', (req, res) => {
+let tokenCache = {
+  token: null,
+  expiry: null
+};
+
+app.get('/get-token', async (req, res) => {
   console.log("Fetching new token...");
+
   const username = "user";
   const password = "test";
   const client_id = "employee-management-service";
@@ -26,16 +32,26 @@ app.get('/get-token', (req, res) => {
     }
   }
 
-  axios.post(uri, body, config)
-    .then((result) => {
+  // Check if token is in cache and not expired
+  if (tokenCache.token && new Date() < tokenCache.expiry) {
+    console.log("Using cached token");
+    res.send(tokenCache.token);
+  } else {
+    try {
+      const result = await axios.post(uri, body, config);
       const formatted = JSON.stringify(result.data);
       console.log(`Result: ${formatted}`);
+
+      // Store token and expiry in cache
+      tokenCache.token = formatted;
+      tokenCache.expiry = new Date(new Date().getTime() + result.data.expires_in * 1000);
+
       res.send(formatted);
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error(`Error occurred: ${error.message}`);
       res.send(error.message);
-    });
+    }
+  }
 });
 
 app.listen(5000, () => {
