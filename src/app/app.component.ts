@@ -15,7 +15,6 @@ import {EditorComponent} from "./editor/editor.component";
     NavbarComponent,
     HomeComponent,
     EditorComponent,
-    ViewComponent,
     KeycloakAngularModule
   ],
   templateUrl: './app.component.html',

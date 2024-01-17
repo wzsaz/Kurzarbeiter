@@ -7,7 +7,7 @@ volumes:
     driver: local
 
 services:
-  postgres-employee:
+  db:
     container_name: postgres_employee
     image: postgres:13.3
     volumes:
@@ -19,7 +19,7 @@ services:
     ports:
       - "5432:5432"
 
-  employee-management-service:
+  backend:
     container_name: employee-management-service
     image: berndheidemann/employee-management-service:1.1.1
     #    image: berndheidemann/employee-management-service_without_keycloak:1.1
@@ -30,12 +30,10 @@ services:
     ports:
       - "8089:8089"
     depends_on:
-      - postgres-employee
+      - db
 
   frontend:
     container_name: employee-management-frontend
     build: ..
     ports:
       - "80:80"
-    depends_on:
-      - employee-management-service

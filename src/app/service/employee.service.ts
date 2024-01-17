@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {EMPTY, Observable, of} from 'rxjs';
-import {EmployeeRequestDTO, EmployeeResponseDTO} from './types';
+import {Observable} from 'rxjs';
+import {EmployeeRequestDTO, EmployeeResponseDTO} from '../types';
 import {BaseService} from "./base.service";
 
 @Injectable({
