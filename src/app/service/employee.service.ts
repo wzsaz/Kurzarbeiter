@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
-import {EmployeeRequestDTO, EmployeeResponseDTO} from './types';
+import {EmployeeRequestDTO, EmployeeResponseDTO} from '../types';
 import {switchMap} from 'rxjs/operators';
 import {BaseService} from "./base.service";
 

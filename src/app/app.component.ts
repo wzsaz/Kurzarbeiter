@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {ViewComponent} from "./view/view.component";
+import {HomeComponent} from "./home/home.component";
 import {CommonModule} from "@angular/common";
 import {NavbarComponent} from "./navbar/navbar.component";
 import {EditorComponent} from "./editor/editor.component";
@@ -12,7 +12,7 @@ import {EditorComponent} from "./editor/editor.component";
     CommonModule,
     RouterOutlet,
     NavbarComponent,
-    ViewComponent,
+    HomeComponent,
     EditorComponent
   ],
   templateUrl: './app.component.html',

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {EmployeeResponseDTO, EmployeeUIState} from "../types";
-import {EmployeeService} from "../employee.service";
+import {EmployeeService} from "../service/employee.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
@@ -9,7 +9,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {FilterComponent} from "../filter/filter.component";
 
 @Component({
-  selector: 'app-detailview',
+  selector: 'app-employeeview',
   standalone: true,
   imports: [
     NgForOf,
@@ -20,10 +20,10 @@ import {FilterComponent} from "../filter/filter.component";
     MatChipsModule,
     FilterComponent,
   ],
-  templateUrl: './detailview.component.html',
-  styleUrl: './detailview.component.css'
+  templateUrl: './employeeview.component.html',
+  styleUrl: './employeeview.component.css'
 })
-export class DetailviewComponent implements OnInit {
+export class EmployeeviewComponent implements OnInit {
   employees: EmployeeUIState[] = [];
 
   @Output() edit = new EventEmitter<EmployeeUIState>();

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of, switchMap} from 'rxjs';
-import {QualificationGetDTO, QualificationPostDTO} from './types';
+import {QualificationGetDTO, QualificationPostDTO} from '../types';
 import {BaseService} from "./base.service";
 
 @Injectable({

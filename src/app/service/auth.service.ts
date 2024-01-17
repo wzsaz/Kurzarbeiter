@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from "rxjs";
-import {TokenResponseDTO} from "./types";
+import {TokenResponseDTO} from "../types";
 
 @Injectable({
   providedIn: 'root'

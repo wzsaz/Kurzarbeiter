@@ -4,7 +4,7 @@ import {EmployeeResponseDTO} from "../types";
 import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {EmployeeService} from "../employee.service";
+import {EmployeeService} from "../service/employee.service";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
