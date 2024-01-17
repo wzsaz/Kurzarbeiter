@@ -36,4 +36,4 @@ services:
     container_name: employee-management-frontend
     build: ..
     ports:
-      - "80:80"
+      - "4200:80"
