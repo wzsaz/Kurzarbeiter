@@ -3,6 +3,7 @@ import {RouterOutlet} from '@angular/router';
 import {HomeComponent} from "./home/home.component";
 import {CommonModule} from "@angular/common";
 import {NavbarComponent} from "./navbar/navbar.component";
+import {KeycloakAngularModule} from "keycloak-angular";
 import {EditorComponent} from "./editor/editor.component";
 
 @Component({
@@ -13,7 +14,9 @@ import {EditorComponent} from "./editor/editor.component";
     RouterOutlet,
     NavbarComponent,
     HomeComponent,
-    EditorComponent
+    EditorComponent,
+    ViewComponent,
+    KeycloakAngularModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

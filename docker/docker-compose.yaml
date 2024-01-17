@@ -1,4 +1,6 @@
-version: '3'
+version: '3.9'
+
+name: employee-management
 
 volumes:
   employee_postgres_data:
@@ -29,3 +31,11 @@ services:
       - "8089:8089"
     depends_on:
       - postgres-employee
+
+  frontend:
+    container_name: employee-management-frontend
+    build: ..
+    ports:
+      - "80:80"
+    depends_on:
+      - employee-management-service

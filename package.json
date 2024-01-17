@@ -28,6 +28,8 @@
     "axios": "^1.6.5",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "keycloak-angular": "^15.0.0",
+    "keycloak-js": "^22.0.5",
     "oidc-client": "^1.11.5",
     "querystring": "^0.2.1",
     "rxjs": "~7.8.0",
