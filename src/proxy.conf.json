@@ -7,6 +7,14 @@
       "^/employees": ""
     }
   },
+  "/qualifications": {
+    "target": "http://localhost:8089/qualifications",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/qualifications": ""
+    }
+  },
   "/get-token": {
     "target": "http://localhost:5000/get-token",
     "secure": false,

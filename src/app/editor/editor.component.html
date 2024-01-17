@@ -1,42 +1,42 @@
 <!-- src/app/editor/editor.component.html -->
-<mat-card>
+<mat-card *ngIf="employee">
   <mat-card-header>
     <mat-card-title>Editor</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-form-field>
       <mat-label>Vorname</mat-label>
-      <input matInput>
+      <input matInput [(ngModel)]="employee.firstName">
     </mat-form-field>
     <mat-form-field>
       <mat-label>Nachname</mat-label>
-      <input matInput>
+      <input matInput [(ngModel)]="employee.lastName">
     </mat-form-field>
     <br>
     <mat-form-field>
       <mat-label>Telefonnummer</mat-label>
-      <input matInput>
+      <input matInput [(ngModel)]="employee.phone">
     </mat-form-field>
     <br>
     <mat-form-field>
       <mat-label>Adresse</mat-label>
-      <input matInput>
+      <input matInput [(ngModel)]="employee.street">
     </mat-form-field>
     <br>
     <mat-form-field>
       <mat-label>ZIP-Code</mat-label>
-      <input matInput>
+      <input matInput [(ngModel)]="employee.postcode">
     </mat-form-field>
     <mat-form-field>
       <mat-label>City</mat-label>
-      <input matInput>
+      <input matInput [(ngModel)]="employee.city">
     </mat-form-field>
     <br>
     <mat-form-field>
       <mat-label>Select</mat-label>
-      <mat-select>
-        <mat-option value="one">First option</mat-option>
-        <mat-option value="two">Second option</mat-option>
+      <mat-select [(ngModel)]="employee.skillSet">
+        <!-- You need to replace the options with the actual skills -->
+        <mat-option *ngFor="let skill of qualifications" [value]="skill.id">{{skill.skill}}</mat-option>
       </mat-select>
     </mat-form-field>
 
