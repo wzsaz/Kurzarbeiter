@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
-import {EmployeeResponseDTO} from "../types";
+import {EmployeeRequestDTO, EmployeeResponseDTO} from "../types";
 import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -8,6 +8,7 @@ import {EmployeeService} from "../employee.service";
 import {ActivatedRoute} from "@angular/router";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSelectModule} from "@angular/material/select";
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
   selector: 'app-editor',
@@ -18,7 +19,8 @@ import {MatSelectModule} from "@angular/material/select";
     MatFormFieldModule,
     MatInputModule,
     MatExpansionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
@@ -43,4 +45,7 @@ export class EditorComponent implements OnInit {
   }
 
   // other methods...
+  onSave(employee: EmployeeRequestDTO) {
+    this.employeeService.createEmployee(employee)
+  }
 }
