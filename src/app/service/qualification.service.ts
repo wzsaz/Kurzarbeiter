@@ -7,7 +7,7 @@ import {BaseService} from "./base.service";
   providedIn: 'root'
 })
 export class QualificationService extends BaseService {
-  private apiUrl = '/qualifications';
+  private apiUrl = 'http://127.0.0.1:8089/qualifications';
 
   getQualifications(): Observable<QualificationGetDTO[]> {
     return this.handleRequest(this.http.get<QualificationGetDTO[]>(this.apiUrl));

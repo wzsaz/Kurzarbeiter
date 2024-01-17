@@ -7,7 +7,7 @@ import {BaseService} from "./base.service";
   providedIn: 'root'
 })
 export class EmployeeService extends BaseService {
-  private apiUrl = '/employees';
+  private apiUrl = 'http://127.0.0.1:8089/employees';
 
   getEmployees(): Observable<EmployeeResponseDTO[]> {
     return this.handleRequest(this.http.get<EmployeeResponseDTO[]>(this.apiUrl));
