@@ -30,7 +30,7 @@ export class AuthService {
 
   getAccessTokenV2(): Observable<TokenResponseDTO> {
     try {
-      const response = this.http.get<TokenResponseDTO>('http://localhost:5000/get-token');
+      const response = this.http.get<TokenResponseDTO>('http://127.0.0.1:5000/get-token');
       console.log("Got token: ", response);
       return response;
     } catch (error) {

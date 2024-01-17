@@ -63,14 +63,14 @@
             "production": {
               "buildTarget": "Kurzarbeiter:build:production",
               "browserTarget": "Kurzarbeiter:build:production",
-              "host": "localhost",
+              "host": "127.0.0.1",
               "port": 4200,
               "ssl": false
             },
             "development": {
               "buildTarget": "Kurzarbeiter:build:development",
               "browserTarget": "Kurzarbeiter:build:development",
-              "host": "localhost",
+              "host": "127.0.0.1",
               "port": 4200,
               "ssl": false
             }
