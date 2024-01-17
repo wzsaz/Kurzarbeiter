@@ -1,17 +1,34 @@
-import {APP_INITIALIZER, ApplicationConfig} from '@angular/core';
+import {APP_INITIALIZER, ApplicationConfig, importProvidersFrom} from '@angular/core';
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
 import {provideHttpClient} from "@angular/common/http";
 import {provideAnimations} from "@angular/platform-browser/animations";
-import {KeycloakService} from "keycloak-angular";
-import {initializeKeycloak} from "../main";
+import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(KeycloakAngularModule),
     {provide: APP_INITIALIZER, useFactory: initializeKeycloak, multi: true, deps: [KeycloakService]},
     provideRouter(routes),
     provideHttpClient(),
     provideAnimations()
   ]
 };
+
+export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boolean> {
+  return (): Promise<boolean> =>
+    keycloak.init({
+      config: {
+        url: 'http://keycloak.szut.dev/auth',
+        realm: 'szut',
+        clientId: 'employee-management-service-frontend',
+      },
+      initOptions: {
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
+      },
+      enableBearerInterceptor: true,
+      bearerExcludedUrls: [],
+    });
+}
