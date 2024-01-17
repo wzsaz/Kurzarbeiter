@@ -1,5 +1,5 @@
 # Stage 1: Build the Angular application
-FROM node:21-alpine as build
+FROM node:20-alpine as build
 
 RUN mkdir /employee-management-frontend
 WORKDIR /employee-management-frontend

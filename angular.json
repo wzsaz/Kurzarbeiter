@@ -56,8 +56,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "Kurzarbeiter:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "buildTarget": "Kurzarbeiter:build"
           },
           "configurations": {
             "production": {
