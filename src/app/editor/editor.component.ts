@@ -6,6 +6,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {EmployeeService} from "../employee.service";
 import {ActivatedRoute} from "@angular/router";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatSelectModule} from "@angular/material/select";
 
 @Component({
   selector: 'app-editor',
@@ -14,7 +16,9 @@ import {ActivatedRoute} from "@angular/router";
     MatCardModule,
     FormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatExpansionModule,
+    MatSelectModule
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'

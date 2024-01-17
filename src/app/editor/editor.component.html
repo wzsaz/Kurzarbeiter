@@ -4,14 +4,52 @@
     <mat-card-title>Editor</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form #employeeForm="ngForm">
-      <mat-form-field>
-        <input matInput [(ngModel)]="employee.firstName" name="firstName" placeholder="First Name">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput [(ngModel)]="employee.lastName" name="lastName" placeholder="Last Name">
-      </mat-form-field>
-      <!-- Add other fields as necessary -->
-    </form>
+    <mat-form-field>
+      <mat-label>Vorname</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nachname</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Telefonnummer</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Adresse</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>ZIP-Code</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>City</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Select</mat-label>
+      <mat-select>
+        <mat-option value="one">First option</mat-option>
+        <mat-option value="two">Second option</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          This is the expansion title
+        </mat-panel-title>
+        <mat-panel-description>
+          This is a summary of the content
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
   </mat-card-content>
 </mat-card>
