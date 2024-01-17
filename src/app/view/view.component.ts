@@ -1,7 +1,6 @@
 // src/app/view/view.component.ts
 import { Component } from '@angular/core';
 import {EditorComponent} from "../editor/editor.component";
-import {TableComponent} from "../table/table.component";
 import {CommonModule, NgIf} from "@angular/common";
 import {EmployeeResponseDTO} from "../types";
 import {DetailviewComponent} from "../detailview/detailview.component";
@@ -14,7 +13,6 @@ import {Router} from "@angular/router";
   imports: [
     CommonModule,
     EditorComponent,
-    TableComponent,
     DetailviewComponent,
   ],
   styleUrls: ['./view.component.css']
