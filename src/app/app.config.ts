@@ -25,9 +25,8 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
         clientId: 'employee-management-service',
       },
       initOptions: {
-        //onLoad: 'check-sso',
-        onLoad: 'login-required',
-        checkLoginIframe: false
+        checkLoginIframe: true,
+        checkLoginIframeInterval: 25
       }
     })
 }
