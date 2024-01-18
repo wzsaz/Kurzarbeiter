@@ -63,4 +63,12 @@ export class AuthService {
         });
     });
   }
+
+  logout() {
+    this.keycloak.logout().then(r =>
+      console.log("Logout: ", r)
+    ).catch(error =>
+      console.error("Error logging out: ", error)
+    );
+  }
 }
