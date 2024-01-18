@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {EmployeeRequestDTO, EmployeeResponseDTO} from '../types';
+import {switchMap} from 'rxjs/operators';
 import {BaseService} from "./base.service";
 
 @Injectable({
@@ -10,22 +11,42 @@ export class EmployeeService extends BaseService {
   private apiUrl = 'http://127.0.0.1:8089/employees';
 
   getEmployees(): Observable<EmployeeResponseDTO[]> {
-    return this.handleRequest(this.http.get<EmployeeResponseDTO[]>(this.apiUrl));
+    return this.setAuthHeader().pipe(
+      switchMap(headers => {
+        return headers ? this.handleRequest(this.http.get<EmployeeResponseDTO[]>(this.apiUrl, {headers})) : of([]);
+      })
+    );
   }
 
   getEmployee(employeeId: number): Observable<EmployeeResponseDTO | null> {
-    return this.handleRequest(this.http.get<EmployeeResponseDTO>(`${this.apiUrl}/${employeeId}`));
+    return this.setAuthHeader().pipe(
+      switchMap(headers => {
+        return headers ? this.handleRequest(this.http.get<EmployeeResponseDTO>(`${this.apiUrl}/${employeeId}`, {headers})) : of(null);
+      })
+    );
   }
 
   createEmployee(employeeData: EmployeeRequestDTO): Observable<EmployeeResponseDTO | null> {
-    return this.handleRequest(this.http.post<EmployeeResponseDTO>(this.apiUrl, employeeData));
+    return this.setAuthHeader().pipe(
+      switchMap(headers => {
+        return headers ? this.handleRequest(this.http.post<EmployeeResponseDTO>(this.apiUrl, employeeData, {headers})) : of(null);
+      })
+    );
   }
 
   updateEmployee(employeeId: number, updatedEmployeeData: EmployeeRequestDTO): Observable<EmployeeResponseDTO | null> {
-    return this.handleRequest(this.http.put<EmployeeResponseDTO>(`${this.apiUrl}/${employeeId}`, updatedEmployeeData));
+    return this.setAuthHeader().pipe(
+      switchMap(headers => {
+        return headers ? this.handleRequest(this.http.put<EmployeeResponseDTO>(`${this.apiUrl}/${employeeId}`, updatedEmployeeData, {headers})) : of(null);
+      })
+    );
   }
 
   deleteEmployee(employeeId: number): Observable<void> {
-    return this.handleRequest(this.http.delete<void>(`${this.apiUrl}/${employeeId}`));
+    return this.setAuthHeader().pipe(
+      switchMap(headers => {
+        return headers ? this.handleRequest(this.http.delete<void>(`${this.apiUrl}/${employeeId}`, {headers})) : EMPTY;
+      })
+    );
   }
 }
