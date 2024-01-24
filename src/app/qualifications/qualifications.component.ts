@@ -17,6 +17,7 @@ import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatBadgeModule} from "@angular/material/badge";
 import {forkJoin} from "rxjs";
+import {CanComponentDeactivate} from "../confirm-dialog/can-deactivate-guard.service";
 
 @Component({
   selector: 'app-qualifications',
@@ -39,11 +40,17 @@ import {forkJoin} from "rxjs";
   templateUrl: './qualifications.component.html',
   styleUrl: './qualifications.component.css'
 })
-export class QualificationsComponent implements OnInit {
+export class QualificationsComponent implements OnInit, CanComponentDeactivate {
   qualifications: QualificationUIState[] = [];
   originalQualifications: QualificationUIState[] = [];
 
   constructor(private qualificationService: QualificationService, public dialog: MatDialog) {
+  }
+
+  hasUnsavedChanges(): boolean {
+    const qualificationsSkills = this.qualifications.map(q => q.skill);
+    const originalQualificationsSkills = this.originalQualifications.map(q => q.skill);
+    return JSON.stringify(qualificationsSkills) !== JSON.stringify(originalQualificationsSkills);
   }
 
   ngOnInit(): void {
@@ -81,28 +88,31 @@ export class QualificationsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
-          this.fetchQualifications();
-        });
+        const index = this.qualifications.findIndex(q => q.id === qualification.id);
+        if (index > -1) {
+          this.qualifications.splice(index, 1);
+        }
       }
     });
   }
-
 
   saveAll(): void {
     const newQualifications = this.qualifications.filter(qualification => !qualification.id);
     const updatedQualifications = this.qualifications.filter((qualification, index) => {
       return qualification.id && JSON.stringify(qualification) !== JSON.stringify(this.originalQualifications[index]);
     });
+    const deletedQualifications = this.originalQualifications.filter(oq => !this.qualifications.some(q => q.id === oq.id));
 
     const validNewQualifications = newQualifications.filter(qualification => this.validateQualification(qualification));
     const validUpdatedQualifications = updatedQualifications.filter(qualification => this.validateQualification(qualification));
 
     const createRequests = validNewQualifications.map(qualification => this.qualificationService.createQualification(qualification));
     const updateRequests = validUpdatedQualifications.map(qualification => this.qualificationService.updateQualification(qualification.id, qualification));
+    const deleteRequests = deletedQualifications.map(qualification => this.qualificationService.deleteQualification(qualification.id));
 
-    forkJoin([...createRequests, ...updateRequests]).subscribe(() => {
+    forkJoin([...createRequests, ...updateRequests, ...deleteRequests]).subscribe(() => {
       this.fetchQualifications();
+      this.originalQualifications = JSON.parse(JSON.stringify(this.qualifications));
     });
   }
 
