@@ -7,8 +7,8 @@ import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {MatChipsModule} from "@angular/material/chips";
 import {FilterComponent} from "../filter/filter.component";
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-employeeview',
@@ -30,11 +30,12 @@ export class EmployeeviewComponent implements OnInit {
 
   @Output() edit = new EventEmitter<EmployeeUIState>();
 
-  constructor(private employeeService: EmployeeService, public dialog: MatDialog) { } // Inject MatDialog
+  constructor(private employeeService: EmployeeService, public dialog: MatDialog) {
+  } // Inject MatDialog
 
   ngOnInit(): void {
     this.employeeService.getEmployees().subscribe(employees => {
-      this.employees = employees.map(employee => ({ ...employee, showDetails: false, pictureUrl: 'path_to_picture' }));
+      this.employees = employees.map(employee => ({...employee, showDetails: false, pictureUrl: 'path_to_picture'}));
     });
   }
 
