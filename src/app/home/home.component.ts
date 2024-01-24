@@ -1,25 +1,23 @@
-// src/app/view/view.component.ts
+// src/app/home/home.component.ts
 import { Component } from '@angular/core';
 import {EditorComponent} from "../editor/editor.component";
-import {TableComponent} from "../table/table.component";
 import {CommonModule, NgIf} from "@angular/common";
 import {EmployeeResponseDTO} from "../types";
-import {DetailviewComponent} from "../detailview/detailview.component";
+import {EmployeeviewComponent} from "../employeeview/employeeview.component";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-view',
-  templateUrl: './view.component.html',
+  selector: 'app-home',
+  templateUrl: './home.component.html',
   standalone: true,
   imports: [
     CommonModule,
     EditorComponent,
-    TableComponent,
-    DetailviewComponent,
+    EmployeeviewComponent,
   ],
-  styleUrls: ['./view.component.css']
+  styleUrls: ['./home.component.css']
 })
-export class ViewComponent {
+export class HomeComponent {
   selectedEmployee: EmployeeResponseDTO | null = null;
   detailedEmployee: EmployeeResponseDTO | null = null;
 

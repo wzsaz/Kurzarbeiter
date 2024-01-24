@@ -56,21 +56,20 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "Kurzarbeiter:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "buildTarget": "Kurzarbeiter:build"
           },
           "configurations": {
             "production": {
               "buildTarget": "Kurzarbeiter:build:production",
               "browserTarget": "Kurzarbeiter:build:production",
-              "host": "localhost",
+              "host": "127.0.0.1",
               "port": 4200,
               "ssl": false
             },
             "development": {
               "buildTarget": "Kurzarbeiter:build:development",
               "browserTarget": "Kurzarbeiter:build:development",
-              "host": "localhost",
+              "host": "127.0.0.1",
               "port": 4200,
               "ssl": false
             }

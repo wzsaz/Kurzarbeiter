@@ -8,7 +8,7 @@ export abstract class BaseService {
   constructor(protected http: HttpClient, private authService: AuthService) {
   }
 
-  protected getHeaders(): Observable<HttpHeaders | null> {
+  protected setAuthHeader(): Observable<HttpHeaders | null> {
     return this.authService.getAccessTokenV2().pipe(
       switchMap(accessToken => {
         return accessToken ? of(new HttpHeaders().set('Authorization', 'Bearer ' + accessToken.access_token)) : of(null);
