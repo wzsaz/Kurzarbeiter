@@ -2,6 +2,11 @@
   margin-bottom: 10px;
 }
 
+.employee-photo-wrapper {
+  float: left;
+  margin-right: 10px;
+}
+
 .employee-photo-wrapper img {
   width: 40px;
   height: 40px;
@@ -19,4 +24,18 @@ mat-card-actions {
 
 mat-chip {
   margin: 4px;
+}
+
+mat-expansion-panel-header {
+  display: flex;
+  align-items: center;
+}
+
+.employee-photo-wrapper {
+  order: 1;
+}
+
+mat-panel-title, mat-panel-description {
+  order: 2;
+  margin-left: 10px;
 }

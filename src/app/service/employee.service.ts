@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable, of} from 'rxjs';
-import {EmployeeRequestDTO, EmployeeResponseDTO} from '../types';
+import {EmployeeRequestDTO, Employee} from '../types';
 import {switchMap} from 'rxjs/operators';
 import {BaseService} from "./base.service";
 
@@ -10,34 +10,34 @@ import {BaseService} from "./base.service";
 export class EmployeeService extends BaseService {
   private apiUrl = 'http://127.0.0.1:8089/employees';
 
-  getEmployees(): Observable<EmployeeResponseDTO[]> {
+  getEmployees(): Observable<Employee[]> {
     return this.setAuthHeader().pipe(
       switchMap(headers => {
-        return headers ? this.handleRequest(this.http.get<EmployeeResponseDTO[]>(this.apiUrl, {headers})) : of([]);
+        return headers ? this.handleRequest(this.http.get<Employee[]>(this.apiUrl, {headers})) : of([]);
       })
     );
   }
 
-  getEmployee(employeeId: number): Observable<EmployeeResponseDTO | null> {
+  getEmployee(employeeId: number): Observable<Employee | null> {
     return this.setAuthHeader().pipe(
       switchMap(headers => {
-        return headers ? this.handleRequest(this.http.get<EmployeeResponseDTO>(`${this.apiUrl}/${employeeId}`, {headers})) : of(null);
+        return headers ? this.handleRequest(this.http.get<Employee>(`${this.apiUrl}/${employeeId}`, {headers})) : of(null);
       })
     );
   }
 
-  createEmployee(employeeData: EmployeeRequestDTO): Observable<EmployeeResponseDTO | null> {
+  createEmployee(employeeData: EmployeeRequestDTO): Observable<Employee | null> {
     return this.setAuthHeader().pipe(
       switchMap(headers => {
-        return headers ? this.handleRequest(this.http.post<EmployeeResponseDTO>(this.apiUrl, employeeData, {headers})) : of(null);
+        return headers ? this.handleRequest(this.http.post<Employee>(this.apiUrl, employeeData, {headers})) : of(null);
       })
     );
   }
 
-  updateEmployee(employeeId: number, updatedEmployeeData: EmployeeRequestDTO): Observable<EmployeeResponseDTO | null> {
+  updateEmployee(employeeId: number, updatedEmployeeData: EmployeeRequestDTO): Observable<Employee | null> {
     return this.setAuthHeader().pipe(
       switchMap(headers => {
-        return headers ? this.handleRequest(this.http.put<EmployeeResponseDTO>(`${this.apiUrl}/${employeeId}`, updatedEmployeeData, {headers})) : of(null);
+        return headers ? this.handleRequest(this.http.put<Employee>(`${this.apiUrl}/${employeeId}`, updatedEmployeeData, {headers})) : of(null);
       })
     );
   }

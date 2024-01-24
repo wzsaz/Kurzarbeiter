@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {QualificationDTO, QualificationUIState} from "../types";
+import {Qualification, QualificationUIState} from "../types";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
@@ -69,7 +69,7 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const newQualification: Partial<QualificationDTO> = {skill: result};
+        const newQualification: Partial<Qualification> = {skill: result};
         this.qualifications.push(newQualification as QualificationUIState);
       }
     });

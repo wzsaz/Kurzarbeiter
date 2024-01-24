@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
-import {EmployeeResponseDTO} from "../types";
+import {Employee} from "../types";
 import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -20,7 +20,7 @@ import {ActivatedRoute} from "@angular/router";
   styleUrl: './editor.component.css'
 })
 export class EditorComponent implements OnInit {
-  @Input() employee!: EmployeeResponseDTO;
+  @Input() employee!: Employee;
 
   constructor(private route: ActivatedRoute, private employeeService: EmployeeService) { }
 

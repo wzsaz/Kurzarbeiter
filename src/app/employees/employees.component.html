@@ -1,38 +1,29 @@
-<mat-card-header>
-  <mat-card-title>Employees</mat-card-title>
-  <mat-card-subtitle>{{employees.length}} employees</mat-card-subtitle>
-</mat-card-header>
-<app-filter (applyFilter)="onFilterApplied($event)"></app-filter>
-<mat-card *ngFor="let employee of employees" class="employee-card">
-  <mat-card-header>
-    <div mat-card-avatar class="employee-photo-wrapper">
-      <img [src]="employee.pictureUrl" fill="" alt="">
-    </div>
-    <mat-card-title>{{employee.firstName}} {{employee.lastName}}</mat-card-title>
-    <mat-card-subtitle>{{employee.phone}}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-actions>
-    <button mat-button color="primary" (click)="onEdit(employee)">
-      <mat-icon>edit</mat-icon>
-      Edit
-    </button>
-    <button mat-button color="accent" (click)="onDetails(employee)">
-      <mat-icon>details</mat-icon>
-      Details
-    </button>
-    <button mat-button color="warn" (click)="openDeleteDialog(employee)">
-      <mat-icon>delete</mat-icon>
-      Delete
-    </button>
-  </mat-card-actions>
-  <mat-card-content *ngIf="employee.showDetails">
-    <p>{{employee.street}}</p>
-    <p>{{employee.postcode}}</p>
-    <p>{{employee.city}}</p>
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let employee of employees" class="employee-card">
+    <mat-expansion-panel-header>
+      <div mat-card-avatar class="employee-photo-wrapper">
+        <img [src]="'https://i.pravatar.cc/200?img=' + employee.id" fill="" alt="">
+      </div>
+      <mat-panel-title>{{ employee.firstName }} {{ employee.lastName }}</mat-panel-title>
+      <mat-panel-description>{{ employee.phone }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-action-row>
+      <button mat-button color="primary" (click)="onEdit(employee)">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+      <button mat-button color="warn" (click)="openDeleteDialog(employee)">
+        <mat-icon>backspace</mat-icon>
+        Delete
+      </button>
+    </mat-action-row>
+    {{ employee.street }}
+    {{ employee.postcode }}
+    {{ employee.city }}
     <mat-chip-listbox>
       <mat-chip *ngFor="let skill of employee.skillSet">
-        {{skill.skill}}
+        {{ skill.skill }}
       </mat-chip>
     </mat-chip-listbox>
-  </mat-card-content>
-</mat-card>
+  </mat-expansion-panel>
+</mat-accordion>

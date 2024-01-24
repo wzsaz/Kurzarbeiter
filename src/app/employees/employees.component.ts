@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {EmployeeResponseDTO, EmployeeUIState} from "../types";
+import {Employee} from "../types";
 import {EmployeeService} from "../service/employee.service";
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
@@ -9,6 +9,12 @@ import {MatChipsModule} from "@angular/material/chips";
 import {FilterComponent} from "../filter/filter.component";
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+import {
+  MatAccordion, MatExpansionPanel,
+  MatExpansionPanelActionRow,
+  MatExpansionPanelDescription, MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-employees',
@@ -22,32 +28,34 @@ import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component
     MatChipsModule,
     FilterComponent,
     NgOptimizedImage,
+    MatAccordion,
+    MatExpansionPanelActionRow,
+    MatExpansionPanelDescription,
+    MatExpansionPanelTitle,
+    MatExpansionPanelHeader,
+    MatExpansionPanel,
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
 export class EmployeesComponent implements OnInit {
-  employees: EmployeeUIState[] = [];
+  employees: Employee[] = [];
 
-  @Output() edit = new EventEmitter<EmployeeUIState>();
+  @Output() edit = new EventEmitter<Employee>();
 
   constructor(
     private employeeService: EmployeeService,
     public dialog: MatDialog
   ) {
-  } // Inject MatDialog
+  }
 
   ngOnInit(): void {
     this.employeeService.getEmployees().subscribe(employees => {
-      this.employees = employees.map((employee: EmployeeResponseDTO) => ({
-        ...employee,
-        showDetails: false,
-        pictureUrl: `https://i.pravatar.cc/200?img=${employee.id}`
-      }));
+      this.employees = employees
     });
   }
 
-  openDeleteDialog(employee: EmployeeUIState): void {
+  openDeleteDialog(employee: Employee): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         message: `Are you sure you want to delete ${employee.firstName} ${employee.lastName}?`,
@@ -65,12 +73,8 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  onEdit(employee: EmployeeUIState): void {
+  onEdit(employee: Employee): void {
     this.edit.emit(employee);
-  }
-
-  onDetails(employee: EmployeeUIState): void {
-    employee.showDetails = !employee.showDetails;
   }
 
   onFilterApplied(filterValue: string): void {
@@ -79,7 +83,7 @@ export class EmployeesComponent implements OnInit {
     console.log("Filter applied: " + filterValue);
   }
 
-  onDelete(employee: EmployeeUIState): void {
+  onDelete(employee: Employee): void {
     this.employeeService.deleteEmployee(employee.id).subscribe(() => {
       this.employees = this.employees.filter(e => e.id !== employee.id);
     });
