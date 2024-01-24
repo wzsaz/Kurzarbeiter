@@ -5,9 +5,8 @@ import {EditorComponent} from "./editor/editor.component";
 import {AuthGuard} from "./service/AuthGuard";
 
 export const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '', redirectTo: '/view', pathMatch: 'full'},
   {path: 'view', component: HomeComponent, canActivate: [AuthGuard]},
-  {path: 'home', component: FilterComponent},
   {path: 'editor/:id', component: EditorComponent, canActivate: [AuthGuard]},
   // other routes...
 ];
