@@ -16,6 +16,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatBadgeModule} from "@angular/material/badge";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-qualifications',
@@ -40,6 +41,7 @@ import {MatBadgeModule} from "@angular/material/badge";
 })
 export class QualificationsComponent implements OnInit {
   qualifications: QualificationUIState[] = [];
+  originalQualifications: QualificationUIState[] = [];
 
   constructor(private qualificationService: QualificationService, public dialog: MatDialog) {
   }
@@ -51,6 +53,7 @@ export class QualificationsComponent implements OnInit {
   fetchQualifications(): void {
     this.qualificationService.getQualifications().subscribe(qualifications => {
       this.qualifications = qualifications;
+      this.originalQualifications = JSON.parse(JSON.stringify(qualifications)); // Deep copy
     });
   }
 
@@ -60,9 +63,7 @@ export class QualificationsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         const newQualification: Partial<QualificationDTO> = {skill: result};
-        this.qualificationService.createQualification(newQualification).subscribe(() => {
-          this.fetchQualifications();
-        });
+        this.qualifications.push(newQualification as QualificationUIState);
       }
     });
   }
@@ -87,11 +88,26 @@ export class QualificationsComponent implements OnInit {
     });
   }
 
+
   saveAll(): void {
-      this.qualificationService.updateQualifications(this.qualifications).subscribe(
-        () => {
-          this.fetchQualifications();
-        }
-      );
+    const newQualifications = this.qualifications.filter(qualification => !qualification.id);
+    const updatedQualifications = this.qualifications.filter((qualification, index) => {
+      return qualification.id && JSON.stringify(qualification) !== JSON.stringify(this.originalQualifications[index]);
+    });
+
+    const validNewQualifications = newQualifications.filter(qualification => this.validateQualification(qualification));
+    const validUpdatedQualifications = updatedQualifications.filter(qualification => this.validateQualification(qualification));
+
+    const createRequests = validNewQualifications.map(qualification => this.qualificationService.createQualification(qualification));
+    const updateRequests = validUpdatedQualifications.map(qualification => this.qualificationService.updateQualification(qualification.id, qualification));
+
+    forkJoin([...createRequests, ...updateRequests]).subscribe(() => {
+      this.fetchQualifications();
+    });
+  }
+
+  validateQualification(qualification: QualificationUIState): boolean {
+    const exists = this.qualifications.some(q => q.skill === qualification.skill && q.id !== qualification.id);
+    return !exists;
   }
 }
