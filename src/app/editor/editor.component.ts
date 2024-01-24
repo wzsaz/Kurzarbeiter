@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
-import {EmployeeRequestDTO, EmployeeResponseDTO, QualificationUIState,} from "../types";
+import {EmployeeRequestDTO, EmployeeResponseDTO, QualificationDTO, QualificationUIState,} from "../types";
 import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -33,12 +33,16 @@ export class EditorComponent implements OnInit {
   @Input() employee!: EmployeeResponseDTO;
   qualifications: QualificationUIState[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private employeeService: EmployeeService, private qualificationService: QualificationService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private employeeService: EmployeeService, private qualificationService: QualificationService) {
+  }
 
   ngOnInit() {
     this.qualificationService.getQualifications().subscribe(qualifications => {
-      qualifications.map(qualification => QualificationDTO{})
-      this.qualifications = qualifications;
+      this.qualifications = qualifications.map((old: QualificationDTO) => ({
+        skill: old.skill,
+        id: old.id,
+        checked: false,
+      }));
     });
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
