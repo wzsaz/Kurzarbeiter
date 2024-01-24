@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import {EditorComponent} from "../editor/editor.component";
 import {CommonModule, NgIf} from "@angular/common";
 import {EmployeeResponseDTO} from "../types";
-import {EmployeeviewComponent} from "../employeeview/employeeview.component";
+import {EmployeesComponent} from "../employees/employees.component";
 import {Router} from "@angular/router";
 
 @Component({
@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
   imports: [
     CommonModule,
     EditorComponent,
-    EmployeeviewComponent,
+    EmployeesComponent,
   ],
   styleUrls: ['./home.component.css']
 })

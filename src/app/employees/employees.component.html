@@ -6,7 +6,7 @@
 <mat-card *ngFor="let employee of employees" class="employee-card">
   <mat-card-header>
     <div mat-card-avatar class="employee-photo-wrapper">
-      <img [src]="employee.pictureUrl" alt="Employee Picture">
+      <img [src]="employee.pictureUrl" fill="" alt="">
     </div>
     <mat-card-title>{{employee.firstName}} {{employee.lastName}}</mat-card-title>
     <mat-card-subtitle>{{employee.phone}}</mat-card-subtitle>

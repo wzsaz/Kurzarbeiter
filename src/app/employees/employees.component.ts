@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {EmployeeUIState} from "../types";
+import {EmployeeResponseDTO, EmployeeUIState} from "../types";
 import {EmployeeService} from "../service/employee.service";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
@@ -11,7 +11,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 
 @Component({
-  selector: 'app-employeeview',
+  selector: 'app-employees',
   standalone: true,
   imports: [
     NgForOf,
@@ -21,21 +21,29 @@ import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component
     MatIconModule,
     MatChipsModule,
     FilterComponent,
+    NgOptimizedImage,
   ],
-  templateUrl: './employeeview.component.html',
-  styleUrl: './employeeview.component.css'
+  templateUrl: './employees.component.html',
+  styleUrl: './employees.component.css'
 })
-export class EmployeeviewComponent implements OnInit {
+export class EmployeesComponent implements OnInit {
   employees: EmployeeUIState[] = [];
 
   @Output() edit = new EventEmitter<EmployeeUIState>();
 
-  constructor(private employeeService: EmployeeService, public dialog: MatDialog) {
+  constructor(
+    private employeeService: EmployeeService,
+    public dialog: MatDialog
+  ) {
   } // Inject MatDialog
 
   ngOnInit(): void {
     this.employeeService.getEmployees().subscribe(employees => {
-      this.employees = employees.map(employee => ({...employee, showDetails: false, pictureUrl: 'path_to_picture'}));
+      this.employees = employees.map((employee: EmployeeResponseDTO) => ({
+        ...employee,
+        showDetails: false,
+        pictureUrl: `https://i.pravatar.cc/200?img=${employee.id}`
+      }));
     });
   }
 

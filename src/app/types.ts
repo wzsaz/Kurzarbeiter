@@ -37,7 +37,7 @@ export interface TokenResponseDTO {
 
 export interface EmployeeUIState extends EmployeeResponseDTO {
   showDetails: boolean;
-  pictureUrl: string;
+  pictureUrl: any;
 }
 
 export interface QualificationUIState extends QualificationDTO {
