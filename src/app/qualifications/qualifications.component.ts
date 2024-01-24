@@ -40,7 +40,7 @@ import {forkJoin} from "rxjs";
   styleUrl: './qualifications.component.css'
 })
 export class QualificationsComponent implements OnInit {
-  qualifications: QualificationUIState[] = [];
+  qualifications: QualificationDTO[] = [];
   originalQualifications: QualificationUIState[] = [];
 
   constructor(private qualificationService: QualificationService, public dialog: MatDialog) {
@@ -106,7 +106,7 @@ export class QualificationsComponent implements OnInit {
     });
   }
 
-  validateQualification(qualification: QualificationUIState): boolean {
+  validateQualification(qualification: QualificationDTO): boolean {
     const exists = this.qualifications.some(q => q.skill === qualification.skill && q.id !== qualification.id);
     return !exists;
   }

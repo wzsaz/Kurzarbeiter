@@ -33,12 +33,14 @@
     </mat-form-field>
     <br>
     <mat-form-field>
-      <mat-label>Select</mat-label>
-      <mat-select [(ngModel)]="employee.skillSet">
-        <!-- You need to replace the options with the actual skills -->
-        <mat-option *ngFor="let skill of qualifications" [value]="skill.id">{{skill.skill}}</mat-option>
-      </mat-select>
+      <mat-label>Skills</mat-label>
+      <div>
+        <mat-checkbox *ngFor="let skill of qualifications" [(ngModel)]="skill.checked">
+          {{ skill.skill }}
+        </mat-checkbox>
+      </div>
     </mat-form-field>
+
 
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>

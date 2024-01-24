@@ -1,16 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
-import {EmployeeRequestDTO, EmployeeResponseDTO, QualificationGetDTO} from "../types";
+import {EmployeeRequestDTO, EmployeeResponseDTO, QualificationUIState,} from "../types";
 import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {EmployeeService} from "../employee.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
-import {QualificationService} from "../qualification.service";
+import {EmployeeService} from "../service/employee.service";
+import {QualificationService} from "../service/qualification.service";
 
 @Component({
   selector: 'app-editor',
@@ -31,12 +31,13 @@ import {QualificationService} from "../qualification.service";
 })
 export class EditorComponent implements OnInit {
   @Input() employee!: EmployeeResponseDTO;
-  qualifications: QualificationGetDTO[] = [];
+  qualifications: QualificationUIState[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute, private employeeService: EmployeeService, private qualificationService: QualificationService) { }
 
   ngOnInit() {
     this.qualificationService.getQualifications().subscribe(qualifications => {
+      qualifications.map(qualification => QualificationDTO{})
       this.qualifications = qualifications;
     });
     const id = this.route.snapshot.paramMap.get('id');

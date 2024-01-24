@@ -41,4 +41,5 @@ export interface EmployeeUIState extends EmployeeResponseDTO {
 }
 
 export interface QualificationUIState extends QualificationDTO {
+  checked: boolean;
 }
