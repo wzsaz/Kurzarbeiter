@@ -16,23 +16,12 @@ export interface EmployeeResponseDTO {
   postcode: string;
   city: string;
   phone: string;
-  skillSet: QualificationResponseDTO[];
+  skillSet: QualificationDTO[];
 }
 
-export interface QualificationRequestDTO {
-  skill: string;
-}
-
-export interface QualificationResponseDTO {
+export interface QualificationDTO {
   skill: string;
   id: number;
-}
-
-export interface EmployeeNameAndSkillDataDTO {
-  id: number;
-  lastName: string;
-  firstName: string;
-  skillSet: QualificationRequestDTO[];
 }
 
 export interface TokenResponseDTO {
@@ -51,5 +40,5 @@ export interface EmployeeUIState extends EmployeeResponseDTO {
   pictureUrl: string;
 }
 
-export interface QualificationUIState extends QualificationResponseDTO {
+export interface QualificationUIState extends QualificationDTO {
 }

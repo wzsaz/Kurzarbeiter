@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {QualificationRequestDTO, QualificationUIState} from "../types";
+import {QualificationDTO, QualificationUIState} from "../types";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
@@ -12,6 +12,9 @@ import {MatListModule} from "@angular/material/list";
 import {MatLineModule} from "@angular/material/core";
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 import {AddQualificationDialogComponent} from "../confirm-dialog/add-confirm-dialog.component";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {FormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
   selector: 'app-qualifications',
@@ -26,6 +29,9 @@ import {AddQualificationDialogComponent} from "../confirm-dialog/add-confirm-dia
     FilterComponent,
     MatListModule,
     MatLineModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
   ],
   templateUrl: './qualifications.component.html',
   styleUrl: './qualifications.component.css'
@@ -51,7 +57,7 @@ export class QualificationsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const newQualification: QualificationRequestDTO = {skill: result,}
+        const newQualification: Partial<QualificationDTO> = {skill: result};
         this.qualificationService.createQualification(newQualification).subscribe(() => {
           this.fetchQualifications();
         });
@@ -77,5 +83,13 @@ export class QualificationsComponent implements OnInit {
         });
       }
     });
+  }
+
+  saveAll(): void {
+      this.qualificationService.updateQualifications(this.qualifications).subscribe(
+        () => {
+          this.fetchQualifications();
+        }
+      );
   }
 }
