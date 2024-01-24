@@ -1,0 +1,11 @@
+<mat-list>
+  <h3 mat-subheader>Qualifications</h3>
+  <mat-list-item *ngFor="let qualification of qualifications">
+    <mat-icon mat-list-icon>label</mat-icon>
+    <h4 mat-line>{{ qualification.skill }}</h4>
+    <button mat-icon-button (click)="openDeleteDialog(qualification)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-list>
+<button mat-raised-button color="primary" (click)="openAddDialog()">Add Qualification</button>

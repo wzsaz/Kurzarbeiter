@@ -1,8 +1,4 @@
-export interface QualificationPostDTO {
-  skill: string;
-}
-
-export interface EmployeeRequestPutDTO {
+export interface EmployeeRequestDTO {
   lastName: string;
   firstName: string;
   street: string;
@@ -20,29 +16,23 @@ export interface EmployeeResponseDTO {
   postcode: string;
   city: string;
   phone: string;
-  skillSet: QualificationGetDTO[];
+  skillSet: QualificationResponseDTO[];
 }
 
-export interface QualificationGetDTO {
+export interface QualificationRequestDTO {
+  skill: string;
+}
+
+export interface QualificationResponseDTO {
   skill: string;
   id: number;
-}
-
-export interface EmployeeRequestDTO {
-  lastName: string;
-  firstName: string;
-  street: string;
-  postcode: string;
-  city: string;
-  phone: string;
-  skillSet: number[];
 }
 
 export interface EmployeeNameAndSkillDataDTO {
   id: number;
   lastName: string;
   firstName: string;
-  skillSet: QualificationPostDTO[];
+  skillSet: QualificationRequestDTO[];
 }
 
 export interface TokenResponseDTO {
@@ -59,4 +49,7 @@ export interface TokenResponseDTO {
 export interface EmployeeUIState extends EmployeeResponseDTO {
   showDetails: boolean;
   pictureUrl: string;
+}
+
+export interface QualificationUIState extends QualificationResponseDTO {
 }
