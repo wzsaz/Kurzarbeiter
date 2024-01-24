@@ -15,6 +15,7 @@ import {AddQualificationDialogComponent} from "../confirm-dialog/add-confirm-dia
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
+import {MatBadgeModule} from "@angular/material/badge";
 
 @Component({
   selector: 'app-qualifications',
@@ -32,6 +33,7 @@ import {MatInputModule} from "@angular/material/input";
     MatFormFieldModule,
     FormsModule,
     MatInputModule,
+    MatBadgeModule,
   ],
   templateUrl: './qualifications.component.html',
   styleUrl: './qualifications.component.css'
