@@ -56,7 +56,6 @@ export class QualificationsComponent implements OnInit {
 
   private updateQualifications(): void {
     this.qualificationService.getQualifications().subscribe(qualifications => {
-      console.log('Fetched qualifications:', qualifications)
       this.qualifications = qualifications;
     });
   }

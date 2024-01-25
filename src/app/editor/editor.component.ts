@@ -116,7 +116,7 @@ export class EditorComponent implements OnInit {
         : this.employeeService.createEmployee(employeeRequestDTO);
 
       operation.subscribe({
-        next: response =>     this.router.navigate(['/view']).then(() => console.log('navigated to view')),
+        next: response =>     this.router.navigate(['/view']),
         error: error => this.displayError(`Error ${this.employee.id ? 'updating' : 'creating'} employee: ${error}`)
       });
     } else {

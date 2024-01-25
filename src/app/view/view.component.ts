@@ -22,8 +22,7 @@ export class ViewComponent {
   constructor(private router: Router) { }
 
   onEdit(employee: Employee): void {
-    console.log('onEdit called for: ', employee);
-    this.router.navigate(['/editor', employee.id]).then(() => console.log('navigated to editor'));
+    this.router.navigate(['/editor', employee.id]);
   }
 
 }

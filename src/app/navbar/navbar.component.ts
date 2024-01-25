@@ -8,8 +8,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import {RouterLink, RouterLinkActive} from "@angular/router";
-import {AuthService} from "../service/auth.service";
+import {RouterLink} from "@angular/router";
+import {BaseService} from "../service/base.service";
 
 @Component({
   selector: 'app-navbar',
@@ -24,13 +24,13 @@ import {AuthService} from "../service/auth.service";
     MatIconModule,
     AsyncPipe,
     RouterLink,
-    RouterLinkActive,
   ]
 })
 export class NavbarComponent {
   private breakpointObserver = inject(BreakpointObserver);
 
-  constructor(private authService: AuthService) { }
+  constructor(private baseService: BaseService) {
+  }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -39,6 +39,6 @@ export class NavbarComponent {
     );
 
   logout(): void {
-    this.authService.logout();
+    this.baseService.getKeycloakInstance().logout().then(r => console.log('Logged out!'));
   }
 }
