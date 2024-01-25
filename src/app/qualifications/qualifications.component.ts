@@ -19,6 +19,7 @@ import {CanComponentDeactivate} from "../confirm-dialog/can-deactivate-guard.ser
 import {AddEditQualificationDialogComponent} from "../confirm-dialog/add-confirm-dialog.component";
 import {EmployeeService} from "../service/employee.service";
 import {CustomDialogComponent} from "../confirm-dialog/CustomDialogComponent";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-qualifications',
@@ -113,10 +114,14 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
   }
 
   openDeleteDialog(qualification: QualificationUIState): void {
+    console.log('openDeleteDialog called with qualification:', qualification);
+
     this.employeeService.getEmployees().subscribe(employees => {
+      console.log('Fetched employees:', employees);
       const employeesWithQualification = employees.filter(employee =>
         employee.skillSet.some(skill => skill.id === qualification.id)
       );
+      console.log('Employees with qualification:', employeesWithQualification);
 
       let message = `Are you sure you want to delete ${qualification.skill}?`;
       if (employeesWithQualification.length > 0) {
@@ -132,9 +137,19 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
       });
 
       dialogRef.afterClosed().subscribe(confirmed => {
+        console.log('Dialog closed, confirmed:', confirmed);
         if (confirmed) {
-          this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
-            this.fetchQualifications();
+          // Since we already have the employeesWithQualification, consider reusing it instead of fetching again
+          const removeRequests = employeesWithQualification.map(employee =>
+            this.employeeService.removeQualificationFromEmployee(employee.id, qualification.id)
+          );
+
+          forkJoin(removeRequests).subscribe(() => {
+            console.log('Qualifications removed from employees');
+            this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
+              console.log('Qualification deleted:', qualification.id);
+              this.fetchQualifications();
+            });
           });
         }
       });

@@ -49,4 +49,25 @@ export class EmployeeService extends BaseService {
       })
     );
   }
+
+  removeQualificationFromEmployee(employeeId: number, qualificationId: number): Observable<EmployeeResponseDTO | null> {
+    console.log('removeQualificationFromEmployee called with employeeId, qualificationId:', employeeId, qualificationId);
+
+    return this.getEmployee(employeeId).pipe(
+      switchMap(employee => {
+        console.log('Fetched employee:', employee);
+        if (employee) {
+          const updatedEmployee: EmployeeRequestDTO = {
+            ...employee,
+            skillSet: employee.skillSet.filter(skill => skill.id !== qualificationId).map(skill => skill.id)
+          };
+          console.log('Updated employee data:', updatedEmployee);
+          return this.updateEmployee(employeeId, updatedEmployee);
+        } else {
+          console.log('No employee found with id:', employeeId);
+          return of(null);
+        }
+      })
+    );
+  }
 }
