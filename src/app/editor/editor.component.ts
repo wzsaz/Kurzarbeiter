@@ -11,6 +11,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import {EmployeeService} from "../service/employee.service";
 import {QualificationService} from "../service/qualification.service";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-editor',
@@ -24,7 +25,8 @@ import {QualificationService} from "../service/qualification.service";
     MatSelectModule,
     MatButtonModule,
     NgIf,
-    NgForOf
+    NgForOf,
+    MatCheckboxModule
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'

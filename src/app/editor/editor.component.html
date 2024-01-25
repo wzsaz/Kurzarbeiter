@@ -35,7 +35,7 @@
     <mat-form-field>
       <mat-label>Skills</mat-label>
       <div>
-        <mat-checkbox *ngFor="let skill of qualifications" [(ngModel)]="skill.checked">
+        <mat-checkbox *ngFor="let skill of qualifications" [(ngModel)]="skill.skill">
           {{ skill.skill }}
         </mat-checkbox>
       </div>
