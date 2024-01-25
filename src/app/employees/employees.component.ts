@@ -42,7 +42,11 @@ export class EmployeesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateEmployees();
+    this.employeeService.getEmployees()
+      .subscribe(employees => {
+        console.log(employees.map(e => e.skillSet))
+        return this.employees = employees;
+      });
   }
 
   openDeleteDialog(employee: Employee): void {
@@ -63,14 +67,6 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  private updateEmployees(): void {
-    this.employeeService.getEmployees()
-      .subscribe(employees => {
-        console.log(employees.map(e => e.skillSet))
-        return this.employees = employees;
-      });
-  }
-
   onEdit(employee: Employee): void {
     this.edit.emit(employee);
   }
@@ -83,6 +79,5 @@ export class EmployeesComponent implements OnInit {
 
   onDelete(employee: Employee): void {
     this.employeeService.deleteEmployee(employee.id)
-      .subscribe(() => this.updateEmployees());
   }
 }

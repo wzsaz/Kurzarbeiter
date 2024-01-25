@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, timer } from 'rxjs';
+import {interval, Observable, of, startWith, timer} from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 import { TokenResponseDTO } from '../types';
@@ -8,25 +8,11 @@ import { TokenResponseDTO } from '../types';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly refreshToken$: Observable<TokenResponseDTO>;
 
   constructor(private keycloak: KeycloakService) {
-    this.refreshToken$ = this.initTokenRefresh();
   }
 
   getAccessTokenV2(): Observable<TokenResponseDTO> {
-    return this.refreshToken$;
-  }
-
-  private initTokenRefresh(): Observable<TokenResponseDTO> {
-    return timer(0, 60000)
-      .pipe(
-        switchMap(() => this.refreshToken()),
-        tap(token => this.logTokenRefresh(token))
-      );
-  }
-
-  private refreshToken(): Observable<TokenResponseDTO> {
     return new Observable<TokenResponseDTO>(observer => {
       this.keycloak.updateToken(30)
         .then(() => this.handleTokenRefresh(observer))
@@ -58,14 +44,6 @@ export class AuthService {
       session_state: keycloakInstance.sessionId ?? "",
       scope: tokenParsed['scope'] ?? ""
     };
-  }
-
-  private logTokenRefresh(token: TokenResponseDTO) {
-    if (token) {
-      console.log("Token refreshed: ", token);
-    } else {
-      console.error("Token refresh failed");
-    }
   }
 
   logout() {

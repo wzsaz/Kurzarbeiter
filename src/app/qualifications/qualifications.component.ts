@@ -15,10 +15,9 @@ import {MatInputModule} from "@angular/material/input";
 import {MatBadgeModule} from "@angular/material/badge";
 import {AddEditQualificationDialogComponent} from "../confirm-dialog/add-confirm-dialog.component";
 import {EmployeeService} from "../service/employee.service";
-import {concat, EMPTY, forkJoin, Observable, of, zip} from "rxjs";
-import {Employee, Qualification} from "../types";
+import {defaultIfEmpty, zip} from "rxjs";
+import {Qualification} from "../types";
 import {CustomDialogComponent} from '../confirm-dialog/custom-dialog.component';
-import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-qualifications',
@@ -110,51 +109,40 @@ export class QualificationsComponent implements OnInit {
   }
 
   openDeleteDialog(qualification: Qualification): void {
-    console.log('openDeleteDialog called with qualification:', qualification);
 
-    this.employeeService.getEmployees().subscribe(employees => {
-      console.log('Fetched employees:', employees);
+    this.employeeService.getEmployees()
+      // pipe employees to filtered
+      .subscribe(employees => {
 
-      const employeesWithQualification = employees.filter(employee => {
-        return employee.skillSet.some(({id}) => id == qualification.id);
-      });
-
-      console.log('Employees with qualification:', employeesWithQualification);
-
-      let message = `Are you sure you want to delete ${qualification.skill}?`;
-      if (employeesWithQualification.length > 0) {
-        const employeeNames = employeesWithQualification.map(employee => `<li>${employee.firstName} ${employee.lastName}</li>`).join('');
-        message += ` The following employees will lose this qualification: <ul>${employeeNames}</ul>`;
-      }
-
-      const dialogRef = this.dialog.open(CustomDialogComponent, {
-        data: {
-          title: 'Delete Qualification',
-          message,
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(confirmed => {
-        if (!confirmed) {
-          return;
-        }
-
-        zip(employeesWithQualification.map(employee => {
-          return this.employeeService.removeQualificationFromEmployee(employee.id, qualification.id)
-        })).subscribe(a => {
-          console.log("Result of zip:", a);
-          this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
-            this.fetchQualifications()
-          });
+        const employeesWithQualification = employees.filter(employee => {
+          return employee.skillSet.some(({id}) => id == qualification.id);
         });
 
-        if (employeesWithQualification.length === 0) {
-          this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
-            this.fetchQualifications()
-          });
+        let message = `Are you sure you want to delete ${qualification.skill}?`;
+        if (employeesWithQualification.length > 0) {
+          const employeeNames = employeesWithQualification.map(employee => `<li>${employee.firstName} ${employee.lastName}</li>`).join('');
+          message += ` The following employees will lose this qualification: <ul>${employeeNames}</ul>`;
         }
 
+        const dialogRef = this.dialog.open(CustomDialogComponent, {
+          data: {
+            title: 'Delete Qualification',
+            message,
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(confirmed => {
+          if (!confirmed) {
+            return;
+          }
+
+          zip(employeesWithQualification.map(employee => this.employeeService.removeQualificationFromEmployee(employee.id, qualification.id)))
+            .pipe(defaultIfEmpty([]))
+            .subscribe(() => {
+              this.qualificationService.deleteQualification(qualification.id).subscribe(() => this.fetchQualifications());
+            });
+
+        });
       });
-    });
   }
 }
