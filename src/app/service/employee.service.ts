@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {EMPTY, Observable, of} from 'rxjs';
-import {Employee, EmployeeRequestDTO, Qualification} from '../types';
-import {map, switchMap} from 'rxjs/operators';
+import {EMPTY, Observable} from 'rxjs';
+import {Employee, EmployeeRequestDTO} from '../types';
+import {switchMap} from 'rxjs/operators';
 import {BaseService} from "./base.service";
 
 @Injectable({

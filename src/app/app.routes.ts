@@ -4,7 +4,6 @@ import {FilterComponent} from "./filter/filter.component";
 import {EditorComponent} from "./editor/editor.component";
 import {AuthGuard} from "./service/AuthGuard";
 import {QualificationsComponent} from "./qualifications/qualifications.component";
-import {CanDeactivateGuardService} from "./confirm-dialog/can-deactivate-guard.service";
 
 export const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},

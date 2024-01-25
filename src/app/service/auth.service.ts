@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import {interval, Observable, of, startWith, timer} from 'rxjs';
-import { switchMap, tap, catchError } from 'rxjs/operators';
-import { KeycloakService } from 'keycloak-angular';
-import { TokenResponseDTO } from '../types';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {KeycloakService} from 'keycloak-angular';
+import {TokenResponseDTO} from '../types';
 
 @Injectable({
   providedIn: 'root'
