@@ -27,21 +27,16 @@ export class QualificationService extends BaseService {
     );
   }
 
-  updateQualification(qualificationId: number, updatedQualificationData: Qualification): Observable<Qualification> {
+  updateQualification(updated: Qualification): Observable<Qualification> {
     return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.put<Qualification>(`${this.apiUrl}/${qualificationId}`, updatedQualificationData, {headers})))
+      switchMap(headers => this.handleRequest(this.http.put<Qualification>(`${this.apiUrl}/${updated.id}`, updated, {headers})))
     );
   }
 
   updateQualifications(updatedQualificationsData: Qualification[]): Observable<Qualification[]> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => {
-        const updateRequests = updatedQualificationsData.map(qualification =>
-          this.http.put<Qualification>(`${this.apiUrl}/${qualification.id}`, qualification, {headers})
-        );
-        return this.handleRequest(forkJoin(updateRequests));
-      })
-    );
+    return this.handleRequest(forkJoin(updatedQualificationsData.map(qualification =>
+      this.updateQualification(qualification)
+    )));
   }
 
   deleteQualification(qualificationId: number): Observable<void> {
