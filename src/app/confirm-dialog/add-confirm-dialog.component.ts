@@ -5,7 +5,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
-import {CustomDialogComponent} from "./CustomDialogComponent";
+import {CustomDialogComponent} from "./custom-dialog.component";
 
 @Component({
   selector: 'app-confirm-dialog',
