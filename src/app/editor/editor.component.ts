@@ -125,7 +125,7 @@ export class EditorComponent implements OnInit {
   }
 
   onCancel() {
-    // TODO: Implement
+    this.editorForm.reset()
   }
 
   private mapToRequestDTO(formValue: any): EmployeeRequestDTO {
