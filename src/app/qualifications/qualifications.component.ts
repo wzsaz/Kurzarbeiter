@@ -15,9 +15,10 @@ import {MatInputModule} from "@angular/material/input";
 import {MatBadgeModule} from "@angular/material/badge";
 import {AddEditQualificationDialogComponent} from "../confirm-dialog/add-confirm-dialog.component";
 import {EmployeeService} from "../service/employee.service";
-import {forkJoin, Observable} from "rxjs";
+import {concat, EMPTY, forkJoin, Observable, of, zip} from "rxjs";
 import {Employee, Qualification} from "../types";
 import {CustomDialogComponent} from '../confirm-dialog/custom-dialog.component';
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-qualifications',
@@ -56,6 +57,7 @@ export class QualificationsComponent implements OnInit {
 
   fetchQualifications(): void {
     this.qualificationService.getQualifications().subscribe(qualifications => {
+      console.log('Fetched qualifications:', qualifications)
       this.qualifications = qualifications;
     });
   }
@@ -112,11 +114,11 @@ export class QualificationsComponent implements OnInit {
 
     this.employeeService.getEmployees().subscribe(employees => {
       console.log('Fetched employees:', employees);
+
       const employeesWithQualification = employees.filter(employee => {
-          console.log(employee);
-          employee.skillSet.some(({id}) => id == qualification.id)
-        }
-      );
+        return employee.skillSet.some(({id}) => id == qualification.id);
+      });
+
       console.log('Employees with qualification:', employeesWithQualification);
 
       let message = `Are you sure you want to delete ${qualification.skill}?`;
@@ -133,21 +135,25 @@ export class QualificationsComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(confirmed => {
-        console.log('Dialog closed, confirmed:', confirmed);
         if (!confirmed) {
           return;
         }
 
-        const obs: Observable<Employee>[] = employeesWithQualification.map(employee =>
-          this.employeeService.removeQualificationFromEmployee(employee.id, qualification.id)
-        )
-
-        forkJoin(obs).subscribe(() => {
+        zip(employeesWithQualification.map(employee => {
+          return this.employeeService.removeQualificationFromEmployee(employee.id, qualification.id)
+        })).subscribe(a => {
+          console.log("Result of zip:", a);
           this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
-            console.log('Qualification deleted:', qualification.id);
-            this.fetchQualifications();
+            this.fetchQualifications()
           });
-        })
+        });
+
+        if (employeesWithQualification.length === 0) {
+          this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
+            this.fetchQualifications()
+          });
+        }
+
       });
     });
   }
