@@ -16,7 +16,6 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatBadgeModule} from "@angular/material/badge";
-import {forkJoin} from "rxjs";
 import {CanComponentDeactivate} from "../confirm-dialog/can-deactivate-guard.service";
 
 @Component({
@@ -67,10 +66,30 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddQualificationDialogComponent);
 
+    const validateQualification = (qualification: QualificationUIState) => {
+      if (!qualification.skill) return false;
+      const exists = this.qualifications.some(q => q.skill === qualification.skill);
+      return !exists;
+    }
+
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result && validateQualification(result)) {
         const newQualification: Partial<QualificationDTO> = {skill: result};
-        this.qualifications.push(newQualification as QualificationUIState);
+        this.qualificationService.createQualification(newQualification).subscribe(qualification => {
+          if (qualification) {
+            this.qualifications.push(qualification);
+          }
+          return qualification;
+        });
+      } else {
+        this.dialog.open(ConfirmDialogComponent, {
+          data: {
+            message: `Qualification already exists`,
+            buttonText: {
+              ok: 'Ok'
+            }
+          }
+        });
       }
     });
   }
@@ -90,34 +109,11 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
       if (confirmed) {
         const index = this.qualifications.findIndex(q => q.id === qualification.id);
         if (index > -1) {
-          this.qualifications.splice(index, 1);
+          this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
+            this.fetchQualifications();
+          });
         }
       }
     });
-  }
-
-  saveAll(): void {
-    const newQualifications = this.qualifications.filter(qualification => !qualification.id);
-    const updatedQualifications = this.qualifications.filter((qualification, index) => {
-      return qualification.id && JSON.stringify(qualification) !== JSON.stringify(this.originalQualifications[index]);
-    });
-    const deletedQualifications = this.originalQualifications.filter(oq => !this.qualifications.some(q => q.id === oq.id));
-
-    const validNewQualifications = newQualifications.filter(qualification => this.validateQualification(qualification));
-    const validUpdatedQualifications = updatedQualifications.filter(qualification => this.validateQualification(qualification));
-
-    const createRequests = validNewQualifications.map(qualification => this.qualificationService.createQualification(qualification));
-    const updateRequests = validUpdatedQualifications.map(qualification => this.qualificationService.updateQualification(qualification.id, qualification));
-    const deleteRequests = deletedQualifications.map(qualification => this.qualificationService.deleteQualification(qualification.id));
-
-    forkJoin([...createRequests, ...updateRequests, ...deleteRequests]).subscribe(() => {
-      this.fetchQualifications();
-      this.originalQualifications = JSON.parse(JSON.stringify(this.qualifications));
-    });
-  }
-
-  validateQualification(qualification: QualificationUIState): boolean {
-    const exists = this.qualifications.some(q => q.skill === qualification.skill && q.id !== qualification.id);
-    return !exists;
   }
 }
