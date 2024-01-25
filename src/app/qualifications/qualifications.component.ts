@@ -11,12 +11,12 @@ import {QualificationService} from "../service/qualification.service";
 import {MatListModule} from "@angular/material/list";
 import {MatLineModule} from "@angular/material/core";
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
-import {AddQualificationDialogComponent} from "../confirm-dialog/add-confirm-dialog.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatBadgeModule} from "@angular/material/badge";
 import {CanComponentDeactivate} from "../confirm-dialog/can-deactivate-guard.service";
+import {AddEditQualificationDialogComponent} from "../confirm-dialog/add-confirm-dialog.component";
 
 @Component({
   selector: 'app-qualifications',
@@ -63,33 +63,42 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
     });
   }
 
-  openAddDialog(): void {
-    const dialogRef = this.dialog.open(AddQualificationDialogComponent);
-
-    const validateQualification = (qualification: QualificationUIState) => {
-      if (!qualification.skill) return false;
-      const exists = this.qualifications.some(q => q.skill === qualification.skill);
-      return !exists;
-    }
+  openDialog(qualification?: QualificationUIState): void {
+    const dialogRef = this.dialog.open(AddEditQualificationDialogComponent, {
+      data: {
+        qualification,
+        title: qualification ? 'Edit Qualification' : 'Add Qualification'
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result && validateQualification(result)) {
-        const newQualification: Partial<QualificationDTO> = {skill: result};
-        this.qualificationService.createQualification(newQualification).subscribe(qualification => {
-          if (qualification) {
-            this.qualifications.push(qualification);
-          }
-          return qualification;
-        });
-      } else {
-        this.dialog.open(ConfirmDialogComponent, {
-          data: {
-            message: `Qualification already exists`,
-            buttonText: {
-              ok: 'Ok'
-            }
-          }
-        });
+      if (result) {
+        if (qualification) {
+          this.editQualification(qualification, result);
+        } else {
+          this.addQualification(result);
+        }
+      }
+    });
+  }
+
+  addQualification(skill: string): void {
+    const newQualification: Partial<QualificationDTO> = { skill };
+    this.qualificationService.createQualification(newQualification).subscribe(qualification => {
+      if (qualification) {
+        this.qualifications.push(qualification);
+      }
+    });
+  }
+
+  editQualification(qualification: QualificationUIState, skill: string): void {
+    const updatedQualification: QualificationDTO = { id: qualification.id, skill };
+    this.qualificationService.updateQualification(qualification.id, updatedQualification).subscribe(updated => {
+      if (updated) {
+        const index = this.qualifications.findIndex(q => q.id === updated.id);
+        if (index > -1) {
+          this.qualifications[index] = updated;
+        }
       }
     });
   }
@@ -107,12 +116,9 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        const index = this.qualifications.findIndex(q => q.id === qualification.id);
-        if (index > -1) {
-          this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
-            this.fetchQualifications();
-          });
-        }
+        this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
+          this.fetchQualifications();
+        });
       }
     });
   }

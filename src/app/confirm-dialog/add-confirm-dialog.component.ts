@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {MatDialogModule} from '@angular/material/dialog';
+import {Component, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -11,7 +11,7 @@ import {MatInputModule} from "@angular/material/input";
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, MatFormFieldModule, ReactiveFormsModule, NgIf, MatInputModule],
   template: `
-      <h2 mat-dialog-title>Add Qualification</h2>
+      <h2 mat-dialog-title>{{ data.title }}</h2>
       <mat-dialog-content>
           <mat-form-field>
               <input matInput placeholder="Qualification" [formControl]="qualificationControl" required>
@@ -21,11 +21,16 @@ import {MatInputModule} from "@angular/material/input";
       <mat-dialog-actions>
           <button mat-button mat-dialog-close>Cancel</button>
           <button mat-button [mat-dialog-close]="qualificationControl.value" [disabled]="qualificationControl.invalid">
-              Add
+              {{ data.title.split(' ')[0] }}
           </button>
       </mat-dialog-actions>
   `,
 })
-export class AddQualificationDialogComponent {
+export class AddEditQualificationDialogComponent {
   qualificationControl = new FormControl('', Validators.required);
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+    if (data.qualification) {
+      this.qualificationControl.setValue(data.qualification.skill);
+    }
+  }
 }

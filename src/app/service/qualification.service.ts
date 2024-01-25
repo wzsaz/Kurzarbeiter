@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {forkJoin, Observable} from 'rxjs';
-import {QualificationDTO} from '../types';
+import {QualificationDTO, QualificationUIState} from '../types';
 import {BaseService} from "./base.service";
 import {switchMap} from "rxjs/operators";
 
@@ -49,5 +49,11 @@ export class QualificationService extends BaseService {
     return this.setAuthHeader().pipe(
       switchMap(headers => this.handleRequest(this.http.delete<void>(`${this.apiUrl}/${qualificationId}`, {headers})))
     );
+  }
+
+  validateQualification(qualification: QualificationUIState, qualifications: QualificationUIState[]): boolean {
+    if (!qualification?.skill) return false;
+    const exists = qualifications.some(q => q.skill === qualification.skill);
+    return !exists;
   }
 }
