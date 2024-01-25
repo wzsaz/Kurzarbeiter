@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {Employee, EmployeeRequestDTO, Qualification} from "../types";
-import {FormsModule} from "@angular/forms";
+import {FormArray, FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -18,6 +18,7 @@ import {MatIconModule} from "@angular/material/icon";
   selector: 'app-editor',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
     MatCardModule,
     FormsModule,
     MatFormFieldModule,
@@ -38,7 +39,17 @@ export class EditorComponent implements OnInit {
   @Input() employee!: Employee;
   qualifications: Qualification[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private employeeService: EmployeeService, private qualificationService: QualificationService) {
+  editorForm = this.fb.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    phone: ['', Validators.required],
+    street: ['', Validators.required],
+    postcode: ['', Validators.required],
+    city: ['', Validators.required],
+    qualifications: this.fb.array([])
+  });
+
+  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private employeeService: EmployeeService, private qualificationService: QualificationService) {
   }
 
   ngOnInit() {
@@ -47,32 +58,50 @@ export class EditorComponent implements OnInit {
         skill: old.skill,
         id: old.id
       }));
-    });
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.employeeService.getEmployee(+id).subscribe(employee => {
-        if (employee) {
-          this.employee = employee;
-          console.log('EditorComponent initialized', this.employee);
-        } else {
-          console.log('EditorComponent could not find employee with id', id);
-        }
+      const id = this.route.snapshot.paramMap.get('id');
+      if (id) {
+        this.employeeService.getEmployee(+id).subscribe(employee => {
+          if (employee) {
+            this.employee = employee;
+            this.editorForm.patchValue({
+              firstName: employee.firstName,
+              lastName: employee.lastName,
+              phone: employee.phone,
+              street: employee.street,
+              postcode: employee.postcode,
+              city: employee.city,
+            });
+            console.log('EditorComponent initialized', this.employee);
+          } else {
+            console.log('EditorComponent could not find employee with id', id);
+          }
+        });
+      } else {
+        this.employee = {
+          id: 0,
+          lastName: '',
+          firstName: '',
+          street: '',
+          postcode: '',
+          city: '',
+          phone: '',
+          skillSet: [],
+        };
+      }
+      this.qualifications.forEach(qualification => {
+        this.qualificationsArray.push(this.fb.group({
+          skill: [qualification.skill, Validators.required]
+        }));
       });
-    } else {
-      this.employee = {
-        id: 0,
-        lastName: '',
-        firstName: '',
-        street: '',
-        postcode: '',
-        city: '',
-        phone: '',
-        skillSet: [],
-      };
-    }
+    });
+  }
+
+  get qualificationsArray() {
+    return this.editorForm.get('qualifications') as FormArray;
   }
 
   onSave() {
+    if (this.editorForm.valid) {
     const employeeRequestDTO = this.mapToRequestDTO(this.employee);
     if (this.employee.id) {
       this.employeeService.updateEmployee(this.employee.id, employeeRequestDTO).subscribe({
@@ -98,6 +127,9 @@ export class EditorComponent implements OnInit {
           console.error('Error creating employee', error);
         }
       });
+    }
+    } else {
+      console.log('Form invalid --> No handling implemented yet');
     }
   }
 

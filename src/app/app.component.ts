@@ -5,6 +5,7 @@ import {CommonModule} from "@angular/common";
 import {NavbarComponent} from "./navbar/navbar.component";
 import {KeycloakAngularModule} from "keycloak-angular";
 import {EditorComponent} from "./editor/editor.component";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import {EditorComponent} from "./editor/editor.component";
     RouterOutlet,
     NavbarComponent,
     ViewComponent,
+    ReactiveFormsModule,
     EditorComponent,
     KeycloakAngularModule
   ],
