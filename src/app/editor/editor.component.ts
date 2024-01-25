@@ -77,54 +77,23 @@ export class EditorComponent implements OnInit {
           this.editorForm.patchValue({
             ...employee,
             qualifications: this.qualifications.map(qualification =>
-              employee.skillSet.some(skill => skill.id === qualification.id)
+              employee.skillSet.some(q => q.id === qualification.id)
             )
           });
         } else {
-          this.initializeNewEmployeeForm();
+          this.employee = this.editorForm.value; // TODO: is this correct? No obvious errors.
+          this.editorForm.patchValue({
+            id: -1,
+            firstName: '',
+            lastName: '',
+            phone: '',
+            street: '',
+            postcode: '',
+            city: '',
+            qualifications: this.qualifications.map(() => false)
+          });
         }
       });
-    });
-  }
-
-  private loadEmployee(id: number) {
-    this.employeeService.getEmployee(id).subscribe(employee => {
-      if (employee) {
-        this.employee = employee;
-        this.editorForm.patchValue({
-          ...employee,
-          qualifications: this.qualifications.map(qualification =>
-            employee.skillSet.some(skill => skill.id === qualification.id)
-          )
-        });
-      } else {
-        console.error('Employee not found');
-      }
-    });
-  }
-
-  private initializeNewEmployeeForm() {
-    this.editorForm.reset({
-      id: 0,
-      firstName: '',
-      lastName: '',
-      phone: '',
-      street: '',
-      postcode: '',
-      city: '',
-      skillSet: []
-    });
-    this.editorForm.setControl('qualifications', this.fb.array([]));
-    this.employee = this.editorForm.value;
-  }
-
-  private loadQualifications() {
-    this.qualificationService.getQualifications().subscribe(qualifications => {
-      this.qualifications = qualifications;
-      const qualificationsFormArray = this.fb.array(
-        qualifications.map(() => this.fb.control(false))
-      );
-      this.editorForm.setControl('qualifications', qualificationsFormArray);
     });
   }
 
@@ -145,7 +114,7 @@ export class EditorComponent implements OnInit {
   }
 
   onCancel() {
-    this.initializeNewEmployeeForm();
+    // TODO:
   }
 
   private mapToRequestDTO(formValue: any): EmployeeRequestDTO {
