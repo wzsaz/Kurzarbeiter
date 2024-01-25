@@ -8,14 +8,14 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
+  templateUrl: './view.component.html',
   standalone: true,
   imports: [
     CommonModule,
     EditorComponent,
     EmployeesComponent,
   ],
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./view.component.css']
 })
 export class ViewComponent {
   selectedEmployee: Employee | null = null;
