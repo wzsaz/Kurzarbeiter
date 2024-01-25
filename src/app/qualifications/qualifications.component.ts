@@ -51,17 +51,17 @@ export class QualificationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchQualifications();
+    this.updateQualifications();
   }
 
-  fetchQualifications(): void {
+  private updateQualifications(): void {
     this.qualificationService.getQualifications().subscribe(qualifications => {
       console.log('Fetched qualifications:', qualifications)
       this.qualifications = qualifications;
     });
   }
 
-  openDialog(qualification ?: Qualification): void {
+  openEditDialog(qualification ?: Qualification): void {
     const dialogRef = this.dialog.open(AddEditQualificationDialogComponent, {
       data: {
         qualification,
@@ -75,35 +75,23 @@ export class QualificationsComponent implements OnInit {
     }
 
     dialogRef.afterClosed().subscribe(result => {
-      if (validateQualification(result)) {
-        if (qualification) {
-          this.editQualification(qualification, result);
-        } else {
-          this.addQualification(result);
-        }
+      if (!validateQualification(result)) {
+        return;
+      }
+      if (qualification) {
+        this.qualificationService.updateQualification({id: qualification.id, skill: result}).subscribe(() => {
+          this.updateQualifications()
+        });
       } else {
-        console.log('Validation failed! -> Handling not implemented yet');
+        this.addQualification(result);
       }
     });
   }
 
   addQualification(skill: string): void {
-    const newQualification: Partial<Qualification> = {skill: skill};
-    this.qualificationService.createQualification(newQualification).subscribe(qualification => {
+    this.qualificationService.createQualification({skill: skill}).subscribe(qualification => {
       if (qualification) {
-        this.qualifications.push(qualification);
-      }
-    });
-  }
-
-  editQualification(qualification: Qualification, skill: string): void {
-    const updatedQualification: Qualification = {id: qualification.id, skill: skill};
-    this.qualificationService.updateQualification(qualification.id, updatedQualification).subscribe(updated => {
-      if (updated) {
-        const index = this.qualifications.findIndex(q => q.id === updated.id);
-        if (index > -1) {
-          this.qualifications[index] = updated;
-        }
+        this.updateQualifications()
       }
     });
   }
@@ -139,7 +127,7 @@ export class QualificationsComponent implements OnInit {
           zip(employeesWithQualification.map(employee => this.employeeService.removeQualificationFromEmployee(employee.id, qualification.id)))
             .pipe(defaultIfEmpty([]))
             .subscribe(() => {
-              this.qualificationService.deleteQualification(qualification.id).subscribe(() => this.fetchQualifications());
+              this.qualificationService.deleteQualification(qualification.id).subscribe(() => this.updateQualifications());
             });
 
         });
