@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {EmployeeUIState} from "../types";
+import {Employee} from "../types";
 import {EmployeeService} from "../service/employee.service";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
@@ -9,9 +9,11 @@ import {MatChipsModule} from "@angular/material/chips";
 import {FilterComponent} from "../filter/filter.component";
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatListModule} from "@angular/material/list";
 
 @Component({
-  selector: 'app-employeeview',
+  selector: 'app-employees',
   standalone: true,
   imports: [
     NgForOf,
@@ -21,48 +23,56 @@ import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component
     MatIconModule,
     MatChipsModule,
     FilterComponent,
+    NgOptimizedImage,
+    MatExpansionModule,
+    MatListModule,
   ],
-  templateUrl: './employeeview.component.html',
-  styleUrl: './employeeview.component.css'
+  templateUrl: './employees.component.html',
+  styleUrl: './employees.component.css'
 })
-export class EmployeeviewComponent implements OnInit {
-  employees: EmployeeUIState[] = [];
+export class EmployeesComponent implements OnInit {
+  employees: Employee[] = [];
 
-  @Output() edit = new EventEmitter<EmployeeUIState>();
+  @Output() edit = new EventEmitter<Employee>();
 
-  constructor(private employeeService: EmployeeService, public dialog: MatDialog) {
-  } // Inject MatDialog
-
-  ngOnInit(): void {
-    this.employeeService.getEmployees().subscribe(employees => {
-      this.employees = employees.map(employee => ({...employee, showDetails: false, pictureUrl: 'path_to_picture'}));
-    });
+  constructor(
+    private employeeService: EmployeeService,
+    private dialog: MatDialog
+  ) {
   }
 
-  openDeleteDialog(employee: EmployeeUIState): void {
+  ngOnInit(): void {
+    this.updateEmployees()
+  }
+
+  updateEmployees(): void {
+    this.employeeService.getEmployees()
+      .subscribe(employees => {
+        console.log(employees.map(e => e.skillSet))
+        return this.employees = employees;
+      });
+  }
+
+  openDeleteDialog(employee: Employee): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         message: `Are you sure you want to delete ${employee.firstName} ${employee.lastName}?`,
         buttonText: {
-          ok: 'Yes',
-          cancel: 'No'
+          ok: 'Delete',
+          cancel: 'Cancel'
         }
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
         this.onDelete(employee);
       }
     });
   }
 
-  onEdit(employee: EmployeeUIState): void {
+  onEdit(employee: Employee): void {
     this.edit.emit(employee);
-  }
-
-  onDetails(employee: EmployeeUIState): void {
-    employee.showDetails = !employee.showDetails;
   }
 
   onFilterApplied(filterValue: string): void {
@@ -71,9 +81,9 @@ export class EmployeeviewComponent implements OnInit {
     console.log("Filter applied: " + filterValue);
   }
 
-  onDelete(employee: EmployeeUIState): void {
+  onDelete(employee: Employee): void {
     this.employeeService.deleteEmployee(employee.id).subscribe(() => {
-      this.employees = this.employees.filter(e => e.id !== employee.id);
+      this.updateEmployees();
     });
   }
 }

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
-import {EmployeeRequestDTO, EmployeeResponseDTO, QualificationDTO, QualificationUIState,} from "../types";
+import {Employee} from "../types";
 import {FormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -30,6 +30,7 @@ import {QualificationService} from "../service/qualification.service";
   styleUrl: './editor.component.css'
 })
 export class EditorComponent implements OnInit {
+  @Input() employee!: Employee;
   @Input() employee!: EmployeeResponseDTO;
   qualifications: QualificationUIState[] = [];
 

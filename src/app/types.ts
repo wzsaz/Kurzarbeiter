@@ -8,20 +8,20 @@ export interface EmployeeRequestDTO {
   skillSet: number[];
 }
 
-export interface EmployeeResponseDTO {
-  id: number;
+export interface Employee {
+  readonly id: number;
   lastName: string;
   firstName: string;
   street: string;
   postcode: string;
   city: string;
   phone: string;
-  skillSet: QualificationDTO[];
+  skillSet: Qualification[];
 }
 
-export interface QualificationDTO {
+export interface Qualification {
+  readonly id: number;
   skill: string;
-  id: number;
 }
 
 export interface TokenResponseDTO {
@@ -33,13 +33,4 @@ export interface TokenResponseDTO {
   'not-before-policy': number;
   session_state: string;
   scope: string;
-}
-
-export interface EmployeeUIState extends EmployeeResponseDTO {
-  showDetails: boolean;
-  pictureUrl: string;
-}
-
-export interface QualificationUIState extends QualificationDTO {
-  checked: boolean;
 }
