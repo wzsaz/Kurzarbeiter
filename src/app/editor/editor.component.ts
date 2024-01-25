@@ -61,13 +61,13 @@ export class EditorComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      id ? this.loadEmployee(id) : this.initializeNewEmployeeForm();
+      id ? this.loadEmployee(+id) : this.initializeNewEmployeeForm();
     });
     this.loadQualifications();
   }
 
-  private loadEmployee(id: string) {
-    this.employeeService.getEmployee(+id).subscribe(employee => {
+  private loadEmployee(id: number) {
+    this.employeeService.getEmployee(id).subscribe(employee => {
       if (employee) {
         this.employee = employee;
         this.editorForm.patchValue({
@@ -98,14 +98,13 @@ export class EditorComponent implements OnInit {
   }
 
   private loadQualifications() {
-    this.qualificationService.getQualifications().subscribe(
-      qualifications => {
-        this.qualifications = qualifications;
-        const qualificationsFormArray = this.fb.array(
-          qualifications.map(() => this.fb.control(false))
-        );
-        this.editorForm.setControl('qualifications', qualificationsFormArray);
-      });
+    this.qualificationService.getQualifications().subscribe(qualifications => {
+      this.qualifications = qualifications;
+      const qualificationsFormArray = this.fb.array(
+        qualifications.map(() => this.fb.control(false))
+      );
+      this.editorForm.setControl('qualifications', qualificationsFormArray);
+    });
   }
 
   onSave() {
@@ -116,7 +115,7 @@ export class EditorComponent implements OnInit {
         : this.employeeService.createEmployee(employeeRequestDTO);
 
       operation.subscribe({
-        next: response =>     this.router.navigate(['/view']),
+        next: () => this.router.navigate(['/view']),
         error: error => this.displayError(`Error ${this.employee.id ? 'updating' : 'creating'} employee: ${error}`)
       });
     } else {
@@ -125,7 +124,7 @@ export class EditorComponent implements OnInit {
   }
 
   onCancel() {
-    this.editorForm.reset()
+    this.initializeNewEmployeeForm();
   }
 
   private mapToRequestDTO(formValue: any): EmployeeRequestDTO {

@@ -8,7 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import {RouterLink} from "@angular/router";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 import {BaseService} from "../service/base.service";
 
 @Component({
@@ -24,6 +24,7 @@ import {BaseService} from "../service/base.service";
     MatIconModule,
     AsyncPipe,
     RouterLink,
+    RouterLinkActive,
   ]
 })
 export class NavbarComponent {
@@ -39,6 +40,6 @@ export class NavbarComponent {
     );
 
   logout(): void {
-    this.baseService.getKeycloakInstance().logout().then(r => console.log('Logged out!'));
+    this.baseService.getKeycloakInstance().logout().then(() => console.log('Logged out!'));
   }
 }
