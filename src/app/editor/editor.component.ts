@@ -124,6 +124,10 @@ export class EditorComponent implements OnInit {
     }
   }
 
+  onCancel() {
+    // TODO: Implement
+  }
+
   private mapToRequestDTO(formValue: any): EmployeeRequestDTO {
     const selectedQualificationIds = formValue.qualifications
       .map((isSelected: boolean, index: number) => isSelected ? this.qualifications[index].id : null)
