@@ -9,13 +9,8 @@ import {MatChipsModule} from "@angular/material/chips";
 import {FilterComponent} from "../filter/filter.component";
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
-import {
-  MatAccordion,
-  MatExpansionPanel,
-  MatExpansionPanelDescription,
-  MatExpansionPanelTitle
-} from "@angular/material/expansion";
-import {MatDivider} from "@angular/material/divider";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatListModule} from "@angular/material/list";
 
 @Component({
   selector: 'app-employees',
@@ -29,11 +24,8 @@ import {MatDivider} from "@angular/material/divider";
     MatChipsModule,
     FilterComponent,
     NgOptimizedImage,
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelTitle,
-    MatExpansionPanelDescription,
-    MatDivider,
+    MatExpansionModule,
+    MatListModule,
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
