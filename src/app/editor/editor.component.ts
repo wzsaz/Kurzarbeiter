@@ -13,6 +13,7 @@ import {EmployeeService} from "../service/employee.service";
 import {QualificationService} from "../service/qualification.service";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatIconModule} from "@angular/material/icon";
+import {forkJoin, of} from "rxjs";
 
 @Component({
   selector: 'app-editor',
@@ -61,9 +62,29 @@ export class EditorComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      id ? this.loadEmployee(+id) : this.initializeNewEmployeeForm();
+      forkJoin({
+        qualifications: this.qualificationService.getQualifications(),
+        employee: id ? this.employeeService.getEmployee(+id) : of(null)
+      }).subscribe(({ qualifications, employee }) => {
+        this.qualifications = qualifications;
+        const qualificationsFormArray = this.fb.array(
+          qualifications.map(() => this.fb.control(false))
+        );
+        this.editorForm.setControl('qualifications', qualificationsFormArray);
+
+        if (employee) {
+          this.employee = employee;
+          this.editorForm.patchValue({
+            ...employee,
+            qualifications: this.qualifications.map(qualification =>
+              employee.skillSet.some(skill => skill.id === qualification.id)
+            )
+          });
+        } else {
+          this.initializeNewEmployeeForm();
+        }
+      });
     });
-    this.loadQualifications();
   }
 
   private loadEmployee(id: number) {

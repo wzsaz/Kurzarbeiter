@@ -67,9 +67,9 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div formArrayName="qualifications">
-              @for (qualification of qualifications; track qualification.id) {
-                <mat-checkbox [formControlName]="qualification.id">{{ qualification.skill }}</mat-checkbox>
-              }
+              <div *ngFor="let qualification of qualifications; let i = index">
+                <mat-checkbox [formControlName]="i">{{ qualification.skill }}</mat-checkbox>
+              </div>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
