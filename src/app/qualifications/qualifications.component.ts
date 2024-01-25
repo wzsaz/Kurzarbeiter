@@ -10,7 +10,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {QualificationService} from "../service/qualification.service";
 import {MatListModule} from "@angular/material/list";
 import {MatLineModule} from "@angular/material/core";
-import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
@@ -18,8 +17,8 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {CanComponentDeactivate} from "../confirm-dialog/can-deactivate-guard.service";
 import {AddEditQualificationDialogComponent} from "../confirm-dialog/add-confirm-dialog.component";
 import {EmployeeService} from "../service/employee.service";
-import {CustomDialogComponent} from "../confirm-dialog/CustomDialogComponent";
 import {forkJoin} from "rxjs";
+import {CustomDialogComponent} from "../confirm-dialog/custom-dialog.component";
 
 @Component({
   selector: 'app-qualifications',
