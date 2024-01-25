@@ -8,10 +8,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, SlicePipe} from "@angular/common";
 import {EmployeeService} from "../service/employee.service";
 import {QualificationService} from "../service/qualification.service";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-editor',
@@ -26,7 +27,9 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatButtonModule,
     NgIf,
     NgForOf,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule,
+    SlicePipe
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
@@ -42,8 +45,7 @@ export class EditorComponent implements OnInit {
     this.qualificationService.getQualifications().subscribe(qualifications => {
       this.qualifications = qualifications.map((old: Qualification) => ({
         skill: old.skill,
-        id: old.id,
-        checked: false,
+        id: old.id
       }));
     });
     const id = this.route.snapshot.paramMap.get('id');
