@@ -17,6 +17,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatBadgeModule} from "@angular/material/badge";
 import {CanComponentDeactivate} from "../confirm-dialog/can-deactivate-guard.service";
 import {AddEditQualificationDialogComponent} from "../confirm-dialog/add-confirm-dialog.component";
+import {EmployeeService} from "../service/employee.service";
+import {CustomDialogComponent} from "../confirm-dialog/CustomDialogComponent";
 
 @Component({
   selector: 'app-qualifications',
@@ -43,7 +45,7 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
   qualifications: QualificationUIState[] = [];
   originalQualifications: QualificationUIState[] = [];
 
-  constructor(private qualificationService: QualificationService, public dialog: MatDialog) {
+  constructor(private qualificationService: QualificationService, public dialog: MatDialog, private employeeService: EmployeeService) {
   }
 
   hasUnsavedChanges(): boolean {
@@ -111,22 +113,31 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
   }
 
   openDeleteDialog(qualification: QualificationUIState): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        message: `Are you sure you want to delete ${qualification.skill}?`,
-        buttonText: {
-          ok: 'Yes',
-          cancel: 'No'
-        }
-      }
-    });
+    this.employeeService.getEmployees().subscribe(employees => {
+      const employeesWithQualification = employees.filter(employee =>
+        employee.skillSet.some(skill => skill.id === qualification.id)
+      );
 
-    dialogRef.afterClosed().subscribe(confirmed => {
-      if (confirmed) {
-        this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
-          this.fetchQualifications();
-        });
+      let message = `Are you sure you want to delete ${qualification.skill}?`;
+      if (employeesWithQualification.length > 0) {
+        const employeeNames = employeesWithQualification.map(employee => `<li>${employee.firstName} ${employee.lastName}</li>`).join('');
+        message += ` The following employees will lose this qualification: <ul>${employeeNames}</ul>`;
       }
+
+      const dialogRef = this.dialog.open(CustomDialogComponent, {
+        data: {
+          title: 'Delete Qualification',
+          message,
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(confirmed => {
+        if (confirmed) {
+          this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
+            this.fetchQualifications();
+          });
+        }
+      });
     });
   }
 }

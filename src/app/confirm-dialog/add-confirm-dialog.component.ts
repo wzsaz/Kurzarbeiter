@@ -5,6 +5,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
+import {CustomDialogComponent} from "./CustomDialogComponent";
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -26,9 +27,11 @@ import {MatInputModule} from "@angular/material/input";
       </mat-dialog-actions>
   `,
 })
-export class AddEditQualificationDialogComponent {
+export class AddEditQualificationDialogComponent extends CustomDialogComponent {
   qualificationControl = new FormControl('', Validators.required);
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+
+  constructor(@Inject(MAT_DIALOG_DATA) public override data: any) {
+    super(data);
     if (data.qualification) {
       this.qualificationControl.setValue(data.qualification.skill);
     }
