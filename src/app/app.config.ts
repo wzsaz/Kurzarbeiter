@@ -5,7 +5,6 @@ import {routes} from './app.routes';
 import {provideHttpClient} from "@angular/common/http";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
-import {httpInterceptorProviders} from "./service/ApiInterceptor";
 
 const keycloakProvider = [
   {provide: APP_INITIALIZER, useFactory: initializeKeycloak, multi: true, deps: [KeycloakService]},
@@ -16,7 +15,6 @@ export const appConfig: ApplicationConfig = {
     keycloakProvider,
     provideRouter(routes),
     provideHttpClient(),
-    httpInterceptorProviders,
     provideAnimations()
   ]
 };

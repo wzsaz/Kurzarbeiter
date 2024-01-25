@@ -32,8 +32,6 @@ export class AddEditQualificationDialogComponent extends CustomDialogComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public override data: any) {
     super(data);
-    if (data.qualification) {
-      this.qualificationControl.setValue(data.qualification.skill);
-    }
+    this.qualificationControl.setValue(data.qualification?.skill);
   }
 }
