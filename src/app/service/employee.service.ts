@@ -10,43 +10,33 @@ import {BaseService} from "./base.service";
 export class EmployeeService extends BaseService {
   private apiUrl = 'http://127.0.0.1:8089/employees';
 
-  getEmployees(): Observable<Employee[]> {
-    return this.setAuthHeader().pipe(
-      switchMap(headers => {
-        return this.handleRequest(this.http.get<Employee[]>(this.apiUrl, {headers}));
-      })
+  getEmployee(employeeId: number): Observable<Employee> {
+    return this.getAuthHeader().pipe(
+      switchMap(headers => this.handleRequest(this.http.get<Employee>(`${this.apiUrl}/${employeeId}`, {headers})))
     );
   }
 
-  getEmployee(employeeId: number): Observable<Employee> {
-    return this.setAuthHeader().pipe(
-      switchMap(headers => {
-        return this.handleRequest(this.http.get<Employee>(`${this.apiUrl}/${employeeId}`, {headers}));
-      })
+  getEmployees(): Observable<Employee[]> {
+    return this.getAuthHeader().pipe(
+      switchMap(headers => this.handleRequest(this.http.get<Employee[]>(this.apiUrl, {headers})))
     );
   }
 
   createEmployee(employeeData: EmployeeRequestDTO): Observable<Employee> {
-    return this.setAuthHeader().pipe(
-      switchMap(headers => {
-        return this.handleRequest(this.http.post<Employee>(this.apiUrl, employeeData, {headers}));
-      })
+    return this.getAuthHeader().pipe(
+      switchMap(headers => this.handleRequest(this.http.post<Employee>(this.apiUrl, employeeData, {headers})))
     );
   }
 
   updateEmployee(employeeId: number, updatedEmployeeData: EmployeeRequestDTO): Observable<Employee> {
-    return this.setAuthHeader().pipe(
-      switchMap(headers => {
-        return this.handleRequest(this.http.put<Employee>(`${this.apiUrl}/${employeeId}`, updatedEmployeeData, {headers}));
-      })
+    return this.getAuthHeader().pipe(
+      switchMap(headers => this.handleRequest(this.http.put<Employee>(`${this.apiUrl}/${employeeId}`, updatedEmployeeData, {headers})))
     );
   }
 
   deleteEmployee(employeeId: number): Observable<void> {
-    return this.setAuthHeader().pipe(
-      switchMap(headers => {
-        return this.handleRequest(this.http.delete<void>(`${this.apiUrl}/${employeeId}`, {headers}));
-      })
+    return this.getAuthHeader().pipe(
+      switchMap(headers => this.handleRequest(this.http.delete<void>(`${this.apiUrl}/${employeeId}`, {headers})))
     );
   }
 
