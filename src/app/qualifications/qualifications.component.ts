@@ -71,19 +71,26 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
       }
     });
 
+    const validateQualification = (skill: string): boolean => {
+      if (!skill || skill.trim().length === 0) return false;
+      return !this.qualifications.some(q => q.skill === skill);
+    }
+
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (validateQualification(result)) {
         if (qualification) {
           this.editQualification(qualification, result);
         } else {
           this.addQualification(result);
         }
+      } else {
+        console.log('Validation failed! -> Handling not implemented yet');
       }
     });
   }
 
   addQualification(skill: string): void {
-    const newQualification: Partial<QualificationDTO> = { skill };
+    const newQualification: Partial<QualificationDTO> = {skill};
     this.qualificationService.createQualification(newQualification).subscribe(qualification => {
       if (qualification) {
         this.qualifications.push(qualification);
@@ -92,7 +99,7 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
   }
 
   editQualification(qualification: QualificationUIState, skill: string): void {
-    const updatedQualification: QualificationDTO = { id: qualification.id, skill };
+    const updatedQualification: QualificationDTO = {id: qualification.id, skill};
     this.qualificationService.updateQualification(qualification.id, updatedQualification).subscribe(updated => {
       if (updated) {
         const index = this.qualifications.findIndex(q => q.id === updated.id);

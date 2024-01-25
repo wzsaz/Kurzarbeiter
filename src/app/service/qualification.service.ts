@@ -50,10 +50,4 @@ export class QualificationService extends BaseService {
       switchMap(headers => this.handleRequest(this.http.delete<void>(`${this.apiUrl}/${qualificationId}`, {headers})))
     );
   }
-
-  validateQualification(qualification: QualificationUIState, qualifications: QualificationUIState[]): boolean {
-    if (!qualification?.skill) return false;
-    const exists = qualifications.some(q => q.skill === qualification.skill);
-    return !exists;
-  }
 }
