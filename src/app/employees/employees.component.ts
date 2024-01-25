@@ -72,8 +72,8 @@ export class EmployeesComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
         this.onDelete(employee);
       }
     });
