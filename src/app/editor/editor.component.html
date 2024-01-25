@@ -1,17 +1,78 @@
 <!-- src/app/editor/editor.component.html -->
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Editor</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form #employeeForm="ngForm">
-      <mat-form-field>
-        <input matInput [(ngModel)]="employee.firstName" name="firstName" placeholder="First Name">
+<form [formGroup]="editorForm">
+  <mat-card *ngIf="employee">
+    <mat-card-header>
+      <mat-card-title>Editor</mat-card-title>
+    </mat-card-header>
+    <br>
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Vorname</mat-label>
+        <input matInput formControlName="firstName" required>
+        <mat-error *ngIf="editorForm.controls['firstName'].invalid">
+          Bitte einen Vornamen eingeben
+        </mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <input matInput [(ngModel)]="employee.lastName" name="lastName" placeholder="Last Name">
+      <mat-form-field appearance="outline">
+        <mat-label>Nachname</mat-label>
+        <input matInput formControlName="lastName" required>
+        <mat-error *ngIf="editorForm.controls['lastName'].invalid">
+          Bitte einen Nachnamen eingeben
+        </mat-error>
       </mat-form-field>
-      <!-- Add other fields as necessary -->
-    </form>
-  </mat-card-content>
-</mat-card>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Telefonnummer</mat-label>
+        <input matInput formControlName="phone" required>
+        <mat-error *ngIf="editorForm.controls['phone'].invalid">
+          Bitte eine Telefonnummer eingeben
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Adresse</mat-label>
+        <input matInput formControlName="street" required>
+        <mat-error *ngIf="editorForm.controls['street'].invalid">
+          Bitte eine Adresse eingeben
+        </mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>ZIP-Code</mat-label>
+        <input matInput formControlName="postcode" required>
+        <mat-error *ngIf="editorForm.controls['postcode'].invalid">
+          Bitte eine Postleitzahl eingeben
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input matInput formControlName="city" required>
+        <mat-error *ngIf="editorForm.controls['city'].invalid">
+          Bitte eine Stadt eingeben
+        </mat-error>
+      </mat-form-field>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>work</mat-icon>
+              <span>Skills</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div formArrayName="qualifications">
+            <div *ngFor="let qualification of qualifications; let i = index">
+              <mat-checkbox [formControlName]="i">{{ qualification.skill }}</mat-checkbox>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <br>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="onSave()">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</form>
