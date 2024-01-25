@@ -11,6 +11,6 @@ export const routes: Routes = [
   {path: 'view', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'home', component: FilterComponent},
   {path: 'editor/:id', component: EditorComponent, canActivate: [AuthGuard]},
-  {path: 'qualifications', component: QualificationsComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuardService]},
+  {path: 'qualifications', component: QualificationsComponent, canActivate: [AuthGuard]},
   // other routes...
 ];

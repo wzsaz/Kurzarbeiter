@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {forkJoin, Observable} from 'rxjs';
-import {QualificationDTO, QualificationUIState} from '../types';
 import {BaseService} from "./base.service";
 import {switchMap} from "rxjs/operators";
+import {Qualification} from "../types";
 
 @Injectable({
   providedIn: 'root'
@@ -10,35 +10,35 @@ import {switchMap} from "rxjs/operators";
 export class QualificationService extends BaseService {
   private apiUrl = 'http://127.0.0.1:8089/qualifications';
 
-  getQualifications(): Observable<QualificationDTO[]> {
+  getQualifications(): Observable<Qualification[]> {
     return this.setAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.get<QualificationDTO[]>(this.apiUrl, {headers})))
+      switchMap(headers => this.handleRequest(this.http.get<Qualification[]>(this.apiUrl, {headers})))
     );
   }
 
-  getQualification(qualificationId: number): Observable<QualificationDTO> {
+  getQualification(qualificationId: number): Observable<Qualification> {
     return this.setAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.get<QualificationDTO>(`${this.apiUrl}/${qualificationId}`, {headers})))
+      switchMap(headers => this.handleRequest(this.http.get<Qualification>(`${this.apiUrl}/${qualificationId}`, {headers})))
     );
   }
 
-  createQualification(qualificationData: Partial<QualificationDTO>): Observable<QualificationDTO> {
+  createQualification(qualificationData: Partial<Qualification>): Observable<Qualification> {
     return this.setAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.post<QualificationDTO>(this.apiUrl, qualificationData, {headers})))
+      switchMap(headers => this.handleRequest(this.http.post<Qualification>(this.apiUrl, qualificationData, {headers})))
     );
   }
 
-  updateQualification(qualificationId: number, updatedQualificationData: QualificationDTO): Observable<QualificationDTO> {
+  updateQualification(qualificationId: number, updatedQualificationData: Qualification): Observable<Qualification> {
     return this.setAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.put<QualificationDTO>(`${this.apiUrl}/${qualificationId}`, updatedQualificationData, {headers})))
+      switchMap(headers => this.handleRequest(this.http.put<Qualification>(`${this.apiUrl}/${qualificationId}`, updatedQualificationData, {headers})))
     );
   }
 
-  updateQualifications(updatedQualificationsData: QualificationDTO[]): Observable<QualificationDTO[]> {
+  updateQualifications(updatedQualificationsData: Qualification[]): Observable<Qualification[]> {
     return this.setAuthHeader().pipe(
       switchMap(headers => {
         const updateRequests = updatedQualificationsData.map(qualification =>
-          this.http.put<QualificationDTO>(`${this.apiUrl}/${qualification.id}`, qualification, {headers})
+          this.http.put<Qualification>(`${this.apiUrl}/${qualification.id}`, qualification, {headers})
         );
         return this.handleRequest(forkJoin(updateRequests));
       })

@@ -81,7 +81,10 @@ export class EmployeesComponent implements OnInit {
 
   private updateEmployees(): void {
     this.employeeService.getEmployees()
-      .subscribe(employees => this.employees = employees);
+      .subscribe(employees => {
+        console.log(employees.map(e => e.skillSet))
+        return this.employees = employees;
+      });
   }
 
   onEdit(employee: Employee): void {

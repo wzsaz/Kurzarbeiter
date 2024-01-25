@@ -34,6 +34,3 @@ export interface TokenResponseDTO {
   session_state: string;
   scope: string;
 }
-
-export interface QualificationUIState extends Qualification {
-}

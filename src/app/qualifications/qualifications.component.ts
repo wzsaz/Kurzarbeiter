@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {QualificationDTO, QualificationUIState} from "../types";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
@@ -14,11 +13,11 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatBadgeModule} from "@angular/material/badge";
-import {CanComponentDeactivate} from "../confirm-dialog/can-deactivate-guard.service";
 import {AddEditQualificationDialogComponent} from "../confirm-dialog/add-confirm-dialog.component";
 import {EmployeeService} from "../service/employee.service";
-import {forkJoin} from "rxjs";
-import {CustomDialogComponent} from "../confirm-dialog/custom-dialog.component";
+import {forkJoin, Observable} from "rxjs";
+import {Employee, Qualification} from "../types";
+import {CustomDialogComponent} from '../confirm-dialog/custom-dialog.component';
 
 @Component({
   selector: 'app-qualifications',
@@ -41,17 +40,14 @@ import {CustomDialogComponent} from "../confirm-dialog/custom-dialog.component";
   templateUrl: './qualifications.component.html',
   styleUrl: './qualifications.component.css'
 })
-export class QualificationsComponent implements OnInit, CanComponentDeactivate {
-  qualifications: QualificationUIState[] = [];
-  originalQualifications: QualificationUIState[] = [];
+export class QualificationsComponent implements OnInit {
+  qualifications: Qualification[] = [];
 
-  constructor(private qualificationService: QualificationService, public dialog: MatDialog, private employeeService: EmployeeService) {
-  }
-
-  hasUnsavedChanges(): boolean {
-    const qualificationsSkills = this.qualifications.map(q => q.skill);
-    const originalQualificationsSkills = this.originalQualifications.map(q => q.skill);
-    return JSON.stringify(qualificationsSkills) !== JSON.stringify(originalQualificationsSkills);
+  constructor(
+    private qualificationService: QualificationService,
+    private employeeService: EmployeeService,
+    public dialog: MatDialog
+  ) {
   }
 
   ngOnInit(): void {
@@ -61,11 +57,10 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
   fetchQualifications(): void {
     this.qualificationService.getQualifications().subscribe(qualifications => {
       this.qualifications = qualifications;
-      this.originalQualifications = JSON.parse(JSON.stringify(qualifications)); // Deep copy
     });
   }
 
-  openDialog(qualification?: QualificationUIState): void {
+  openDialog(qualification ?: Qualification): void {
     const dialogRef = this.dialog.open(AddEditQualificationDialogComponent, {
       data: {
         qualification,
@@ -92,7 +87,7 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
   }
 
   addQualification(skill: string): void {
-    const newQualification: Partial<QualificationDTO> = {skill};
+    const newQualification: Partial<Qualification> = {skill: skill};
     this.qualificationService.createQualification(newQualification).subscribe(qualification => {
       if (qualification) {
         this.qualifications.push(qualification);
@@ -100,8 +95,8 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
     });
   }
 
-  editQualification(qualification: QualificationUIState, skill: string): void {
-    const updatedQualification: QualificationDTO = {id: qualification.id, skill};
+  editQualification(qualification: Qualification, skill: string): void {
+    const updatedQualification: Qualification = {id: qualification.id, skill: skill};
     this.qualificationService.updateQualification(qualification.id, updatedQualification).subscribe(updated => {
       if (updated) {
         const index = this.qualifications.findIndex(q => q.id === updated.id);
@@ -112,13 +107,15 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
     });
   }
 
-  openDeleteDialog(qualification: QualificationUIState): void {
+  openDeleteDialog(qualification: Qualification): void {
     console.log('openDeleteDialog called with qualification:', qualification);
 
     this.employeeService.getEmployees().subscribe(employees => {
       console.log('Fetched employees:', employees);
-      const employeesWithQualification = employees.filter(employee =>
-        employee.skillSet.some(skill => skill.id === qualification.id)
+      const employeesWithQualification = employees.filter(employee => {
+          console.log(employee);
+          employee.skillSet.some(({id}) => id == qualification.id)
+        }
       );
       console.log('Employees with qualification:', employeesWithQualification);
 
@@ -137,20 +134,20 @@ export class QualificationsComponent implements OnInit, CanComponentDeactivate {
 
       dialogRef.afterClosed().subscribe(confirmed => {
         console.log('Dialog closed, confirmed:', confirmed);
-        if (confirmed) {
-          // Since we already have the employeesWithQualification, consider reusing it instead of fetching again
-          const removeRequests = employeesWithQualification.map(employee =>
-            this.employeeService.removeQualificationFromEmployee(employee.id, qualification.id)
-          );
-
-          forkJoin(removeRequests).subscribe(() => {
-            console.log('Qualifications removed from employees');
-            this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
-              console.log('Qualification deleted:', qualification.id);
-              this.fetchQualifications();
-            });
-          });
+        if (!confirmed) {
+          return;
         }
+
+        const obs: Observable<Employee>[] = employeesWithQualification.map(employee =>
+          this.employeeService.removeQualificationFromEmployee(employee.id, qualification.id)
+        )
+
+        forkJoin(obs).subscribe(() => {
+          this.qualificationService.deleteQualification(qualification.id).subscribe(() => {
+            console.log('Qualification deleted:', qualification.id);
+            this.fetchQualifications();
+          });
+        })
       });
     });
   }
