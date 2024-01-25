@@ -8,60 +8,64 @@ import { TokenResponseDTO } from '../types';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly refreshToken$: Observable<TokenResponseDTO | null>;
+  private readonly refreshToken$: Observable<TokenResponseDTO>;
 
   constructor(private keycloak: KeycloakService) {
     this.refreshToken$ = this.initTokenRefresh();
   }
 
-  getAccessTokenV2(): Observable<TokenResponseDTO | null> {
+  getAccessTokenV2(): Observable<TokenResponseDTO> {
     return this.refreshToken$;
   }
 
-  private initTokenRefresh(): Observable<TokenResponseDTO | null> {
+  private initTokenRefresh(): Observable<TokenResponseDTO> {
     return timer(0, 60000)
       .pipe(
         switchMap(() => this.refreshToken()),
-        tap(token => {
-          if (token) {
-            const date = new Date();
-            date.setMilliseconds(date.getMilliseconds() + token.expires_in);
-            console.log(`Token refreshed, expires at: ${date.toLocaleString()}`);
-          }
-        })
+        tap(token => this.logTokenRefresh(token))
       );
   }
 
-  private refreshToken(): Observable<TokenResponseDTO | null> {
+  private refreshToken(): Observable<TokenResponseDTO> {
     return new Observable<TokenResponseDTO>(observer => {
-      this.keycloak.updateToken(30) // refresh token if it's expired or will expire in the next 30s
-        .then(() => {
-          const keycloakInstance = this.keycloak.getKeycloakInstance();
-          const token = keycloakInstance.token;
-          const tokenParsed = keycloakInstance.tokenParsed;
-
-          if (token && tokenParsed) {
-            observer.next({
-              access_token: token,
-              token_type: "bearer",
-              expires_in: tokenParsed['exp'] ?? 0,
-              refresh_expires_in: tokenParsed['refresh_exp'] ?? 0,
-              refresh_token: keycloakInstance.refreshToken ?? "",
-              'not-before-policy': tokenParsed['nbf'] ?? 0,
-              session_state: keycloakInstance.sessionId ?? "",
-              scope: tokenParsed['scope'] ?? ""
-            });
-            observer.complete();
-          } else {
-            console.error("Token or parsed token is undefined");
-            observer.error("Token or parsed token is undefined");
-          }
-        })
-        .catch(error => {
-          console.error("Error refreshing token: ", error);
-          observer.error(error);
-        });
+      this.keycloak.updateToken(30)
+        .then(() => this.handleTokenRefresh(observer))
+        .catch(error => observer.error(error));
     });
+  }
+
+  private handleTokenRefresh(observer: any) {
+    const keycloakInstance = this.keycloak.getKeycloakInstance();
+    const token = keycloakInstance.token;
+    const tokenParsed = keycloakInstance.tokenParsed;
+
+    if (token && tokenParsed) {
+      observer.next(this.createTokenResponseDTO(token, tokenParsed, keycloakInstance));
+      observer.complete();
+    } else {
+      observer.error("Token or parsed token is undefined");
+    }
+  }
+
+  private createTokenResponseDTO(token: string, tokenParsed: any, keycloakInstance: any): TokenResponseDTO {
+    return {
+      access_token: token,
+      token_type: "bearer",
+      expires_in: tokenParsed['exp'] ?? 0,
+      refresh_expires_in: tokenParsed['refresh_exp'] ?? 0,
+      refresh_token: keycloakInstance.refreshToken ?? "",
+      'not-before-policy': tokenParsed['nbf'] ?? 0,
+      session_state: keycloakInstance.sessionId ?? "",
+      scope: tokenParsed['scope'] ?? ""
+    };
+  }
+
+  private logTokenRefresh(token: TokenResponseDTO) {
+    if (token) {
+      console.log("Token refreshed: ", token);
+    } else {
+      console.error("Token refresh failed");
+    }
   }
 
   logout() {
