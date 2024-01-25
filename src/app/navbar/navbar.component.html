@@ -3,32 +3,30 @@
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'side' : 'side'"
                [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar class="navbar">Menu</mat-toolbar>
+
     <mat-nav-list>
-      <mat-list-item routerLink="/home">
-        <img matListItemAvatar src="./assets/avtr.ico" alt="...">
+
+      <mat-list-item routerLink="/home" routerLinkActive="active-link">
+        <mat-icon>home</mat-icon>
         <h3 matListItemTitle>Home</h3>
-        <p matListItemLine>
-          <span>Test</span>
-          <span class="demo-2"> -- test</span>
-        </p>
       </mat-list-item>
-      <mat-list-item routerLink="/view">
-        <img matListItemAvatar src="./assets/avtr.ico" alt="...">
-        <h3 matListItemTitle>Employees</h3>
-        <p matListItemLine>
-          <span>Employees</span>
-          <span class="demo-2"> -- test</span>
-        </p>
+
+      <mat-list-item routerLink="/view" routerLinkActive="active-link">
+        <mat-icon>people</mat-icon>
+        <h3 matListItemTitle>View</h3>
       </mat-list-item>
-      <mat-list-item routerLink="/qualifications">
-        <img matListItemAvatar src="./assets/avtr.ico" alt="...">
+
+      <mat-list-item routerLink="/qualifications" routerLinkActive="active-link">
+        <mat-icon>school</mat-icon>
         <h3 matListItemTitle>Qualifications</h3>
-        <p matListItemLine>
-          <span>Qualifications</span>
-          <span class="demo-2"> -- test</span>
-        </p>
       </mat-list-item>
+
+      <mat-list-item routerLink="/logout" class="logout-link">
+        <mat-icon>logout</mat-icon>
+        <button mat-button class="logout-link" (click)="logout()">Logout</button>
+      </mat-list-item>
+
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content">

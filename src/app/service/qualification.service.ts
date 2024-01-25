@@ -28,9 +28,9 @@ export class QualificationService extends BaseService {
     );
   }
 
-  updateQualification(qualificationId: number, updatedQualificationData: Qualification): Observable<Qualification> {
+  updateQualification(updated: Qualification): Observable<Qualification> {
     return this.setAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.put<Qualification>(`${this.apiUrl}/${qualificationId}`, updatedQualificationData, {headers})))
+      switchMap(headers => this.handleRequest(this.http.put<Qualification>(`${this.apiUrl}/${updated.id}`, updated, {headers})))
     );
   }
 

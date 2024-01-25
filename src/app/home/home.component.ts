@@ -18,7 +18,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  selectedEmployee: Employee | null = null;
   constructor(private router: Router) { }
 
   onEdit(employee: Employee): void {
