@@ -94,12 +94,10 @@ export class EditorComponent implements OnInit {
     this.qualificationService.getQualifications().subscribe(
       qualifications => {
         this.qualifications = qualifications;
-        const qualificationsFormGroups = qualifications.map(qualification =>
-          this.fb.group({
-            skill: [qualification.skill, Validators.required]
-          })
+        const qualificationsFormArray = this.fb.array(
+          qualifications.map(() => this.fb.control(false))
         );
-        this.editorForm.setControl('qualifications', this.fb.array(qualificationsFormGroups));
+        this.editorForm.setControl('qualifications', qualificationsFormArray);
       });
   }
 
@@ -120,9 +118,13 @@ export class EditorComponent implements OnInit {
   }
 
   private mapToRequestDTO(formValue: any): EmployeeRequestDTO {
+    const selectedQualificationIds = formValue.qualifications
+      .map((isSelected: boolean, index: number) => isSelected ? this.qualifications[index].id : null)
+      .filter((id: number | null) => id !== null);
+
     return {
       ...formValue,
-      skillSet: formValue.qualifications.map((q: { id: number }) => q.id)
+      skillSet: selectedQualificationIds
     };
   }
 
