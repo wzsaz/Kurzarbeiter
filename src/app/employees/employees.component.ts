@@ -11,22 +11,24 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatListModule} from "@angular/material/list";
+import {MatBadgeModule} from "@angular/material/badge";
 
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [
-    NgForOf,
-    NgIf,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatChipsModule,
-    FilterComponent,
-    NgOptimizedImage,
-    MatExpansionModule,
-    MatListModule,
-  ],
+    imports: [
+        NgForOf,
+        NgIf,
+        MatButtonModule,
+        MatCardModule,
+        MatIconModule,
+        MatChipsModule,
+        FilterComponent,
+        NgOptimizedImage,
+        MatExpansionModule,
+        MatListModule,
+        MatBadgeModule,
+    ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
