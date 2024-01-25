@@ -15,6 +15,9 @@ import {
   MatExpansionPanelDescription, MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
+import {MatDivider} from "@angular/material/divider";
+import {MatList, MatListItem} from "@angular/material/list";
+import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 
 @Component({
   selector: 'app-employees',
@@ -34,6 +37,11 @@ import {
     MatExpansionPanelTitle,
     MatExpansionPanelHeader,
     MatExpansionPanel,
+    MatDivider,
+    MatList,
+    MatListItem,
+    MatGridList,
+    MatGridTile,
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
@@ -45,14 +53,12 @@ export class EmployeesComponent implements OnInit {
 
   constructor(
     private employeeService: EmployeeService,
-    public dialog: MatDialog
+    private dialog: MatDialog
   ) {
   }
 
   ngOnInit(): void {
-    this.employeeService.getEmployees().subscribe(employees => {
-      this.employees = employees
-    });
+    this.updateEmployees();
   }
 
   openDeleteDialog(employee: Employee): void {
@@ -60,8 +66,8 @@ export class EmployeesComponent implements OnInit {
       data: {
         message: `Are you sure you want to delete ${employee.firstName} ${employee.lastName}?`,
         buttonText: {
-          ok: 'Yes',
-          cancel: 'No'
+          ok: 'Delete',
+          cancel: 'Cancel'
         }
       }
     });
@@ -71,6 +77,11 @@ export class EmployeesComponent implements OnInit {
         this.onDelete(employee);
       }
     });
+  }
+
+  private updateEmployees(): void {
+    this.employeeService.getEmployees()
+      .subscribe(employees => this.employees = employees);
   }
 
   onEdit(employee: Employee): void {
@@ -84,8 +95,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   onDelete(employee: Employee): void {
-    this.employeeService.deleteEmployee(employee.id).subscribe(() => {
-      this.employees = this.employees.filter(e => e.id !== employee.id);
-    });
+    this.employeeService.deleteEmployee(employee.id)
+      .subscribe(() => this.updateEmployees());
   }
 }
