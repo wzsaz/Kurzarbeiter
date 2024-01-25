@@ -59,80 +59,75 @@ export class EditorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeForm();
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      id ? this.loadEmployee(id) : this.initializeNewEmployeeForm();
+    });
     this.loadQualifications();
   }
 
-  private initializeForm() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.employeeService.getEmployee(+id).subscribe(employee => {
-        if (employee) {
-          this.employee = employee;
-          this.editorForm.patchValue(employee);
-        } else {
-          console.error('Employee not found');
-        }
-      });
-    } else {
-      this.employee = {
-        id: 0,
-        firstName: '',
-        lastName: '',
-        phone: '',
-        street: '',
-        postcode: '',
-        city: '',
-        skillSet: []
-      };
-    }
+  private loadEmployee(id: string) {
+    this.employeeService.getEmployee(+id).subscribe(employee => {
+      if (employee) {
+        this.employee = employee;
+        this.editorForm.patchValue(employee);
+      } else {
+        console.error('Employee not found');
+      }
+    });
+  }
+
+  private initializeNewEmployeeForm() {
+    this.editorForm.reset({
+      id: 0,
+      firstName: '',
+      lastName: '',
+      phone: '',
+      street: '',
+      postcode: '',
+      city: '',
+      skillSet: []
+    });
   }
 
   private loadQualifications() {
-    this.qualificationService.getQualifications().subscribe(qualifications => {
-      this.qualifications = qualifications;
-      const qualificationsFormGroups = qualifications.map(qualification =>
-        this.fb.group({
-          skill: [qualification.skill, Validators.required]
-        })
-      );
-      this.editorForm.setControl('qualifications', this.fb.array(qualificationsFormGroups));
-    });
+    this.qualificationService.getQualifications().subscribe(
+      qualifications => {
+        this.qualifications = qualifications;
+        const qualificationsFormGroups = qualifications.map(qualification =>
+          this.fb.group({
+            skill: [qualification.skill, Validators.required]
+          })
+        );
+        this.editorForm.setControl('qualifications', this.fb.array(qualificationsFormGroups));
+      });
   }
 
   onSave() {
     if (this.editorForm.valid) {
       const employeeRequestDTO = this.mapToRequestDTO(this.editorForm.value);
-      if (this.employee.id) {
-        this.employeeService.updateEmployee(this.employee.id, employeeRequestDTO).subscribe(
-          response => this.handleResponse(response),
-          error => console.error('Error updating employee', error)
-        );
-      } else {
-        this.employeeService.createEmployee(employeeRequestDTO).subscribe(
-          response => this.handleResponse(response),
-          error => console.error('Error creating employee', error)
-        );
-      }
+      const operation = this.employee.id
+        ? this.employeeService.updateEmployee(this.employee.id, employeeRequestDTO)
+        : this.employeeService.createEmployee(employeeRequestDTO);
+
+      operation.subscribe({
+        next: response =>     this.router.navigate(['/view']).then(() => console.log('navigated to view')),
+        error: error => this.displayError(`Error ${this.employee.id ? 'updating' : 'creating'} employee: ${error}`)
+      });
     } else {
-      console.error('Form is invalid');
+      this.displayError('Form is invalid');
     }
   }
 
-  mapToRequestDTO(employee: Employee): EmployeeRequestDTO {
+  private mapToRequestDTO(formValue: any): EmployeeRequestDTO {
     return {
-      lastName: employee.lastName,
-      firstName: employee.firstName,
-      street: employee.street,
-      postcode: employee.postcode,
-      city: employee.city,
-      phone: employee.phone,
-      skillSet: Array.isArray(employee.skillSet) ? employee.skillSet.map(skill => skill.id) : []
+      ...formValue,
+      skillSet: formValue.qualifications.map((q: { id: number }) => q.id)
     };
   }
 
-  private handleResponse(response: any) {
-    console.log('Employee processed', response);
-    this.router.navigate(['/view']).then(() => console.log('navigated to view'));
+  private displayError(message: string) {
+    console.error(message);
+    // Here you could implement a more user-friendly error display, like a toast or a dialog
   }
 }

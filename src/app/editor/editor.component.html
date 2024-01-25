@@ -59,13 +59,9 @@
               <span>Skills</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <div formArrayName="qualifications" *ngFor="let qualification of qualifications; let i = index">
-            <div [formGroupName]="i">
-              <mat-form-field appearance="outline">
-                <mat-label>Skill {{ i + 1 }}</mat-label>
-                <input matInput formControlName="skill" required>
-                <mat-error>Please enter a skill</mat-error>
-              </mat-form-field>
+          <div formArrayName="qualifications">
+            <div *ngFor="let qualification of qualifications; let i = index">
+              <mat-checkbox [formControlName]="i">{{ qualification.skill }}</mat-checkbox>
             </div>
           </div>
         </mat-expansion-panel>
