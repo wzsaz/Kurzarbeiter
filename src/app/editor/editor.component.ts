@@ -93,6 +93,8 @@ export class EditorComponent implements OnInit {
       city: '',
       skillSet: []
     });
+    this.editorForm.setControl('qualifications', this.fb.array([]));
+    this.employee = this.editorForm.value;
   }
 
   private loadQualifications() {
