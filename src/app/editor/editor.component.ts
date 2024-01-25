@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {Employee, EmployeeRequestDTO, Qualification} from "../types";
-import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -116,7 +116,7 @@ export class EditorComponent implements OnInit {
       postcode: employee.postcode,
       city: employee.city,
       phone: employee.phone,
-      skillSet: Array.isArray(employee.skillSet) ? employee.skillSet.map(skill => skill.id) : [], // Check if skillSet is an array before mapping
+      skillSet: Array.isArray(employee.skillSet) ? employee.skillSet.map(skill => skill.id) : []
     };
   }
 
