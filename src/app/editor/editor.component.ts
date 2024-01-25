@@ -74,6 +74,17 @@ export class EditorComponent implements OnInit {
           console.error('Employee not found');
         }
       });
+    } else {
+      this.employee = {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        phone: '',
+        street: '',
+        postcode: '',
+        city: '',
+        skillSet: []
+      };
     }
   }
 
