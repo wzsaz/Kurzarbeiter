@@ -1,0 +1,21 @@
+<div class="qualifications-container">
+  <h3 mat-subheader>Qualifications <span matBadge="{{qualifications.length}}" matBadgeColor="accent"> </span></h3>
+  <mat-card *ngFor="let qualification of qualifications" class="qualification-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-form-field>
+          <input matInput [(ngModel)]="qualification.skill" name="skill">
+        </mat-form-field>
+        <mat-card-actions>
+          <button mat-icon-button (click)="openDialog(qualification)">
+          <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openDeleteDialog(qualification)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <button mat-raised-button color="primary" (click)="openDialog()" class="add-button">Add Qualification</button>
+</div>

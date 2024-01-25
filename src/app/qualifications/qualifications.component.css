@@ -1,0 +1,39 @@
+.qualifications-container {
+  background-color: var(--dark-background-grey);
+  color: var(--text-white);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.qualification-card {
+  background-color: var(--light-background-grey);
+  color: var(--text-white);
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.qualification-card mat-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qualification-card mat-form-field {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.add-button, .save-button {
+  margin-top: 20px;
+  background-color: var(--bright-accent-blue);
+  color: var(--text-white);
+  width: 100%;
+  max-width: 600px;
+}
+
+.add-button {
+  margin-right: 10px;
+}
