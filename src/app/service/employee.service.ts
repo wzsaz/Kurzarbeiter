@@ -41,17 +41,13 @@ export class EmployeeService extends BaseService {
   }
 
   removeQualificationFromEmployee(employeeId: number, qualificationId: number): Observable<Employee> {
-    console.log('removeQualificationFromEmployee called with employeeId, qualificationId:', employeeId, qualificationId);
-
     return this.getEmployee(employeeId).pipe(
       switchMap((employee: Employee) => {
-        console.log('Fetched employee:', employee);
         if (employee) {
           const updatedEmployee: EmployeeRequestDTO = {
             ...employee,
             skillSet: employee.skillSet.filter(({id}) => id !== qualificationId).map(({id}) => id)
           };
-          console.log('Updated employee data:', updatedEmployee);
           return this.updateEmployee(employeeId, updatedEmployee);
         }
         return EMPTY;

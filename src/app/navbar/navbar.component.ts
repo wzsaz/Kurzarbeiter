@@ -39,6 +39,6 @@ export class NavbarComponent {
     );
 
   logout(): void {
-    this.baseService.getKeycloakInstance().logout().then(r => console.log('logged out'));
+    this.baseService.getKeycloakInstance().logout().then(r => console.log('Logged out!'));
   }
 }

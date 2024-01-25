@@ -16,19 +16,19 @@ import {MatBadgeModule} from "@angular/material/badge";
 @Component({
   selector: 'app-employees',
   standalone: true,
-    imports: [
-        NgForOf,
-        NgIf,
-        MatButtonModule,
-        MatCardModule,
-        MatIconModule,
-        MatChipsModule,
-        FilterComponent,
-        NgOptimizedImage,
-        MatExpansionModule,
-        MatListModule,
-        MatBadgeModule,
-    ],
+  imports: [
+    NgForOf,
+    NgIf,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatChipsModule,
+    FilterComponent,
+    NgOptimizedImage,
+    MatExpansionModule,
+    MatListModule,
+    MatBadgeModule,
+  ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
@@ -50,8 +50,7 @@ export class EmployeesComponent implements OnInit {
   updateEmployees(): void {
     this.employeeService.getEmployees()
       .subscribe(employees => {
-        console.log(employees.map(e => e.skillSet))
-        return this.employees = employees;
+        this.employees = employees;
       });
   }
 
