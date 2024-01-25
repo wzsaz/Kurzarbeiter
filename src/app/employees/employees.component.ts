@@ -10,14 +10,12 @@ import {FilterComponent} from "../filter/filter.component";
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 import {
-  MatAccordion, MatExpansionPanel,
-  MatExpansionPanelActionRow,
-  MatExpansionPanelDescription, MatExpansionPanelHeader,
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelDescription,
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {MatDivider} from "@angular/material/divider";
-import {MatList, MatListItem} from "@angular/material/list";
-import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 
 @Component({
   selector: 'app-employees',
@@ -32,16 +30,10 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
     FilterComponent,
     NgOptimizedImage,
     MatAccordion,
-    MatExpansionPanelActionRow,
-    MatExpansionPanelDescription,
-    MatExpansionPanelTitle,
-    MatExpansionPanelHeader,
     MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription,
     MatDivider,
-    MatList,
-    MatListItem,
-    MatGridList,
-    MatGridTile,
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
