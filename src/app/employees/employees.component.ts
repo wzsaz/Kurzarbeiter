@@ -9,15 +9,8 @@ import {MatChipsModule} from "@angular/material/chips";
 import {FilterComponent} from "../filter/filter.component";
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
-import {
-  MatAccordion, MatExpansionPanel,
-  MatExpansionPanelActionRow,
-  MatExpansionPanelDescription, MatExpansionPanelHeader,
-  MatExpansionPanelTitle
-} from "@angular/material/expansion";
-import {MatDivider} from "@angular/material/divider";
-import {MatList, MatListItem} from "@angular/material/list";
-import {MatGridList, MatGridTile} from "@angular/material/grid-list";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatListModule} from "@angular/material/list";
 
 @Component({
   selector: 'app-employees',
@@ -31,17 +24,8 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
     MatChipsModule,
     FilterComponent,
     NgOptimizedImage,
-    MatAccordion,
-    MatExpansionPanelActionRow,
-    MatExpansionPanelDescription,
-    MatExpansionPanelTitle,
-    MatExpansionPanelHeader,
-    MatExpansionPanel,
-    MatDivider,
-    MatList,
-    MatListItem,
-    MatGridList,
-    MatGridTile,
+    MatExpansionModule,
+    MatListModule,
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
@@ -58,7 +42,15 @@ export class EmployeesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateEmployees();
+    this.updateEmployees()
+  }
+
+  updateEmployees(): void {
+    this.employeeService.getEmployees()
+      .subscribe(employees => {
+        console.log(employees.map(e => e.skillSet))
+        return this.employees = employees;
+      });
   }
 
   openDeleteDialog(employee: Employee): void {
@@ -79,11 +71,6 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  private updateEmployees(): void {
-    this.employeeService.getEmployees()
-      .subscribe(employees => this.employees = employees);
-  }
-
   onEdit(employee: Employee): void {
     this.edit.emit(employee);
   }
@@ -95,7 +82,8 @@ export class EmployeesComponent implements OnInit {
   }
 
   onDelete(employee: Employee): void {
-    this.employeeService.deleteEmployee(employee.id)
-      .subscribe(() => this.updateEmployees());
+    this.employeeService.deleteEmployee(employee.id).subscribe(() => {
+      this.updateEmployees();
+    });
   }
 }
