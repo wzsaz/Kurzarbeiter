@@ -9,14 +9,14 @@
       <mat-form-field appearance="outline">
         <mat-label>Vorname</mat-label>
         <input matInput formControlName="firstName" required>
-        <mat-error *ngIf="editorForm.controls.firstName.invalid">
+        <mat-error *ngIf="editorForm.controls['firstName'].invalid">
           Bitte einen Vornamen eingeben
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Nachname</mat-label>
         <input matInput formControlName="lastName" required>
-        <mat-error *ngIf="editorForm.controls.lastName.invalid">
+        <mat-error *ngIf="editorForm.controls['lastName'].invalid">
           Bitte einen Nachnamen eingeben
         </mat-error>
       </mat-form-field>
@@ -24,7 +24,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Telefonnummer</mat-label>
         <input matInput formControlName="phone" required>
-        <mat-error *ngIf="editorForm.controls.phone.invalid">
+        <mat-error *ngIf="editorForm.controls['phone'].invalid">
           Bitte eine Telefonnummer eingeben
         </mat-error>
       </mat-form-field>
@@ -32,7 +32,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Adresse</mat-label>
         <input matInput formControlName="street" required>
-        <mat-error *ngIf="editorForm.controls.street.invalid">
+        <mat-error *ngIf="editorForm.controls['street'].invalid">
           Bitte eine Adresse eingeben
         </mat-error>
       </mat-form-field>
@@ -40,14 +40,14 @@
       <mat-form-field appearance="outline">
         <mat-label>ZIP-Code</mat-label>
         <input matInput formControlName="postcode" required>
-        <mat-error *ngIf="editorForm.controls.postcode.invalid">
+        <mat-error *ngIf="editorForm.controls['postcode'].invalid">
           Bitte eine Postleitzahl eingeben
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>City</mat-label>
         <input matInput formControlName="city" required>
-        <mat-error *ngIf="editorForm.controls.city.invalid">
+        <mat-error *ngIf="editorForm.controls['city'].invalid">
           Bitte eine Stadt eingeben
         </mat-error>
       </mat-form-field>
