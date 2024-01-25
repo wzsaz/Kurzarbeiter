@@ -6,6 +6,7 @@ import {NavbarComponent} from "./navbar/navbar.component";
 import {KeycloakAngularModule} from "keycloak-angular";
 import {EditorComponent} from "./editor/editor.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import {BaseService} from "./service/base.service";
 
 @Component({
   selector: 'app-root',
