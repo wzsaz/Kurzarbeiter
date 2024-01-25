@@ -42,6 +42,10 @@ export class EmployeesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateEmployees()
+  }
+
+  updateEmployees(): void {
     this.employeeService.getEmployees()
       .subscribe(employees => {
         console.log(employees.map(e => e.skillSet))
@@ -78,6 +82,8 @@ export class EmployeesComponent implements OnInit {
   }
 
   onDelete(employee: Employee): void {
-    this.employeeService.deleteEmployee(employee.id)
+    this.employeeService.deleteEmployee(employee.id).subscribe(() => {
+      this.updateEmployees();
+    });
   }
 }
