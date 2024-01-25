@@ -70,7 +70,12 @@ export class EditorComponent implements OnInit {
     this.employeeService.getEmployee(+id).subscribe(employee => {
       if (employee) {
         this.employee = employee;
-        this.editorForm.patchValue(employee);
+        this.editorForm.patchValue({
+          ...employee,
+          qualifications: this.qualifications.map(qualification =>
+            employee.skillSet.some(skill => skill.id === qualification.id)
+          )
+        });
       } else {
         console.error('Employee not found');
       }
