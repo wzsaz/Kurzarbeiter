@@ -1,1 +1,45 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Employee Filter</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-form-field class="filter-field">
+      <input type="text" matInput [formControl]="firstNameFilter" [matAutocomplete]="firstNameAuto" placeholder="Filter by first name">
+      <mat-autocomplete #firstNameAuto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredFirstNameOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="filter-field">
+      <input type="text" matInput [formControl]="lastNameFilter" [matAutocomplete]="lastNameAuto" placeholder="Filter by last name">
+      <mat-autocomplete #lastNameAuto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredLastNameOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="filter-field">
+      <input type="text" matInput [formControl]="cityFilter" [matAutocomplete]="cityAuto" placeholder="Filter by city">
+      <mat-autocomplete #cityAuto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredCityOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="filter-field">
+      <input type="text" matInput [formControl]="phoneFilter" [matAutocomplete]="phoneAuto" placeholder="Filter by phone">
+      <mat-autocomplete #phoneAuto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredPhoneOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>
+
 <app-employees [inputEmployees]="filteredEmployees"></app-employees>
