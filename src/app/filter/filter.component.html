@@ -4,41 +4,67 @@
   </mat-card-header>
 
   <mat-card-content>
+
     <mat-form-field class="filter-field">
-      <input type="text" matInput [formControl]="firstNameFilter" [matAutocomplete]="firstNameAuto" placeholder="Filter by first name">
+      <input type="text" matInput [formControl]="filterForm.controls['firstName']" [matAutocomplete]="firstNameAuto"
+             placeholder="Filter by first name">
       <mat-autocomplete #firstNameAuto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredFirstNameOptions | async" [value]="option">
-          {{option}}
-        </mat-option>
+        @for (option of getFilteredOptions(firstNameOptions, filterForm.value.firstName); track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
       </mat-autocomplete>
     </mat-form-field>
 
     <mat-form-field class="filter-field">
-      <input type="text" matInput [formControl]="lastNameFilter" [matAutocomplete]="lastNameAuto" placeholder="Filter by last name">
+      <input type="text" matInput [formControl]="filterForm.controls['lastName']" [matAutocomplete]="lastNameAuto"
+             placeholder="Filter by last name">
       <mat-autocomplete #lastNameAuto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredLastNameOptions | async" [value]="option">
-          {{option}}
-        </mat-option>
+        @for (option of getFilteredOptions(lastNameOptions, filterForm.value.lastName); track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
       </mat-autocomplete>
     </mat-form-field>
 
     <mat-form-field class="filter-field">
-      <input type="text" matInput [formControl]="cityFilter" [matAutocomplete]="cityAuto" placeholder="Filter by city">
-      <mat-autocomplete #cityAuto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredCityOptions | async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="filter-field">
-      <input type="text" matInput [formControl]="phoneFilter" [matAutocomplete]="phoneAuto" placeholder="Filter by phone">
+      <input type="text" matInput [formControl]="filterForm.controls['phone']" [matAutocomplete]="phoneAuto"
+             placeholder="Filter by phone">
       <mat-autocomplete #phoneAuto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredPhoneOptions | async" [value]="option">
-          {{option}}
-        </mat-option>
+        @for (option of getFilteredOptions(phoneOptions, filterForm.value.phone); track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
       </mat-autocomplete>
     </mat-form-field>
+
+    <mat-form-field class="filter-field">
+      <input type="text" matInput [formControl]="filterForm.controls['street']" [matAutocomplete]="streetAuto"
+             placeholder="Filter by street">
+      <mat-autocomplete #streetAuto="matAutocomplete">
+        @for (option of getFilteredOptions(streetOptions, filterForm.value.street); track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="filter-field">
+      <input type="text" matInput [formControl]="filterForm.controls['city']" [matAutocomplete]="cityAuto"
+             placeholder="Filter by city">
+      <mat-autocomplete #cityAuto="matAutocomplete">
+        @for (option of getFilteredOptions(cityOptions, filterForm.value.city); track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="filter-field">
+      <input type="text" matInput [formControl]="filterForm.controls['postcode']" [matAutocomplete]="postcodeAuto"
+             placeholder="Filter by postcode">
+      <mat-autocomplete #postcodeAuto="matAutocomplete">
+        @for (option of getFilteredOptions(postcodeOptions, filterForm.value.postcode); track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
   </mat-card-content>
 </mat-card>
 
