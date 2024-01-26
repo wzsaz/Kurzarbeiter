@@ -36,14 +36,9 @@ interface Agreements {
       </mat-dialog-actions>
   `,
   styles: [`
-    .cookie-content { /* Styling for the content */
-    }
-
-    .license-agreement { /* Styling for the scrollable area */
-    }
-
-    .agreement-checkboxes { /* Styling for checkboxes */
-    }
+    .cookie-content { /* Styling for the content */}
+    .license-agreement { /* Styling for the scrollable area */}
+    .agreement-checkboxes { /* Styling for checkboxes */}
   `]
 })
 export class ConfirmationSnackbarComponent {
@@ -74,6 +69,5 @@ export class ConfirmationSnackbarComponent {
 
   agree() {
     this.dialogRef.close();
-    // Logic to save agreement state
   }
 }
