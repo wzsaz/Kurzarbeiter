@@ -14,6 +14,7 @@ import {QualificationService} from "../service/qualification.service";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatIconModule} from "@angular/material/icon";
 import {forkJoin, of} from "rxjs";
+import {CanComponentDeactivate} from "../service/can-deactivate-guard.service";
 
 @Component({
   selector: 'app-editor',
@@ -36,7 +37,7 @@ import {forkJoin, of} from "rxjs";
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent implements OnInit, CanComponentDeactivate {
   @Input() employee!: Employee;
   editorForm: FormGroup;
   qualifications: Qualification[] = [];
@@ -121,6 +122,10 @@ export class EditorComponent implements OnInit {
       city: '',
       qualifications: this.qualifications.map(() => false)
     });
+  }
+
+  hasUnsavedChanges(): boolean {
+    return this.editorForm.dirty;
   }
 
   private mapToRequestDTO(formValue: any): EmployeeRequestDTO {
