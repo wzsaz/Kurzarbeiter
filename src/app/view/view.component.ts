@@ -7,7 +7,6 @@ import {EmployeesComponent} from "../employees/employees.component";
 import {Router} from "@angular/router";
 import {FilterComponent} from "../filter/filter.component";
 import {EmployeeService} from "../service/employee.service";
-import {MatCard} from "@angular/material/card";
 
 @Component({
   selector: 'app-home',
@@ -17,8 +16,7 @@ import {MatCard} from "@angular/material/card";
     CommonModule,
     EditorComponent,
     EmployeesComponent,
-    FilterComponent,
-    MatCard,
+    FilterComponent
   ],
   styleUrls: ['./view.component.css']
 })
