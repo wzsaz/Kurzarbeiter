@@ -8,14 +8,7 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Employee} from "../types";
 import {EmployeesComponent} from "../employees/employees.component";
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
-import {MatCheckbox} from "@angular/material/checkbox";
-import {
-  MatAccordion,
-  MatExpansionPanel,
-  MatExpansionPanelDescription,
-  MatExpansionPanelTitle
-} from "@angular/material/expansion";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'app-filter',
@@ -29,16 +22,9 @@ import {
     NgIf,
     EmployeesComponent,
     NgForOf,
-    MatAutocomplete,
-    MatOption,
     AsyncPipe,
     ReactiveFormsModule,
-    MatAutocompleteTrigger,
-    MatCheckbox,
-    MatExpansionPanel,
-    MatExpansionPanelTitle,
-    MatAccordion,
-    MatExpansionPanelDescription
+    MatAutocompleteModule,
   ],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.css']
