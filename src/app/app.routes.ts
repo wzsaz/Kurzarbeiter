@@ -4,13 +4,13 @@ import {FilterComponent} from "./filter/filter.component";
 import {EditorComponent} from "./editor/editor.component";
 import {AuthguardService} from "./service/authguard.service";
 import {QualificationsComponent} from "./qualifications/qualifications.component";
+import {HomeComponent} from "./home/home.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'view', component: ViewComponent, canActivate: [AuthguardService]},
-  {path: 'home', component: FilterComponent},
-  {path: 'editor', component: EditorComponent, canActivate: [AuthguardService]},
-  {path: 'editor/:id', component: EditorComponent, canActivate: [AuthguardService]},
-  {path: 'qualifications', component: QualificationsComponent, canActivate: [AuthguardService]},
-  // other routes...
+  {path: 'home', component: HomeComponent},
+  {path: 'view', component: ViewComponent, /*canActivate: [AuthguardService]*/},
+  {path: 'editor', component: EditorComponent, /*canActivate: [AuthguardService]*/},
+  {path: 'editor/:id', component: EditorComponent, /*canActivate: [AuthguardService]*/},
+  {path: 'qualifications', component: QualificationsComponent, /*canActivate: [AuthguardService]*/},
 ];
