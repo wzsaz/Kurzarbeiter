@@ -62,6 +62,7 @@ export class EditorComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
+
       forkJoin({
         qualifications: this.qualificationService.getQualifications(),
         employee: id ? this.employeeService.getEmployee(+id) : of(null)
@@ -72,33 +73,29 @@ export class EditorComponent implements OnInit {
         );
         this.editorForm.setControl('qualifications', qualificationsFormArray);
 
-        if (employee) {
-          this.employee = employee;
-          this.editorForm.patchValue({
-            ...employee,
-            qualifications: this.qualifications.map(qualification =>
-              employee.skillSet.some(q => q.id === qualification.id)
-            )
-          });
-        } else {
-          this.employee = this.editorForm.value; // TODO: is this correct? No obvious errors.
-          this.editorForm.patchValue({
-            id: -1,
-            firstName: '',
-            lastName: '',
-            phone: '',
-            street: '',
-            postcode: '',
-            city: '',
-            qualifications: this.qualifications.map(() => false)
-          });
-        }
+        this.patchForm(employee);
       });
     });
   }
 
+  private patchForm(employee: Employee | null): void {
+    if (employee) {
+      this.employee = employee;
+      this.editorForm.patchValue({
+        ...employee,
+        qualifications: this.qualifications.map(qualification =>
+          employee.skillSet.some(q => q.id === qualification.id)
+        )
+      });
+    } else {
+      this.onClear();
+    }
+  }
+
   onSave() {
-    if (this.editorForm.valid) {
+    if (!this.editorForm.valid) {
+      this.displayError('Form is invalid');
+    } else {
       const employeeRequestDTO = this.mapToRequestDTO(this.editorForm.value);
       const operation = this.employee.id
         ? this.employeeService.updateEmployee(this.employee.id, employeeRequestDTO)
@@ -108,13 +105,22 @@ export class EditorComponent implements OnInit {
         next: () => this.router.navigate(['/view']),
         error: error => this.displayError(`Error ${this.employee.id ? 'updating' : 'creating'} employee: ${error}`)
       });
-    } else {
-      this.displayError('Form is invalid');
     }
   }
 
-  onCancel() {
-    // TODO:
+  onClear() {
+    this.employee = this.editorForm.value; // TODO: is this correct? No obvious errors.
+
+    this.editorForm.patchValue({
+      id: -1,
+      firstName: '',
+      lastName: '',
+      phone: '',
+      street: '',
+      postcode: '',
+      city: '',
+      qualifications: this.qualifications.map(() => false)
+    });
   }
 
   private mapToRequestDTO(formValue: any): EmployeeRequestDTO {

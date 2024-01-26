@@ -32,7 +32,7 @@ import {Router} from "@angular/router";
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
-export class EmployeesComponent implements OnInit {
+export class EmployeesComponent {
   @Input() inputEmployees: Employee[] = [];
 
   constructor(
@@ -40,9 +40,6 @@ export class EmployeesComponent implements OnInit {
     private router: Router,
     private es: EmployeeService
   ) {
-  }
-
-  ngOnInit(): void {
   }
 
   openDeleteDialog(employee: Employee): void {
@@ -58,7 +55,6 @@ export class EmployeesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        // TODO: this.deleteOutput.emit(employee);
         this.onDeleteView(employee)
       }
     });
@@ -69,8 +65,6 @@ export class EmployeesComponent implements OnInit {
   }
 
   onDeleteView(deletedEmployee: Employee): void {
-    // Handle the deletion of the employee here.
-    // For example, you might want to remove the employee from your local array:
     this.es.deleteEmployee(deletedEmployee.id).subscribe(() => {
       this.inputEmployees = this.inputEmployees.filter(employee => employee.id !== deletedEmployee.id);
     });
