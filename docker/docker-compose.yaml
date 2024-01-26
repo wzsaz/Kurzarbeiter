@@ -21,8 +21,8 @@ services:
 
   backend:
     container_name: employee-management-service
-    #image: berndheidemann/employee-management-service:1.1.1
-    image: berndheidemann/employee-management-service_without_keycloak:1.1
+    image: berndheidemann/employee-management-service:1.1.1
+    #image: berndheidemann/employee-management-service_without_keycloak:1.1
     environment:
       spring.datasource.url: jdbc:postgresql://db:5432/employee_db
       spring.datasource.username: employee
