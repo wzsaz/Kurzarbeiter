@@ -41,6 +41,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
   @Input() employee!: Employee;
   editorForm: FormGroup;
   qualifications: Qualification[] = [];
+  saving: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -97,6 +98,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
     if (!this.editorForm.valid) {
       this.displayError('Form is invalid');
     } else {
+      this.saving = true;
       const employeeRequestDTO = this.mapToRequestDTO(this.editorForm.value);
       const operation = this.employee.id
         ? this.employeeService.updateEmployee(this.employee.id, employeeRequestDTO)
@@ -125,7 +127,11 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
   }
 
   hasUnsavedChanges(): boolean {
-    return this.editorForm.dirty;
+    if (this.saving) {
+      this.saving = false;
+      return false;
+    }
+    return this.editorForm.dirty && !this.editorForm.pristine;
   }
 
   private mapToRequestDTO(formValue: any): EmployeeRequestDTO {
