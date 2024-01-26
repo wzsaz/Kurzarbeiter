@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Employee} from "../types";
 import {EmployeeService} from "../service/employee.service";
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
@@ -12,6 +12,7 @@ import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatListModule} from "@angular/material/list";
 import {MatBadgeModule} from "@angular/material/badge";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-employees',
@@ -23,7 +24,6 @@ import {MatBadgeModule} from "@angular/material/badge";
     MatCardModule,
     MatIconModule,
     MatChipsModule,
-    FilterComponent,
     NgOptimizedImage,
     MatExpansionModule,
     MatListModule,
@@ -33,25 +33,16 @@ import {MatBadgeModule} from "@angular/material/badge";
   styleUrl: './employees.component.css'
 })
 export class EmployeesComponent implements OnInit {
-  employees: Employee[] = [];
-
-  @Output() edit = new EventEmitter<Employee>();
+  @Input() inputEmployees: Employee[] = [];
 
   constructor(
-    private employeeService: EmployeeService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
+    private es: EmployeeService
   ) {
   }
 
   ngOnInit(): void {
-    this.updateEmployees()
-  }
-
-  updateEmployees(): void {
-    this.employeeService.getEmployees()
-      .subscribe(employees => {
-        this.employees = employees;
-      });
   }
 
   openDeleteDialog(employee: Employee): void {
@@ -67,24 +58,22 @@ export class EmployeesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.onDelete(employee);
+        // TODO: this.deleteOutput.emit(employee);
+        this.onDeleteView(employee)
       }
     });
   }
 
   onEdit(employee: Employee): void {
-    this.edit.emit(employee);
+    this.router.navigate(['/editor', employee.id]).then(r => console.log(r));
   }
 
-  onFilterApplied(filterValue: string): void {
-    // Implement your filter logic here.
-    // This might set a filter on your employees array or fetch a new list from your service.
-    console.log("Filter applied: " + filterValue);
-  }
-
-  onDelete(employee: Employee): void {
-    this.employeeService.deleteEmployee(employee.id).subscribe(() => {
-      this.updateEmployees();
+  onDeleteView(deletedEmployee: Employee): void {
+    // Handle the deletion of the employee here.
+    // For example, you might want to remove the employee from your local array:
+    this.es.deleteEmployee(deletedEmployee.id).subscribe(() => {
+      this.inputEmployees = this.inputEmployees.filter(employee => employee.id !== deletedEmployee.id);
     });
   }
+
 }

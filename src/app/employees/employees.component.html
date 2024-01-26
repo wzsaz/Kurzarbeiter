@@ -1,7 +1,7 @@
 <div class="employees-container">
-  <h3 mat-subheader>Employees<span matBadge="{{employees.length}}" matBadgeColor="accent"> </span></h3>
+  <h3 mat-subheader>Employees<span matBadge="{{inputEmployees.length}}" matBadgeColor="accent"> </span></h3>
   <mat-accordion>
-    @for (employee of employees;track employee.id) {
+    @for (employee of inputEmployees; track employee.id) {
       <mat-expansion-panel class="employee-card">
 
         <mat-expansion-panel-header>
@@ -42,7 +42,7 @@
           <mat-card-title>Skills</mat-card-title>
           <mat-card-content>
             <mat-chip-listbox>
-              @for (skill of employee.skillSet;track skill.id) {
+              @for (skill of employee.skillSet; track skill.id) {
                 <mat-chip>{{ skill.skill }}</mat-chip>
               }
             </mat-chip-listbox>

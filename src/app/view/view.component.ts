@@ -1,12 +1,13 @@
 // src/app/home/home.component.ts
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EditorComponent} from "../editor/editor.component";
 import {CommonModule} from "@angular/common";
 import {Employee} from "../types";
 import {EmployeesComponent} from "../employees/employees.component";
 import {Router} from "@angular/router";
 import {FilterComponent} from "../filter/filter.component";
-import {EmployeeSearchComponent} from "../employee-search/employee-search.component";
+import {EmployeeService} from "../service/employee.service";
+import {MatCard} from "@angular/material/card";
 
 @Component({
   selector: 'app-home',
@@ -17,21 +18,25 @@ import {EmployeeSearchComponent} from "../employee-search/employee-search.compon
     EditorComponent,
     EmployeesComponent,
     FilterComponent,
-    EmployeeSearchComponent,
+    MatCard,
   ],
   styleUrls: ['./view.component.css']
 })
-export class ViewComponent {
-  constructor(private router: Router) {
+export class ViewComponent implements OnInit {
+  viewEmployeesOutput: Employee[] = [];
+
+  constructor(
+    private router: Router,
+    private es: EmployeeService
+  ) {
   }
 
-  @Output() filterApplied = new EventEmitter<string>();
-
-  onEdit(employee: Employee): void {
-    this.router.navigate(['/editor', employee.id]).then(r => console.log(r));
+  ngOnInit() {
+    this.es.getEmployees().subscribe(employees => {
+      this.viewEmployeesOutput = employees;
+      console.log("Fetched in view component: ", employees);
+    })
   }
 
-  onFilterApplied($event: string) {
-    this.filterApplied.emit($event);
-  }
+
 }
