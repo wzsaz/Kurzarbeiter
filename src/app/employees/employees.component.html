@@ -1,5 +1,5 @@
 <div class="employees-container">
-  <h3 mat-subheader>Employees<span matBadge="{{inputEmployees.length}}" matBadgeColor="accent"> </span></h3>
+  <h3 mat-subheader>Employees<span matBadge="{{inputEmployees.length}}"> </span></h3>
   <mat-accordion>
     @for (employee of inputEmployees; track employee.id) {
       <mat-expansion-panel class="employee-card">
@@ -13,11 +13,11 @@
         </mat-expansion-panel-header>
 
         <mat-action-row>
-          <button mat-button color="primary" (click)="onEdit(employee)">
+          <button mat-button (click)="onEdit(employee)">
             <mat-icon>edit</mat-icon>
             Edit
           </button>
-          <button mat-button color="warn" (click)="openDeleteDialog(employee)">
+          <button mat-button (click)="openDeleteDialog(employee)">
             <mat-icon>backspace</mat-icon>
             Delete
           </button>

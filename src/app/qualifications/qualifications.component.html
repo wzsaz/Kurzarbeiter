@@ -1,14 +1,12 @@
 <div class="qualifications-container">
-  <h3 mat-subheader>Qualifications <span matBadge="{{qualifications.length}}" matBadgeColor="accent"> </span></h3>
+  <h3 mat-subheader>Qualifications <span matBadge="{{qualifications.length}}"> </span></h3>
 
   <mat-card class="qualification-card">
     @for (qualification of qualifications; track qualification.id) {
 
       <mat-card>
         <mat-card-header>
-          <mat-card-title>
-            {{ qualification.skill }}
-          </mat-card-title>
+          <mat-card-title>{{ qualification.skill }}</mat-card-title>
         </mat-card-header>
         <mat-card-actions>
           <button mat-icon-button (click)="openEditDialog(qualification)">
@@ -21,5 +19,5 @@
       </mat-card>
     }
   </mat-card>
-  <button mat-raised-button color="primary" (click)="openEditDialog()" class="add-button">Add Qualification</button>
+  <button mat-raised-button (click)="openEditDialog()" class="add-button">Add Qualification</button>
 </div>
