@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {ViewComponent} from "./view/view.component";
 import {CommonModule} from "@angular/common";
@@ -6,10 +6,14 @@ import {NavbarComponent} from "./navbar/navbar.component";
 import {KeycloakAngularModule} from "keycloak-angular";
 import {EditorComponent} from "./editor/editor.component";
 import {ReactiveFormsModule} from "@angular/forms";
-import {BaseService} from "./service/base.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {ConfirmationSnackbarComponent} from "./confirm-dialog/confirm-snackbar.component";
-import {MatDialog} from "@angular/material/dialog";
+import {Subscription} from "rxjs";
+import {
+  NgcCookieConsentService,
+  NgcInitializationErrorEvent,
+  NgcInitializingEvent,
+  NgcNoCookieLawEvent,
+  NgcStatusChangeEvent
+} from "ngx-cookieconsent";
 
 @Component({
   selector: 'app-root',
@@ -21,29 +25,82 @@ import {MatDialog} from "@angular/material/dialog";
     ViewComponent,
     ReactiveFormsModule,
     EditorComponent,
-    KeycloakAngularModule
+    KeycloakAngularModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'Kurzarbeiter';
+export class AppComponent implements OnInit, OnDestroy {
 
-  constructor(private dialog: MatDialog) {
-    this.openDialog();
+  //keep refs to subscriptions to be able to unsubscribe later
+  private popupOpenSubscription!: Subscription;
+  private popupCloseSubscription!: Subscription;
+  private initializingSubscription!: Subscription;
+  private initializedSubscription!: Subscription;
+  private initializationErrorSubscription!: Subscription;
+  private statusChangeSubscription!: Subscription;
+  private revokeChoiceSubscription!: Subscription;
+  private noCookieLawSubscription!: Subscription;
+
+  constructor(private ccService: NgcCookieConsentService) {
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(ConfirmationSnackbarComponent, {
-      width: '500px', // Set the width of the dialog
-      disableClose: true // Disable closing the dialog by clicking outside of it
-      // Other dialog options can be set here
-    });
+  ngOnInit() {
+    // subscribe to cookieconsent observables to react to main events
+    this.popupOpenSubscription = this.ccService.popupOpen$.subscribe(
+      () => {
+        // you can use this.ccService.getConfig() to do stuff...
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      // Handle what happens after the dialog is closed
-      console.log(`Dialog result: ${result}`); // You can handle the result of the dialog here
-      // For example, you can navigate to another page, show a message, etc.
-    });
+    this.popupCloseSubscription = this.ccService.popupClose$.subscribe(
+      () => {
+        // you can use this.ccService.getConfig() to do stuff...
+      });
+
+    this.initializingSubscription = this.ccService.initializing$.subscribe(
+      (event: NgcInitializingEvent) => {
+        // the cookieconsent is initilializing... Not yet safe to call methods like `NgcCookieConsentService.hasAnswered()`
+        console.log(`initializing: ${JSON.stringify(event)}`);
+      });
+
+    this.initializedSubscription = this.ccService.initialized$.subscribe(
+      () => {
+        // the cookieconsent has been successfully initialized.
+        // It's now safe to use methods on NgcCookieConsentService that require it, like `hasAnswered()` for eg...
+        console.log(`initialized: ${JSON.stringify(event)}`);
+      });
+
+    this.initializationErrorSubscription = this.ccService.initializationError$.subscribe(
+      (event: NgcInitializationErrorEvent) => {
+        // the cookieconsent has failed to initialize...
+        console.log(`initializationError: ${JSON.stringify(event.error?.message)}`);
+      });
+
+    this.statusChangeSubscription = this.ccService.statusChange$.subscribe(
+      (event: NgcStatusChangeEvent) => {
+        // you can use this.ccService.getConfig() to do stuff...
+      });
+
+    this.revokeChoiceSubscription = this.ccService.revokeChoice$.subscribe(
+      () => {
+        // you can use this.ccService.getConfig() to do stuff...
+      });
+
+    this.noCookieLawSubscription = this.ccService.noCookieLaw$.subscribe(
+      (event: NgcNoCookieLawEvent) => {
+        // you can use this.ccService.getConfig() to do stuff...
+      });
+  }
+
+  ngOnDestroy() {
+    // unsubscribe to cookieconsent observables to prevent memory leaks
+    this.popupOpenSubscription.unsubscribe();
+    this.popupCloseSubscription.unsubscribe();
+    this.initializingSubscription.unsubscribe();
+    this.initializedSubscription.unsubscribe();
+    this.initializationErrorSubscription.unsubscribe();
+    this.statusChangeSubscription.unsubscribe();
+    this.revokeChoiceSubscription.unsubscribe();
+    this.noCookieLawSubscription.unsubscribe();
   }
 }
