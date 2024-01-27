@@ -3,49 +3,48 @@
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'side' : 'side'"
                [opened]="(isHandset$ | async) === false">
-    <mat-toolbar class="navbar">Menu</mat-toolbar>
+    <mat-toolbar class="toolbar">Menu</mat-toolbar>
 
     <mat-nav-list>
-
-      <mat-list-item routerLink="/home" routerLinkActive="active-link">
+      <mat-list-item class="nav-option" routerLink="/home" routerLinkActive="active-link">
         <mat-icon>home</mat-icon>
         <h3 matListItemTitle>Home</h3>
       </mat-list-item>
 
-      <mat-list-item routerLink="/view" routerLinkActive="active-link">
+      <mat-list-item class="nav-option" routerLink="/view" routerLinkActive="active-link">
         <mat-icon>people</mat-icon>
         <h3 matListItemTitle>View</h3>
       </mat-list-item>
 
-      <mat-list-item routerLink="/qualifications" routerLinkActive="active-link">
+      <mat-list-item class="nav-option" routerLink="/qualifications" routerLinkActive="active-link">
         <mat-icon>school</mat-icon>
         <h3 matListItemTitle>Qualifications</h3>
       </mat-list-item>
 
-      <mat-list-item routerLink="/editor" routerLinkActive="active-link">
+      <mat-list-item class="nav-option" routerLink="/editor" routerLinkActive="active-link">
         <mat-icon>edit</mat-icon>
         <h3 matListItemTitle>Editor</h3>
       </mat-list-item>
 
-      <mat-list-item routerLink="/logout" class="logout-link">
+      <mat-list-item class="nav-option" (click)="logout()">
         <mat-icon>logout</mat-icon>
-        <button mat-button class="logout-link" (click)="logout()">Logout</button>
+        <h3 matListItemTitle>Logout</h3>
       </mat-list-item>
-
     </mat-nav-list>
+
   </mat-sidenav>
+
   <mat-sidenav-content class="sidenav-content">
-    <mat-toolbar color="primary">
+    <mat-toolbar>
       <button
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()">
-        <mat-icon aria-label="Side nav toggle icon">-</mat-icon>
+        <mat-icon>construction</mat-icon>
       </button>
       <span>Kurzarbeiter</span>
       <span class="spacer"></span>
-      <button mat-button (click)="logout()">Logout</button>
     </mat-toolbar>
   </mat-sidenav-content>
 </mat-sidenav-container>

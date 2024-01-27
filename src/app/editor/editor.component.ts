@@ -15,6 +15,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatIconModule} from "@angular/material/icon";
 import {forkJoin, of} from "rxjs";
 import {CanComponentDeactivate} from "../service/can-deactivate-guard.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-editor',
@@ -44,6 +45,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
   saving: boolean = false;
 
   constructor(
+    private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
@@ -68,7 +70,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
       forkJoin({
         qualifications: this.qualificationService.getQualifications(),
         employee: id ? this.employeeService.getEmployee(+id) : of(null)
-      }).subscribe(({ qualifications, employee }) => {
+      }).subscribe(({qualifications, employee}) => {
         this.qualifications = qualifications;
         const qualificationsFormArray = this.fb.array(
           qualifications.map(() => this.fb.control(false))
@@ -95,20 +97,25 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
   }
 
   onSave() {
-    if (!this.editorForm.valid) {
+    if (this.editorForm.invalid) {
       this.displayError('Form is invalid');
-    } else {
-      this.saving = true;
-      const employeeRequestDTO = this.mapToRequestDTO(this.editorForm.value);
-      const operation = this.employee.id
-        ? this.employeeService.updateEmployee(this.employee.id, employeeRequestDTO)
-        : this.employeeService.createEmployee(employeeRequestDTO);
-
-      operation.subscribe({
-        next: () => this.router.navigate(['/view']),
-        error: error => this.displayError(`Error ${this.employee.id ? 'updating' : 'creating'} employee: ${error}`)
-      });
+      return;
     }
+    this.saving = true;
+    const employeeRequestDTO = this.mapToRequestDTO(this.editorForm.value);
+    const operation = this.employee.id
+      ? this.employeeService.updateEmployee(this.employee.id, employeeRequestDTO)
+      : this.employeeService.createEmployee(employeeRequestDTO);
+
+    operation.subscribe({
+      next: () => {
+        this.router.navigate(['/view']).then(() => {
+        });
+        // Show the snackbar with the employee's first and last name
+        this.snackBar.open(`${employeeRequestDTO.firstName} ${employeeRequestDTO.lastName} was saved`, 'Close', {duration: 3000});
+      },
+      error: error => this.displayError(`Error ${this.employee.id ? 'updating' : 'creating'} employee: ${error}`)
+    });
   }
 
   onClear() {

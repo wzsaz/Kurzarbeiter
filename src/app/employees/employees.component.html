@@ -1,25 +1,25 @@
 <div class="employees-container">
-  <h3 mat-subheader>Employees<span matBadge="{{inputEmployees.length}}" matBadgeColor="accent"> </span></h3>
+  <h3 mat-subheader>Employees<span matBadge="{{inputEmployees.length}}"> </span></h3>
   <mat-accordion>
-    @for (employee of inputEmployees; track employee.id) {
+    @for (employee of inputEmployees; track employee) {
       <mat-expansion-panel class="employee-card">
 
         <mat-expansion-panel-header>
-          <div mat-card-avatar class="employee-photo-wrapper">
-            <img [src]="'https://i.pravatar.cc/200?img=' + employee.id" alt="">
+          <div mat-card-avatar class="employee-picture">
+            <img [src]="'https://i.pravatar.cc/200?img=' + employee.id" alt="employee-picture">
           </div>
           <mat-panel-title>{{ employee.firstName }} {{ employee.lastName }}</mat-panel-title>
           <mat-panel-description>{{ employee.phone }}</mat-panel-description>
         </mat-expansion-panel-header>
 
         <mat-action-row>
-          <button mat-button color="primary" (click)="onEdit(employee)">
+          <button mat-button (click)="onEdit(employee)">
             <mat-icon>edit</mat-icon>
-            Edit
+            <span>Edit</span>
           </button>
-          <button mat-button color="warn" (click)="openDeleteDialog(employee)">
+          <button mat-button (click)="openDeleteDialog(employee)">
             <mat-icon>backspace</mat-icon>
-            Delete
+            <span>Delete</span>
           </button>
         </mat-action-row>
 
@@ -42,7 +42,7 @@
           <mat-card-title>Skills</mat-card-title>
           <mat-card-content>
             <mat-chip-listbox>
-              @for (skill of employee.skillSet; track skill.id) {
+              @for (skill of employee.skillSet; track skill) {
                 <mat-chip>{{ skill.skill }}</mat-chip>
               }
             </mat-chip-listbox>

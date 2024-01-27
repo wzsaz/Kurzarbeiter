@@ -18,6 +18,7 @@ import {EmployeeService} from "../service/employee.service";
 import {defaultIfEmpty, zip} from "rxjs";
 import {Qualification} from "../types";
 import {CustomDialogComponent} from '../confirm-dialog/custom-dialog.component';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-qualifications',
@@ -46,7 +47,8 @@ export class QualificationsComponent implements OnInit {
   constructor(
     private qualificationService: QualificationService,
     private employeeService: EmployeeService,
-    public dialog: MatDialog
+    private dialog: MatDialog,
+    private snack: MatSnackBar
   ) {
   }
 
@@ -75,22 +77,33 @@ export class QualificationsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (!validateQualification(result)) {
+        // Don't just instantly return but rather show a mat-error
+        this.snack.open(`${result} already exists`, 'Close', {duration: 3000});
         return;
       }
+
       if (qualification) {
-        this.qualificationService.updateQualification({id: qualification.id, skill: result}).subscribe(() => {
-          this.updateQualifications()
-        });
+        this.updateQualification(qualification, result);
       } else {
         this.addQualification(result);
       }
     });
   }
 
-  addQualification(skill: string): void {
+  private updateQualification(old: Qualification, skill: string): void {
+    this.qualificationService.updateQualification({id: old.id, skill: skill}).subscribe(qualification => {
+      if (qualification) {
+        this.updateQualifications()
+        this.snack.open(`${old.skill} renamed to ${qualification.skill}`, 'Ok', {duration: 3000});
+      }
+    });
+  }
+
+  private addQualification(skill: string): void {
     this.qualificationService.createQualification({skill: skill}).subscribe(qualification => {
       if (qualification) {
         this.updateQualifications()
+        this.snack.open(`${qualification.skill} created`, 'Ok', {duration: 3000});
       }
     });
   }
