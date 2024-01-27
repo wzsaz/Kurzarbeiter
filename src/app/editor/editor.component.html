@@ -61,8 +61,8 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <div formArrayName="qualifications">
-            @for (qualification of qualifications; track qualification) {
-              <mat-checkbox [formControlName]="qualifications.indexOf(qualification)">
+            @for (qualification of allQualifications; track qualification) {
+              <mat-checkbox [formControlName]="allQualifications.indexOf(qualification)">
                 {{ qualification.skill }}
               </mat-checkbox>
             }

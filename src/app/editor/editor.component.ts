@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {Employee, EmployeeRequestDTO, Qualification} from "../types";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -39,10 +39,10 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrl: './editor.component.css'
 })
 export class EditorComponent implements OnInit, CanComponentDeactivate {
-  @Input() employee!: Employee;
-  editorForm: FormGroup;
-  qualifications: Qualification[] = [];
-  saving: boolean = false;
+  protected editorForm: FormGroup;
+  allQualifications: Qualification[] = [];
+
+  private saving: boolean = false;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -71,7 +71,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
         qualifications: this.qualificationService.getQualifications(),
         employee: id ? this.employeeService.getEmployee(+id) : of(null)
       }).subscribe(({qualifications, employee}) => {
-        this.qualifications = qualifications;
+        this.allQualifications = qualifications;
         const qualificationsFormArray = this.fb.array(
           qualifications.map(() => this.fb.control(false))
         );
@@ -84,10 +84,9 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
 
   private patchForm(employee: Employee | null): void {
     if (employee) {
-      this.employee = employee;
       this.editorForm.patchValue({
         ...employee,
-        qualifications: this.qualifications.map(qualification =>
+        qualifications: this.allQualifications.map(qualification =>
           employee.skillSet.some(q => q.id === qualification.id)
         )
       });
@@ -103,8 +102,8 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
     }
     this.saving = true;
     const employeeRequestDTO = this.mapToRequestDTO(this.editorForm.value);
-    const operation = this.employee.id
-      ? this.employeeService.updateEmployee(this.employee.id, employeeRequestDTO)
+    const operation = this.editorForm.value.id
+      ? this.employeeService.updateEmployee(this.editorForm.value.id, employeeRequestDTO)
       : this.employeeService.createEmployee(employeeRequestDTO);
 
     operation.subscribe({
@@ -114,13 +113,11 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
         // Show the snackbar with the employee's first and last name
         this.snackBar.open(`${employeeRequestDTO.firstName} ${employeeRequestDTO.lastName} was saved`, 'Close', {duration: 3000});
       },
-      error: error => this.displayError(`Error ${this.employee.id ? 'updating' : 'creating'} employee: ${error}`)
+      error: error => this.displayError(`Error ${this.editorForm.value.id ? 'updating' : 'creating'} employee: ${error}`)
     });
   }
 
   onClear() {
-    this.employee = this.editorForm.value; // TODO: is this correct? No obvious errors.
-
     this.editorForm.patchValue({
       id: -1,
       firstName: '',
@@ -129,7 +126,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
       street: '',
       postcode: '',
       city: '',
-      qualifications: this.qualifications.map(() => false)
+      qualifications: this.allQualifications.map(() => false)
     });
   }
 
@@ -143,7 +140,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
 
   private mapToRequestDTO(formValue: any): EmployeeRequestDTO {
     const selectedQualificationIds = formValue.qualifications
-      .map((isSelected: boolean, index: number) => isSelected ? this.qualifications[index].id : null)
+      .map((isSelected: boolean, index: number) => isSelected ? this.allQualifications[index].id : null)
       .filter((id: number | null) => id !== null);
 
     return {

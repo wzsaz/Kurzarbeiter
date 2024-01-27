@@ -10,8 +10,8 @@ import {CanDeactivateGuardService} from "./service/can-deactivate-guard.service"
 export const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
-  {path: 'view', component: ViewComponent, /*canActivate: [AuthguardService]*/},
-  {path: 'editor', component: EditorComponent, /*canActivate: [AuthguardService],*/ canDeactivate: [CanDeactivateGuardService]},
-  {path: 'editor/:id', component: EditorComponent, /*canActivate: [AuthguardService],*/ canDeactivate: [CanDeactivateGuardService]},
-  {path: 'qualifications', component: QualificationsComponent, /*canActivate: [AuthguardService]*/},
+  {path: 'view', component: ViewComponent, canActivate: [AuthguardService]},
+  {path: 'editor', component: EditorComponent, canActivate: [AuthguardService], canDeactivate: [CanDeactivateGuardService]},
+  {path: 'editor/:id', component: EditorComponent, canActivate: [AuthguardService], canDeactivate: [CanDeactivateGuardService]},
+  {path: 'qualifications', component: QualificationsComponent, canActivate: [AuthguardService]},
 ];
