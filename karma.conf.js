@@ -1,9 +1,9 @@
 config.set({
-  browsers: ['Chrome', 'ChromeHeadlessCustom'],
-  customLaunchers: {
-    ChromeHeadlessCustom: {
+  browsers: ['HeadlessChrome'],
+  customLaunchers:{
+    HeadlessChrome:{
       base: 'ChromeHeadless',
-      flags: ['--no-sandbox', '--disable-gpu']
+      flags: ['--no-sandbox']
     }
-  },
+  }
 });
