@@ -3,7 +3,6 @@
 
   <mat-card class="qualification-card">
     @for (qualification of qualifications; track qualification.id) {
-
       <mat-card>
         <mat-card-header>
           <mat-card-title>{{ qualification.skill }}</mat-card-title>
@@ -18,6 +17,8 @@
         </mat-card-actions>
       </mat-card>
     }
+    <button mat-raised-button (click)="openEditDialog()" class="add-button">Add Qualification</button>
+
   </mat-card>
-  <button mat-raised-button (click)="openEditDialog()" class="add-button">Add Qualification</button>
+
 </div>

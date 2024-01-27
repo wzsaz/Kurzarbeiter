@@ -1,0 +1,8 @@
+.sidenav-container {
+  height: 100%;
+  z-index: 9999; /* Add this line */
+}
+
+.sidenav-content .spacer {
+  flex-grow: 1;
+}
