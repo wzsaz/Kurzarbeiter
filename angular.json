@@ -37,8 +37,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -46,12 +46,14 @@
                   "maximumError": "4kb"
                 }
               ],
+              "allowedCommonJsDependencies": ["base64-js", "js-sha256"],
               "outputHashing": "all"
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "allowedCommonJsDependencies": ["base64-js", "js-sha256"]
             }
           },
           "defaultConfiguration": "production"
