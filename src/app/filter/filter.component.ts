@@ -9,27 +9,25 @@ import {Employee} from "../types";
 import {EmployeesComponent} from "../employees/employees.component";
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {MatBadge} from "@angular/material/badge";
-import {MatListSubheaderCssMatStyler} from "@angular/material/list";
+import {MatListModule} from "@angular/material/list";
 
 @Component({
   selector: 'app-filter',
   standalone: true,
-    imports: [
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-        NgIf,
-        EmployeesComponent,
-        NgForOf,
-        AsyncPipe,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        MatBadge,
-        MatListSubheaderCssMatStyler,
-    ],
+  imports: [
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    NgIf,
+    EmployeesComponent,
+    NgForOf,
+    AsyncPipe,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatListModule
+  ],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.css']
 })

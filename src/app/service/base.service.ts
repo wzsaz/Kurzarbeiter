@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {EMPTY, Observable, of, throwError, switchMap} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {KeycloakService} from 'keycloak-angular';
 import {catchError} from "rxjs/operators";
 
