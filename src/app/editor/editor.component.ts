@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
-import {Employee, EmployeeRequestDTO, Qualification} from "../types";
+import {EmployeeRequestDTO, Qualification} from "../types";
 import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -83,19 +83,15 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
           this.qualificationsFormArray.push(this.fb.control(employeeHasQualification));
         })
 
-        this.patchForm(employee);
+        if (employee) {
+          this.form.patchValue({
+            ...employee
+          });
+        } else {
+          this.onClear();
+        }
       });
     });
-  }
-
-  private patchForm(employee: Employee | null): void {
-    if (employee) {
-      this.form.patchValue({
-        ...employee
-      });
-    } else {
-      this.onClear();
-    }
   }
 
   onSave() {

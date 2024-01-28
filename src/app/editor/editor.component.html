@@ -71,7 +71,7 @@
       </mat-accordion>
       <br>
       <mat-card-actions>
-        <button mat-raised-button (click)="onSave()">
+        <button mat-raised-button (click)="onSave()" [disabled]="form.invalid">
           <mat-icon>save</mat-icon>
           Save
         </button>
