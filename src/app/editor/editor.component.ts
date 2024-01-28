@@ -78,7 +78,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
       }).subscribe(({qualifications, employee}) => {
         this.allQualifications = qualifications;
 
-        qualifications.forEach(q => {
+        this.allQualifications.forEach(q => {
           const employeeHasQualification = employee && employee.skillSet.some(({id}) => id === q.id);
           this.qualificationsFormArray.push(this.fb.control(employeeHasQualification));
         })
@@ -104,8 +104,8 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
       return;
     }
     this.saving = true;
-    const employeeRequestDTO = this.mapToRequestDTO(this.form.value);
 
+    const employeeRequestDTO = this.mapToRequestDTO(this.form.value);
     const id = this.form.value.id;
 
     const operation = id !== -1
@@ -124,16 +124,8 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
   }
 
   onClear() {
-    this.form.patchValue({
-      id: -1,
-      firstName: '',
-      lastName: '',
-      phone: '',
-      street: '',
-      postcode: '',
-      city: '',
-      qualifications: this.qualificationsFormArray.controls.map(() => false)
-    });
+    this.form.reset();
+    this.qualificationsFormArray.controls.forEach(control => control.setValue(false));
   }
 
   hasUnsavedChanges(): boolean {
