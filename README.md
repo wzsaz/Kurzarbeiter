@@ -136,7 +136,10 @@ The project includes a `docker-compose.yaml` file that orchestrates the setup of
 
 Here's a quick look at our application in action:
 
-![Dashboard Screenshot](link-to-screenshot.png)
+![Dashboard Screenshot](/.github/assets/keycloak.png)
+![Dashboard Screenshot](/.github/assets/employees.png)
+![Dashboard Screenshot](/.github/assets/editor.png)
+![Dashboard Screenshot](/.github/assets/filter.png)
 
 ## Contributing
 
