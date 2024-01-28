@@ -41,6 +41,11 @@ export class EmployeesComponent {
   ) {
   }
 
+  randomImage(id: number): string {
+    const mod = id % 70;
+    return 'https://i.pravatar.cc/200?img=' + mod;
+  }
+
   openDeleteDialog(employee: Employee): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
