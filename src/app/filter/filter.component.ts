@@ -91,6 +91,4 @@ export class FilterComponent implements OnChanges, OnInit {
       return firstNameMatch && lastNameMatch && cityMatch && phoneMatch && streetMatch && postcodeMatch;
     });
   }
-
-  protected readonly Object = Object;
 }
