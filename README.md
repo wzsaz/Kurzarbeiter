@@ -19,7 +19,7 @@ This Project is constructed with the latest Angular technologies, ensuring a rob
 
 ## Built With
 
-- [Angular](https://angular.io/)
+- [Angular](https://angular.dev/)
 - [Angular Material](https://material.angular.io/)
 - [RxJS](https://rxjs.dev/)
 - [Keycloak](https://www.keycloak.org/)
@@ -38,7 +38,7 @@ To ensure a smooth setup, make sure you have the following installed:
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/your_username_/kurzarbeiter.git
+   git clone https://github.com/wzsaz/kurzarbeiter.git
    ```
 
 2. Navigate into the project directory and install NPM packages:
@@ -149,7 +149,7 @@ For more detailed instructions, please refer to our [CONTRIBUTING.md](CONTRIBUTI
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/your_username_/kurzarbeiter/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/wzsaz/kurzarbeiter/blob/main/LICENSE) file for details.
 
 ## Acknowledgments
 
