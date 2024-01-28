@@ -78,13 +78,14 @@
       <br>
       <mat-card-actions>
         <button mat-raised-button (click)="onSave()" [disabled]="form.invalid || !form.dirty">
-          @if (editingValidId) {
+          <ng-container *ngIf="editingValidId; else createBlock">
             <mat-icon>compare</mat-icon>
             Update
-          } @else {
+          </ng-container>
+          <ng-template #createBlock>
             <mat-icon>add_box</mat-icon>
             Create
-          }
+          </ng-template>
         </button>
         <button mat-raised-button (click)="onClear()">
           <mat-icon>delete</mat-icon>
