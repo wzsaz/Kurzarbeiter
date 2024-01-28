@@ -1,15 +1,15 @@
-import { Component, inject } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AsyncPipe } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import {Component, inject} from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {AsyncPipe} from '@angular/common';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 import {RouterLink, RouterLinkActive} from "@angular/router";
-import {BaseService} from "../service/base.service";
+import {KeycloakService} from "keycloak-angular";
 
 @Component({
   selector: 'app-navbar',
@@ -30,7 +30,7 @@ import {BaseService} from "../service/base.service";
 export class NavbarComponent {
   private breakpointObserver = inject(BreakpointObserver);
 
-  constructor(private baseService: BaseService) {
+  constructor(private keycloakService: KeycloakService) {
   }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -40,6 +40,6 @@ export class NavbarComponent {
     );
 
   logout(): void {
-    this.baseService.getKeycloakInstance().logout().then(() => console.log('Logged out!'));
+    this.keycloakService.logout().then(() => console.log('Logged out!'));
   }
 }

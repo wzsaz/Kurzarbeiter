@@ -1,47 +1,27 @@
 import {Injectable} from '@angular/core';
-import {forkJoin, Observable, switchMap} from 'rxjs';
-import {BaseService} from "./base.service";
+import {forkJoin, Observable} from 'rxjs';
 import {Qualification} from "../types";
+import {HttpClient} from "@angular/common/http";
 
-@Injectable({
-  providedIn: 'root'
-})
-export class QualificationService extends BaseService {
+@Injectable({providedIn: 'root'})
+export class QualificationService {
   private apiUrl = 'http://127.0.0.1:8089/qualifications';
 
-  getQualifications(): Observable<Qualification[]> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.get<Qualification[]>(this.apiUrl, {headers})))
-    );
-  }
+  constructor(private http: HttpClient) {}
 
-  getQualification(qualificationId: number): Observable<Qualification> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.get<Qualification>(`${this.apiUrl}/${qualificationId}`, {headers})))
-    );
+  getQualifications(): Observable<Qualification[]> {
+    return this.http.get<Qualification[]>(this.apiUrl);
   }
 
   createQualification(qualificationData: Partial<Qualification>): Observable<Qualification> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.post<Qualification>(this.apiUrl, qualificationData, {headers})))
-    );
+    return this.http.post<Qualification>(this.apiUrl, qualificationData);
   }
 
   updateQualification(updated: Qualification): Observable<Qualification> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.put<Qualification>(`${this.apiUrl}/${updated.id}`, updated, {headers})))
-    );
-  }
-
-  updateQualifications(updatedQualificationsData: Qualification[]): Observable<Qualification[]> {
-    return this.handleRequest(forkJoin(updatedQualificationsData.map(qualification =>
-      this.updateQualification(qualification)
-    )));
+    return this.http.put<Qualification>(`${this.apiUrl}/${updated.id}`, updated);
   }
 
   deleteQualification(qualificationId: number): Observable<void> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.delete<void>(`${this.apiUrl}/${qualificationId}`, {headers})))
-    );
+    return this.http.delete<void>(`${this.apiUrl}/${qualificationId}`);
   }
 }

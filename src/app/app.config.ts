@@ -2,14 +2,14 @@ import {APP_INITIALIZER, ApplicationConfig, importProvidersFrom} from '@angular/
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
-import {provideHttpClient} from "@angular/common/http";
+import {provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 import {NgcCookieConsentConfig, provideNgcCookieConsent} from "ngx-cookieconsent";
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
-    domain: 'localhost' // Replace with your domain
+    domain: 'localhost'
   },
   palette: {
     popup: {
@@ -55,7 +55,7 @@ export const appConfig: ApplicationConfig = {
     keycloakProvider,
     provideNgcCookieConsent(cookieConfig),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptorsFromDi()),
     provideAnimations()
   ]
 };
@@ -69,8 +69,9 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
         clientId: 'employee-management-service',
       },
       initOptions: {
-        checkLoginIframe: true,
-        checkLoginIframeInterval: 25
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html'
       }
     })
 }

@@ -2,42 +2,34 @@ import {Injectable} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
 import {Employee, EmployeeRequestDTO} from '../types';
 import {switchMap} from 'rxjs/operators';
-import {BaseService} from "./base.service";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService extends BaseService {
+export class EmployeeService {
   private apiUrl = 'http://127.0.0.1:8089/employees';
 
+  constructor(private http: HttpClient) {}
+
   getEmployee(employeeId: number): Observable<Employee> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.get<Employee>(`${this.apiUrl}/${employeeId}`, {headers})))
-    );
+    return this.http.get<Employee>(`${this.apiUrl}/${employeeId}`);
   }
 
   getEmployees(): Observable<Employee[]> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.get<Employee[]>(this.apiUrl, {headers})))
-    );
+    return this.http.get<Employee[]>(this.apiUrl);
   }
 
   createEmployee(employeeData: EmployeeRequestDTO): Observable<Employee> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.post<Employee>(this.apiUrl, employeeData, {headers})))
-    );
+    return this.http.post<Employee>(this.apiUrl, employeeData);
   }
 
   updateEmployee(employeeId: number, updatedEmployeeData: EmployeeRequestDTO): Observable<Employee> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.put<Employee>(`${this.apiUrl}/${employeeId}`, updatedEmployeeData, {headers})))
-    );
+    return this.http.put<Employee>(`${this.apiUrl}/${employeeId}`, updatedEmployeeData);
   }
 
   deleteEmployee(employeeId: number): Observable<void> {
-    return this.getAuthHeader().pipe(
-      switchMap(headers => this.handleRequest(this.http.delete<void>(`${this.apiUrl}/${employeeId}`, {headers})))
-    );
+    return this.http.delete<void>(`${this.apiUrl}/${employeeId}`);
   }
 
   removeQualificationFromEmployee(employeeId: number, qualificationId: number): Observable<Employee> {
