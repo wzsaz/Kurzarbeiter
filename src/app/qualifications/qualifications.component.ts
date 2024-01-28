@@ -19,6 +19,7 @@ import {defaultIfEmpty, zip} from "rxjs";
 import {Qualification} from "../types";
 import {CustomDialogComponent} from '../confirm-dialog/custom-dialog.component';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 @Component({
   selector: 'app-qualifications',
@@ -37,6 +38,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     FormsModule,
     MatInputModule,
     MatBadgeModule,
+    FlexLayoutModule,
   ],
   templateUrl: './qualifications.component.html',
   styleUrl: './qualifications.component.scss'
