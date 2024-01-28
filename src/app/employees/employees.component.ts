@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Employee} from "../types";
 import {EmployeeService} from "../service/employee.service";
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
@@ -6,7 +6,6 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {MatChipsModule} from "@angular/material/chips";
-import {FilterComponent} from "../filter/filter.component";
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 import {MatExpansionModule} from "@angular/material/expansion";
