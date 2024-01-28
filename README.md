@@ -38,14 +38,14 @@ To ensure a smooth setup, make sure you have the following installed:
 
 1. Clone the repository:
 
-   ```sh
+   ```bash
    git clone https://github.com/wzsaz/kurzarbeiter.git
    ```
 
-2. Navigate into the project directory and install NPM packages:
+2. **Navigate into the project directory (`cd kurzarbeiter`)** and install NPM packages:
 
-   ```sh
-   cd kurzarbeiter && npm install
+    ```bash
+   npm install
    ```
 
 ## IntelliJ IDEA Run Configurations
@@ -90,17 +90,15 @@ The project includes a `docker-compose.yaml` file that orchestrates the setup of
 
 #### Running with Docker Compose (Backend + DB + Frontend for Development)
 
-1. To start the backend and database services without building the frontend for production navigate into the docker folder and run the following command in your terminal:
+1. To start the backend and database services without building the frontend for production **navigate into the docker folder (`cd docker`)** and run the following command in your terminal:
 
    ```bash
-   cd docker
    docker-compose up -d db backend
    ```
 
-2. For frontend development, you can run the Angular CLI development server to benefit from live reloading and faster build times. Either use the IntelliJ configuration named "Angular CLI Server" or run the following command in your terminal, after navigating back into the root folder:
+2. For frontend development, you can run the Angular CLI development server to benefit from live reloading and faster build times. Either use the IntelliJ configuration named "Angular CLI Server" or run the following command in your terminal, after **navigating back into the root folder (`cd ..`)**:
 
    ```bash
-   cd ..
    npm start
    ```
 
@@ -115,21 +113,19 @@ The project includes a `docker-compose.yaml` file that orchestrates the setup of
 
 #### Running with Docker Compose (All Services)
 
-1. To build and run the entire stack, including the frontend built for production, navigate into the docker folder and use the following command:
+To build and run the entire stack, including the frontend built for production, **navigate into the docker folder (`cd docker`)** and use the following command:
 
-   ```bash
-   cd docker
-   docker-compose up -d
-   ```
+```bash
+docker-compose up -d
+```
 
-   Before running this command for updates, ensure to rebuild the Docker image if there have been changes to the frontend code. You can do this by running:
+If there have been updates to the frontend, ensure to rebuild its Docker image to incorporate these changes. To do so, run the following command and then **restart the services (`docker-compose up -d`)**:
 
-   ```bash
-   docker-compose build frontend
-   docker-compose up -d
-   ```
+```bash
+docker-compose build frontend
+```
 
-2. To ensure that any updates to your frontend are reflected in the Docker container, you must rebuild the frontend image and restart the services. This ensures your production build includes the latest changes.
+This approach rebuilds the frontend image and restarts the services, guaranteeing that the Docker containers utilize the latest application version. You can also use the `--no-deps` flag to rebuild the frontend image without restarting the other services.
 
 #### Using IntelliJ Configurations for Production
 
