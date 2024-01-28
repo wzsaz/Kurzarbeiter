@@ -90,16 +90,18 @@ The project includes a `docker-compose.yaml` file that orchestrates the setup of
 
 #### Running with Docker Compose (Backend + DB + Frontend for Development)
 
-1. To start the backend and database services without building the frontend for production, run the following command in your terminal:
+1. To start the backend and database services without building the frontend for production navigate into the docker folder and run the following command in your terminal:
 
    ```bash
+   cd docker
    docker-compose up -d db backend
    ```
 
-2. For frontend development, you can run the Angular CLI development server to benefit from live reloading and faster build times. Either use the IntelliJ configuration named "Angular CLI Server" or run the following command in your terminal:
+2. For frontend development, you can run the Angular CLI development server to benefit from live reloading and faster build times. Either use the IntelliJ configuration named "Angular CLI Server" or run the following command in your terminal, after navigating back into the root folder:
 
    ```bash
-   ng serve
+   cd ..
+   npm start
    ```
 
    This will start the development server on `http://localhost:4200/`, and your application will automatically reload if you change any of the source files.
@@ -113,9 +115,10 @@ The project includes a `docker-compose.yaml` file that orchestrates the setup of
 
 #### Running with Docker Compose (All Services)
 
-1. To build and run the entire stack, including the frontend built for production, use the following command:
+1. To build and run the entire stack, including the frontend built for production, navigate into the docker folder and use the following command:
 
    ```bash
+   cd docker
    docker-compose up -d
    ```
 
