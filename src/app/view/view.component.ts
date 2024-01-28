@@ -4,7 +4,6 @@ import {EditorComponent} from "../editor/editor.component";
 import {CommonModule} from "@angular/common";
 import {Employee} from "../types";
 import {EmployeesComponent} from "../employees/employees.component";
-import {Router} from "@angular/router";
 import {FilterComponent} from "../filter/filter.component";
 import {EmployeeService} from "../service/employee.service";
 
@@ -24,7 +23,6 @@ export class ViewComponent implements OnInit {
   viewEmployeesOutput: Employee[] = [];
 
   constructor(
-    private router: Router,
     private es: EmployeeService
   ) {
   }
@@ -35,6 +33,5 @@ export class ViewComponent implements OnInit {
       console.log("Fetched in view component: ", employees);
     })
   }
-
 
 }

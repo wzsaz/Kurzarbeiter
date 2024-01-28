@@ -32,7 +32,7 @@
         <mat-label>Phone number</mat-label>
         <input matInput formControlName="phone" required>
         @if (form.controls['phone'].invalid) {
-          <mat-error>Please enter a phone number</mat-error>
+          <mat-error>Does not match E.164 format</mat-error>
         }
       </mat-form-field>
       <br>
