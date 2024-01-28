@@ -70,6 +70,10 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
     });
   }
 
+  get editingValidId(): boolean {
+    return typeof this.form.value.id === 'number' && this.form.value.id !== this.INVALID_ID;
+  }
+
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');

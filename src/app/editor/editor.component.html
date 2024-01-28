@@ -3,7 +3,13 @@
 
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Editor</mat-card-title>
+      <mat-card-title>
+        @if (editingValidId) {
+          Editing existing employee
+        } @else {
+          Creating new employee
+        }
+      </mat-card-title>
     </mat-card-header>
     <br>
     <mat-card-content>
@@ -72,12 +78,17 @@
       <br>
       <mat-card-actions>
         <button mat-raised-button (click)="onSave()" [disabled]="form.invalid">
-          <mat-icon>save</mat-icon>
-          Save
+          @if (editingValidId) {
+            <mat-icon>compare</mat-icon>
+            Update
+          } @else {
+            <mat-icon>add_box</mat-icon>
+            Create
+          }
         </button>
         <button mat-raised-button (click)="onClear()">
           <mat-icon>delete</mat-icon>
-          Clear
+          <span>Clear</span>
         </button>
       </mat-card-actions>
     </mat-card-content>
