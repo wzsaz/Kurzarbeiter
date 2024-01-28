@@ -6,7 +6,16 @@
 
 ## About The Project
 
-Kurzarbeiter is an Angular-based web application designed to streamline [short description of what your project does]. This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3, leveraging the latest web technologies to deliver a high-quality user experience.
+Kurzarbeiter emerges as a pivotal solution designed to enrich the backoffice operations of organizations by providing a sophisticated, Angular-based frontend to the Employee Management Service (EMS). This initiative is aimed at encapsulating a wide array of functionalities into a single, cohesive web application that anticipates future expansion into mobile platforms.
+
+### Core Objectives:
+
+- **Unified Interface**: Develop a central hub for accessing and managing employee data and project assignments, leveraging the EMS's comprehensive API endpoints (https://employee.szut.dev/swagger).
+- **Advanced Data Management**: Implement advanced filtering capabilities to streamline the visualization and handling of employee information and qualifications, enhancing decision-making processes.
+- **Seamless Authentication**: Integrate with Keycloak's Single Sign-On (SSO) service to provide secure, seamless access across multiple backoffice applications, bolstering the infrastructure's security and usability.
+- **Design and Usability**: Tasked with designing the frontend from the ground up, the project underscores the importance of a user-centric approach, focusing on intuitive navigation and responsiveness to accommodate diverse operational needs.
+
+This Project is constructed with the latest Angular technologies, ensuring a robust, maintainable, and scalable solution. It represents a forward-thinking approach to addressing the dynamic requirements of modern backoffice operations, setting a foundation for future enhancements and cross-platform accessibility.
 
 ## Built With
 
