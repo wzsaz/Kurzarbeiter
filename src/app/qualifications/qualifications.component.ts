@@ -78,7 +78,9 @@ export class QualificationsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (!validateQualification(result)) {
         // Don't just instantly return but rather show a mat-error
-        this.snack.open(`${result} already exists`, 'Close', {duration: 3000});
+        if (result) {
+          this.snack.open(`${result} already exists`, 'Close', {duration: 3000});
+        }
         return;
       }
 

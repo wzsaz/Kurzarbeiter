@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
-import {Employee, EmployeeRequestDTO, Qualification} from "../types";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {EmployeeRequestDTO, Qualification} from "../types";
+import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -39,10 +39,16 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrl: './editor.component.css'
 })
 export class EditorComponent implements OnInit, CanComponentDeactivate {
-  @Input() employee!: Employee;
-  editorForm: FormGroup;
-  qualifications: Qualification[] = [];
-  saving: boolean = false;
+  protected form: FormGroup;
+  protected allQualifications: Qualification[] = [];
+
+  private INVALID_ID: number = -1;
+
+  private saving: boolean = false;
+
+  protected get qualificationsFormArray() {
+    return this.form.controls['qualifications'] as FormArray;
+  }
 
   constructor(
     private snackBar: MatSnackBar,
@@ -52,7 +58,8 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
     private employeeService: EmployeeService,
     private qualificationService: QualificationService
   ) {
-    this.editorForm = this.fb.group({
+    this.form = this.fb.group({
+      id: [this.INVALID_ID],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern('^\\+?[1-9]\\d{1,14}$')]], // E.164 phone number pattern
@@ -63,6 +70,10 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
     });
   }
 
+  get editingValidId(): boolean {
+    return typeof this.form.value.id === 'number' && this.form.value.id !== this.INVALID_ID;
+  }
+
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -71,40 +82,36 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
         qualifications: this.qualificationService.getQualifications(),
         employee: id ? this.employeeService.getEmployee(+id) : of(null)
       }).subscribe(({qualifications, employee}) => {
-        this.qualifications = qualifications;
-        const qualificationsFormArray = this.fb.array(
-          qualifications.map(() => this.fb.control(false))
-        );
-        this.editorForm.setControl('qualifications', qualificationsFormArray);
+        this.allQualifications = qualifications;
 
-        this.patchForm(employee);
+        this.allQualifications.forEach(q => {
+          const employeeHasQualification = employee && employee.skillSet.some(({id}) => id === q.id);
+          this.qualificationsFormArray.push(this.fb.control(employeeHasQualification));
+        })
+
+        if (employee) {
+          this.form.patchValue({
+            ...employee
+          });
+        } else {
+          this.onClear();
+        }
       });
     });
   }
 
-  private patchForm(employee: Employee | null): void {
-    if (employee) {
-      this.employee = employee;
-      this.editorForm.patchValue({
-        ...employee,
-        qualifications: this.qualifications.map(qualification =>
-          employee.skillSet.some(q => q.id === qualification.id)
-        )
-      });
-    } else {
-      this.onClear();
-    }
-  }
-
   onSave() {
-    if (this.editorForm.invalid) {
-      this.displayError('Form is invalid');
+    if (this.form.invalid) {
+      console.error('Form is invalid');
       return;
     }
     this.saving = true;
-    const employeeRequestDTO = this.mapToRequestDTO(this.editorForm.value);
-    const operation = this.employee.id
-      ? this.employeeService.updateEmployee(this.employee.id, employeeRequestDTO)
+
+    const employeeRequestDTO = this.mapToRequestDTO(this.form.value);
+    const id = this.form.value.id;
+
+    const operation = id !== this.INVALID_ID
+      ? this.employeeService.updateEmployee(id, employeeRequestDTO)
       : this.employeeService.createEmployee(employeeRequestDTO);
 
     operation.subscribe({
@@ -114,23 +121,16 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
         // Show the snackbar with the employee's first and last name
         this.snackBar.open(`${employeeRequestDTO.firstName} ${employeeRequestDTO.lastName} was saved`, 'Close', {duration: 3000});
       },
-      error: error => this.displayError(`Error ${this.employee.id ? 'updating' : 'creating'} employee: ${error}`)
+      error: error => console.error(`Error ${this.form.value.id ? 'updating' : 'creating'} employee: ${error}`)
     });
   }
 
   onClear() {
-    this.employee = this.editorForm.value; // TODO: is this correct? No obvious errors.
-
-    this.editorForm.patchValue({
-      id: -1,
-      firstName: '',
-      lastName: '',
-      phone: '',
-      street: '',
-      postcode: '',
-      city: '',
-      qualifications: this.qualifications.map(() => false)
+    const id = this.form.value.id;
+    this.form.reset({
+      id: this.fb.control(id),
     });
+    this.qualificationsFormArray.controls.forEach(control => control.setValue(false));
   }
 
   hasUnsavedChanges(): boolean {
@@ -138,22 +138,23 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
       this.saving = false;
       return false;
     }
-    return this.editorForm.dirty && !this.editorForm.pristine;
+    return this.form.dirty && !this.form.pristine;
   }
 
   private mapToRequestDTO(formValue: any): EmployeeRequestDTO {
-    const selectedQualificationIds = formValue.qualifications
-      .map((isSelected: boolean, index: number) => isSelected ? this.qualifications[index].id : null)
-      .filter((id: number | null) => id !== null);
+    // @ts-ignore
+    const selectedQualificationIds: number[] = this.qualificationsFormArray.controls
+      .map((control, index) => control.value ? this.allQualifications[index].id : null)
+      .filter(id => id !== null);
 
     return {
-      ...formValue,
+      firstName: formValue.firstName,
+      lastName: formValue.lastName,
+      phone: formValue.phone,
+      street: formValue.street,
+      postcode: formValue.postcode,
+      city: formValue.city,
       skillSet: selectedQualificationIds
     };
-  }
-
-  private displayError(message: string) {
-    console.error(message);
-    // Here you could implement a more user-friendly error display, like a toast or a dialog
   }
 }

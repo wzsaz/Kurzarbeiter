@@ -1,23 +1,29 @@
 <!-- src/app/editor/editor.component.html -->
-<form [formGroup]="editorForm">
+<form [formGroup]="form">
 
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Editor</mat-card-title>
+      <mat-card-title>
+        @if (editingValidId) {
+          Editing existing employee
+        } @else {
+          Creating new employee
+        }
+      </mat-card-title>
     </mat-card-header>
     <br>
     <mat-card-content>
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
         <input matInput formControlName="firstName" required>
-        @if (editorForm.controls['firstName'].invalid) {
+        @if (form.controls['firstName'].invalid) {
           <mat-error>Please enter a name</mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Surname</mat-label>
         <input matInput formControlName="lastName" required>
-        @if (editorForm.controls['lastName'].invalid) {
+        @if (form.controls['lastName'].invalid) {
           <mat-error>Please enter a surname</mat-error>
         }
       </mat-form-field>
@@ -25,7 +31,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Phone number</mat-label>
         <input matInput formControlName="phone" required>
-        @if (editorForm.controls['phone'].invalid) {
+        @if (form.controls['phone'].invalid) {
           <mat-error>Please enter a phone number</mat-error>
         }
       </mat-form-field>
@@ -33,7 +39,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Street</mat-label>
         <input matInput formControlName="street" required>
-        @if (editorForm.controls['street'].invalid) {
+        @if (form.controls['street'].invalid) {
           <mat-error>Please enter a street</mat-error>
         }
       </mat-form-field>
@@ -41,14 +47,14 @@
       <mat-form-field appearance="outline">
         <mat-label>Postcode</mat-label>
         <input matInput formControlName="postcode" required>
-        @if (editorForm.controls['postcode'].invalid) {
+        @if (form.controls['postcode'].invalid) {
           <mat-error>Please enter a postcode</mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>City</mat-label>
         <input matInput formControlName="city" required>
-        @if (editorForm.controls['city'].invalid) {
+        @if (form.controls['city'].invalid) {
           <mat-error>Please enter a city</mat-error>
         }
       </mat-form-field>
@@ -60,24 +66,29 @@
               <span>Skills</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <div formArrayName="qualifications">
-            @for (qualification of qualifications; track qualification) {
-              <mat-checkbox [formControlName]="qualifications.indexOf(qualification)">
-                {{ qualification.skill }}
+          <label formArrayName="qualifications">
+            @for (q of qualificationsFormArray.controls; track $index) {
+              <mat-checkbox [formControlName]="$index">
+                {{ allQualifications[$index].skill }}
               </mat-checkbox>
             }
-          </div>
+          </label>
         </mat-expansion-panel>
       </mat-accordion>
       <br>
       <mat-card-actions>
-        <button mat-raised-button (click)="onSave()">
-          <mat-icon>save</mat-icon>
-          Save
+        <button mat-raised-button (click)="onSave()" [disabled]="form.invalid">
+          @if (editingValidId) {
+            <mat-icon>compare</mat-icon>
+            Update
+          } @else {
+            <mat-icon>add_box</mat-icon>
+            Create
+          }
         </button>
         <button mat-raised-button (click)="onClear()">
           <mat-icon>delete</mat-icon>
-          Clear
+          <span>Clear</span>
         </button>
       </mat-card-actions>
     </mat-card-content>
