@@ -6,7 +6,7 @@
 
         <mat-expansion-panel-header>
           <div mat-card-avatar class="employee-picture">
-            <img [src]="'https://i.pravatar.cc/200?img=' + employee.id" alt="employee-picture">
+            <img [src]=randomImage(employee.id) alt="employee-picture">
           </div>
           <mat-panel-title>{{ employee.firstName }} {{ employee.lastName }}</mat-panel-title>
           <mat-panel-description>{{ employee.phone }}</mat-panel-description>
