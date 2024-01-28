@@ -1,6 +1,6 @@
 # Kurzarbeiter
 
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
+[![Build and Test](https://github.com/wzsaz/Kurzarbeiter/actions/workflows/pipeline-build-test.yml/badge.svg)](https://github.com/wzsaz/Kurzarbeiter/actions/workflows/pipeline-build-test.yml)
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
