@@ -5,31 +5,34 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {Employee} from "../types";
+import {Employee, Qualification} from "../types";
 import {EmployeesComponent} from "../employees/employees.component";
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatBadge} from "@angular/material/badge";
 import {MatListSubheaderCssMatStyler} from "@angular/material/list";
+import {MatCheckbox} from "@angular/material/checkbox";
+import {QualificationService} from "../service/qualification.service";
 
 @Component({
   selector: 'app-filter',
   standalone: true,
-    imports: [
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-        NgIf,
-        EmployeesComponent,
-        NgForOf,
-        AsyncPipe,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        MatBadge,
-        MatListSubheaderCssMatStyler,
-    ],
+  imports: [
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    NgIf,
+    EmployeesComponent,
+    NgForOf,
+    AsyncPipe,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatBadge,
+    MatListSubheaderCssMatStyler,
+    MatCheckbox,
+  ],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.css']
 })
@@ -37,15 +40,8 @@ export class FilterComponent implements OnChanges, OnInit {
   @Input() employeesToFilter: Employee[] = [];
   filteredEmployees: Employee[] = [];
 
-  filterForm = new FormGroup({
-    id: new FormControl(),
-    firstName: new FormControl(),
-    lastName: new FormControl(),
-    city: new FormControl(),
-    phone: new FormControl(),
-    street: new FormControl(),
-    postcode: new FormControl(),
-  });
+  protected form: FormGroup;
+  protected allQualifications: Qualification[] = [];
 
   firstNameOptions: string[] = [];
   lastNameOptions: string[] = [];
@@ -53,6 +49,25 @@ export class FilterComponent implements OnChanges, OnInit {
   phoneOptions: string[] = [];
   streetOptions: string[] = [];
   postcodeOptions: string[] = [];
+
+  protected get qualificationsFormArray() {
+    return this.form.controls['qualifications'] as FormArray;
+  }
+
+  constructor(
+    private fb: FormBuilder,
+    private qs: QualificationService
+  ) {
+    this.form = this.fb.group({
+      firstName: [''],
+      lastName: [''],
+      city: [''],
+      phone: [''],
+      street: [''],
+      postcode: [''],
+      qualifications: this.fb.array([])
+    });
+  }
 
   getFilteredOptions(options: string[], input: string): string[] {
     if (!input) {
@@ -63,7 +78,15 @@ export class FilterComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    this.filterForm.valueChanges.subscribe(() => this.filterEmployees());
+    this.form.valueChanges.subscribe(() => this.filterEmployees());
+
+    this.qs.getQualifications().subscribe(qualifications => {
+      this.allQualifications = qualifications;
+      this.qualificationsFormArray.clear()
+      this.allQualifications.forEach(() => {
+        this.qualificationsFormArray.push(this.fb.control(false));
+      });
+    });
   }
 
   ngOnChanges() {
@@ -78,17 +101,22 @@ export class FilterComponent implements OnChanges, OnInit {
   }
 
   private filterEmployees() {
-    const {firstName, lastName, city, phone} = this.filterForm.value;
+    const {firstName, lastName, city, phone} = this.form.value;
 
     this.filteredEmployees = this.employeesToFilter.filter(employee => {
       const firstNameMatch = !firstName || employee.firstName.includes(firstName);
       const lastNameMatch = !lastName || employee.lastName.includes(lastName);
       const cityMatch = !city || employee.city.includes(city);
       const phoneMatch = !phone || employee.phone.includes(phone);
-      const streetMatch = !this.filterForm.value.street || employee.street.includes(this.filterForm.value.street);
-      const postcodeMatch = !this.filterForm.value.postcode || employee.postcode.includes(this.filterForm.value.postcode);
+      const streetMatch = !this.form.value.street || employee.street.includes(this.form.value.street);
+      const postcodeMatch = !this.form.value.postcode || employee.postcode.includes(this.form.value.postcode);
 
-      return firstNameMatch && lastNameMatch && cityMatch && phoneMatch && streetMatch && postcodeMatch;
+      const qualificationMatches = this.allQualifications.every((qualification, index) => {
+        const employeeHasQualification = employee.skillSet.some(({id}) => id === qualification.id);
+        return !this.qualificationsFormArray.value[index] || employeeHasQualification;
+      });
+
+      return firstNameMatch && lastNameMatch && cityMatch && phoneMatch && streetMatch && postcodeMatch && qualificationMatches;
     });
   }
 }

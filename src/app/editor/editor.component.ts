@@ -42,6 +42,8 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
   protected form: FormGroup;
   protected allQualifications: Qualification[] = [];
 
+  private INVALID_ID: number = -1;
+
   private saving: boolean = false;
 
   protected get qualificationsFormArray() {
@@ -57,7 +59,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
     private qualificationService: QualificationService
   ) {
     this.form = this.fb.group({
-      id: [-1],
+      id: [this.INVALID_ID],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern('^\\+?[1-9]\\d{1,14}$')]], // E.164 phone number pattern
@@ -104,7 +106,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
     const employeeRequestDTO = this.mapToRequestDTO(this.form.value);
     const id = this.form.value.id;
 
-    const operation = id !== -1
+    const operation = id !== this.INVALID_ID
       ? this.employeeService.updateEmployee(id, employeeRequestDTO)
       : this.employeeService.createEmployee(employeeRequestDTO);
 
@@ -120,7 +122,10 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
   }
 
   onClear() {
-    this.form.reset();
+    const id = this.form.value.id;
+    this.form.reset({
+      id: this.fb.control(id),
+    });
     this.qualificationsFormArray.controls.forEach(control => control.setValue(false));
   }
 

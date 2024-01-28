@@ -2,67 +2,71 @@
   <h3 mat-subheader>Filter<span></span></h3>
 
   <mat-card-content>
+    <form [formGroup]="form">
 
-    <mat-form-field class="filter-field">
-      <input type="text" matInput [formControl]="filterForm.controls['firstName']" [matAutocomplete]="firstNameAuto"
-             placeholder="Filter by first name">
-      <mat-autocomplete #firstNameAuto="matAutocomplete">
-        @for (option of getFilteredOptions(firstNameOptions, filterForm.value.firstName); track option) {
-          <mat-option [value]="option">{{ option }}</mat-option>
+      <mat-form-field class="filter-field">
+        <input type="text" matInput formControlName="firstName" [matAutocomplete]="firstNameAuto"
+               placeholder="First name">
+        <mat-autocomplete #firstNameAuto="matAutocomplete">
+          @for (option of getFilteredOptions(firstNameOptions, form.value['firstName']); track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="filter-field">
+        <input type="text" matInput formControlName="lastName" [matAutocomplete]="lastNameAuto" placeholder="Last name">
+        <mat-autocomplete #lastNameAuto="matAutocomplete">
+          @for (option of getFilteredOptions(lastNameOptions, form.value['lastName']); track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="filter-field">
+        <input type="text" matInput formControlName="street" [matAutocomplete]="streetAuto" placeholder="Street">
+        <mat-autocomplete #streetAuto="matAutocomplete">
+          @for (option of getFilteredOptions(streetOptions, form.value['street']); track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="filter-field">
+        <input type="text" matInput formControlName="phone" [matAutocomplete]="phoneAuto" placeholder="Phone">
+        <mat-autocomplete #phoneAuto="matAutocomplete">
+          @for (option of getFilteredOptions(phoneOptions, form.value['phone']); track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="filter-field">
+        <input type="text" matInput formControlName="city" [matAutocomplete]="cityAuto" placeholder="City">
+        <mat-autocomplete #cityAuto="matAutocomplete">
+          @for (option of getFilteredOptions(cityOptions, form.value['city']); track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="filter-field">
+        <input type="text" matInput formControlName="postcode" [matAutocomplete]="postcodeAuto" placeholder="Postcode">
+        <mat-autocomplete #postcodeAuto="matAutocomplete">
+          @for (option of getFilteredOptions(postcodeOptions, form.value['postcode']); track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <div formArrayName="qualifications">
+        @for (q of allQualifications; track $index) {
+          <mat-checkbox [formControlName]="$index">
+            {{ q.skill }}
+          </mat-checkbox>
         }
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="filter-field">
-      <input type="text" matInput [formControl]="filterForm.controls['lastName']" [matAutocomplete]="lastNameAuto"
-             placeholder="Filter by last name">
-      <mat-autocomplete #lastNameAuto="matAutocomplete">
-        @for (option of getFilteredOptions(lastNameOptions, filterForm.value.lastName); track option) {
-          <mat-option [value]="option">{{ option }}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="filter-field">
-      <input type="text" matInput [formControl]="filterForm.controls['phone']" [matAutocomplete]="phoneAuto"
-             placeholder="Filter by phone">
-      <mat-autocomplete #phoneAuto="matAutocomplete">
-        @for (option of getFilteredOptions(phoneOptions, filterForm.value.phone); track option) {
-          <mat-option [value]="option">{{ option }}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="filter-field">
-      <input type="text" matInput [formControl]="filterForm.controls['street']" [matAutocomplete]="streetAuto"
-             placeholder="Filter by street">
-      <mat-autocomplete #streetAuto="matAutocomplete">
-        @for (option of getFilteredOptions(streetOptions, filterForm.value.street); track option) {
-          <mat-option [value]="option">{{ option }}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="filter-field">
-      <input type="text" matInput [formControl]="filterForm.controls['city']" [matAutocomplete]="cityAuto"
-             placeholder="Filter by city">
-      <mat-autocomplete #cityAuto="matAutocomplete">
-        @for (option of getFilteredOptions(cityOptions, filterForm.value.city); track option) {
-          <mat-option [value]="option">{{ option }}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="filter-field">
-      <input type="text" matInput [formControl]="filterForm.controls['postcode']" [matAutocomplete]="postcodeAuto"
-             placeholder="Filter by postcode">
-      <mat-autocomplete #postcodeAuto="matAutocomplete">
-        @for (option of getFilteredOptions(postcodeOptions, filterForm.value.postcode); track option) {
-          <mat-option [value]="option">{{ option }}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
-
+      </div>
+    </form>
   </mat-card-content>
 </mat-card>
 
