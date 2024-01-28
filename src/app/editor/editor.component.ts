@@ -36,7 +36,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     SlicePipe
   ],
   templateUrl: './editor.component.html',
-  styleUrl: './editor.component.css'
+  styleUrl: './editor.component.scss'
 })
 export class EditorComponent implements OnInit, CanComponentDeactivate {
   protected form: FormGroup;

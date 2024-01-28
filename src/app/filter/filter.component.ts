@@ -34,7 +34,7 @@ import {QualificationService} from "../service/qualification.service";
     MatCheckbox,
   ],
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+  styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnChanges, OnInit {
   @Input() employeesToFilter: Employee[] = [];

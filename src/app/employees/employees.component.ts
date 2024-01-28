@@ -29,7 +29,7 @@ import {Router} from "@angular/router";
     MatBadgeModule,
   ],
   templateUrl: './employees.component.html',
-  styleUrl: './employees.component.css'
+  styleUrl: './employees.component.scss'
 })
 export class EmployeesComponent {
   @Input() inputEmployees: Employee[] = [];

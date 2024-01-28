@@ -36,6 +36,7 @@
     "keycloak-js": "^22.0.5",
     "ngx-cookieconsent": "^6.0.0",
     "rxjs": "~7.8.1",
+    "sass": "^1.70.0",
     "tslib": "^2.6.2",
     "zone.js": "^0.14.3"
   },

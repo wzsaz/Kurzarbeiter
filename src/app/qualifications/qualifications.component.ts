@@ -39,7 +39,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     MatBadgeModule,
   ],
   templateUrl: './qualifications.component.html',
-  styleUrl: './qualifications.component.css'
+  styleUrl: './qualifications.component.scss'
 })
 export class QualificationsComponent implements OnInit {
   qualifications: Qualification[] = [];
