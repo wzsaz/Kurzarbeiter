@@ -50,44 +50,11 @@ To simplify the development and testing process, predefined run configurations f
 
 To use these configurations, navigate to `Run` -> `Edit Configurations` in IntelliJ, then select the Docker deployment configuration you wish to use.
 
-### Angular Application Debugging
-
-- Debug configuration for the Angular application is set up to launch the app and attach the debugger to `http://localhost:4200`.
-
 ### Angular CLI Server
 
-- A configuration to run the Angular CLI server directly from IntelliJ, facilitating an easier development workflow.
+- `Angular CLI Server`: A configuration to run the Angular CLI server directly from IntelliJ, facilitating an easier development workflow.
 
 To set up these configurations, you may need to import them into IntelliJ IDEA or manually configure them by following the provided structure.
-
-## Deployment with Docker
-
-This project is configured for easy deployment using Docker and Docker Compose. Below are the steps and explanations for the deployment process.
-
-### Docker Compose
-
-The project includes a `docker-compose.yaml` file that orchestrates the setup of three main services:
-
-- **PostgreSQL Database (`db`)**: Configured with volume persistence for data storage.
-- **Backend Service (`backend`)**: A Spring Boot application serving the RESTful API.
-- **Frontend Service (`frontend`)**: An Angular application built and served using Nginx.
-
-To deploy these services, run:
-
-```bash
-docker-compose up -d
-```
-
-This command will start all services in detached mode.
-
-### Building the Frontend
-
-The frontend is built and served using a multi-stage Dockerfile:
-
-1. The first stage builds the Angular application using Node.js.
-2. The second stage serves the built application using Nginx.
-
-The Nginx server is configured for performance optimizations and security enhancements, as detailed in the provided `nginx.conf`.
 
 ### Running the Application
 
@@ -100,29 +67,69 @@ Ensure Docker and Docker Compose are installed on your system to use these confi
 
 ## Usage
 
-To start the development server:
+This project offers flexible options for starting the application, catering to both development and production environments. Below are detailed instructions for each scenario.
 
-```sh
-ng serve
-```
+The project includes a `docker-compose.yaml` file that orchestrates the setup of three main services:
 
-Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **PostgreSQL Database (`db`)**: Configured with volume persistence for data storage.
+- **Backend Service (`backend`)**: A Spring Boot application serving the RESTful API.
+- **Frontend Service (`frontend`)**: An Angular application built and served using Nginx.
 
-### Building
 
-To build the project:
+### For Development
 
-```sh
-ng build
-```
+#### Running with Docker Compose (Backend + DB + Frontend for Development)
 
-The build artifacts will be stored in the `dist/` directory.
+1. To start the backend and database services without building the frontend for production, run the following command in your terminal:
+
+   ```bash
+   docker-compose up -d db backend
+   ```
+
+2. For frontend development, you can run the Angular CLI development server to benefit from live reloading and faster build times. Either use the IntelliJ configuration named "Angular CLI Server" or run the following command in your terminal:
+
+   ```bash
+   ng serve
+   ```
+
+   This will start the development server on `http://localhost:4200/`, and your application will automatically reload if you change any of the source files.
+
+#### Using IntelliJ Configurations for Development
+
+- **Backend + DB**: Use the "Backend + DB" Docker deployment configuration within IntelliJ to start the backend and database services.
+- **Angular Application Debugging**: Use the "Angular Application Debugging" configuration to run and debug the frontend application via IntelliJ.
+
+### For Production
+
+#### Running with Docker Compose (All Services)
+
+1. To build and run the entire stack, including the frontend built for production, use the following command:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+   Before running this command for updates, ensure to rebuild the Docker image if there have been changes to the frontend code. You can do this by running:
+
+   ```bash
+   docker-compose build frontend
+   docker-compose up -d
+   ```
+
+2. To ensure that any updates to your frontend are reflected in the Docker container, you must rebuild the frontend image and restart the services. This ensures your production build includes the latest changes.
+
+#### Using IntelliJ Configurations for Production
+
+- For production, you can also utilize the "All" Docker deployment configuration within IntelliJ, which includes all services. Remember to rebuild the Docker image for the frontend service if there have been changes, as IntelliJ does not automatically do this for you.
+- **Note**: The frontend is built and served using a multi-stage Dockerfile where the first stage builds the Angular application using Node.js and the second stage serves the built application using Nginx. The Nginx server is configured for performance optimizations and security enhancements, as detailed in the provided `nginx.conf`.
 
 ## Screenshots and Demos
 
 Here's a quick look at our application in action:
 
 ![Dashboard Screenshot](link-to-screenshot.png)
+
+## Contributing
 
 We welcome contributions of all kinds, from bug fixes to feature additions. Here's how you can contribute:
 
