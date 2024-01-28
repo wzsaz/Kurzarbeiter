@@ -28,10 +28,11 @@ This Project is constructed with the latest Angular technologies, ensuring a rob
 
 To ensure a smooth setup, make sure you have the following installed:
 
-- Node.js (v14.0 or higher)
-- Angular CLI (v17.0.3 or higher)
-- Docker and Docker Compose (latest version recommended for compatibility)
-- IntelliJ IDEA (2021.2 or newer)
+- ![Node.js](https://nodejs.org/en/download) (v20.11.0 or higher)
+- ![Angular CLI](https://angular.io/cli) (v17.1.1 or higher)
+- ![Docker](https://docs.docker.com/get-docker/) (latest version recommended for compatibility)
+- ![Docker Compose](https://docs.docker.com/compose/install/) (latest version recommended for compatibility)
+- ![IntelliJ IDEA](https://www.jetbrains.com/de-de/idea/download/?section=windows) (2023.3 or newer)
 
 ## Installation
 
