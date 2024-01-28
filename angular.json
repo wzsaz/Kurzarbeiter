@@ -34,6 +34,12 @@
           },
           "configurations": {
             "production": {
+              "optimization": true,
+              "stylePreprocessorOptions": {
+                "includePaths": [
+                  "src/styles"
+                ]
+              },
               "budgets": [
                 {
                   "type": "initial",
@@ -47,7 +53,11 @@
                 }
               ],
               "allowedCommonJsDependencies": ["base64-js", "js-sha256"],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true
             },
             "development": {
               "optimization": false,
@@ -66,14 +76,12 @@
           "configurations": {
             "production": {
               "buildTarget": "Kurzarbeiter:build:production",
-              "browserTarget": "Kurzarbeiter:build:production",
               "host": "127.0.0.1",
               "port": 4200,
               "ssl": false
             },
             "development": {
               "buildTarget": "Kurzarbeiter:build:development",
-              "browserTarget": "Kurzarbeiter:build:development",
               "host": "127.0.0.1",
               "port": 4200,
               "ssl": false
@@ -109,6 +117,7 @@
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "packageManager": "npm"
   }
 }
