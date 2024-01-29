@@ -110,7 +110,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
     const employeeRequestDTO = this.mapToRequestDTO(this.form.value);
     const id = this.form.value.id;
 
-    const operation = id !== this.INVALID_ID
+    const operation = this.editingValidId
       ? this.employeeService.updateEmployee(id, employeeRequestDTO)
       : this.employeeService.createEmployee(employeeRequestDTO);
 
