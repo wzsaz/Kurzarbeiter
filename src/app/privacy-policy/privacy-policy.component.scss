@@ -1,0 +1,15 @@
+.privacy-card {
+  margin: 20px;
+  .mat-card-title {
+    font-size: 24px;
+    color: #1976d2; // Or any color that fits your theme
+  }
+  .mat-card-subtitle {
+    font-size: 16px;
+    margin-top: 5px;
+    color: #424242; // Adjust based on your theme
+  }
+  mat-accordion {
+    margin-top: 20px;
+  }
+}

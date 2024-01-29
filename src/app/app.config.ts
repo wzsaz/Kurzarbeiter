@@ -37,11 +37,11 @@ const cookieConfig: NgcCookieConsentConfig = {
   content: {
     message: 'This website uses cookies. By continuing, you agree to be bombarded with our delicious cookies. ',
     cookiePolicyLink: 'Cookie Policy',
-    cookiePolicyHref: 'https://your-cookie-policy-url',
+    cookiePolicyHref: 'http://localhost:4200/privacy-policy',
     privacyPolicyLink: 'Privacy Policy',
-    privacyPolicyHref: 'https://your-privacy-policy-url',
+    privacyPolicyHref: 'http://localhost:4200/privacy-policy',
     tosLink: 'Terms of Service',
-    tosHref: 'https://your-terms-service-url'
+    tosHref: 'http://localhost:4200/privacy-policy'
   }
 };
 
