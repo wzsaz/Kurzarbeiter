@@ -1,27 +1,23 @@
 <div class="qualifications-container">
   <h3 mat-subheader>Qualifications <span matBadge="{{qualifications.length}}"> </span></h3>
-  <div fxLayout="row" fxLayoutGap="20px" fxLayoutWrap fxLayoutAlign="start center" class="qualifications-list">
-    <mat-card class="qualification-card">
-      @for (qualification of qualifications;track qualification.id) {
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>{{ qualification.skill }}</mat-card-title>
-          </mat-card-header>
-          <mat-card-actions>
-            <button mat-icon-button (click)="openEditDialog(qualification)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="openDeleteDialog(qualification)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </mat-card-actions>
-        </mat-card>
-      }
-      <div fxLayout="row" fxLayoutAlign="end center" class="add-qualification-action">
+  <mat-card class="qualification-card">
+    @for (qualification of qualifications; track qualification.id) {
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ qualification.skill }}</mat-card-title>
+        </mat-card-header>
         <mat-card-actions>
-          <button mat-raised-button (click)="openEditDialog()" class="add-button">Add Qualification</button>
+          <button mat-icon-button (click)="openEditDialog(qualification)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openDeleteDialog(qualification)">
+            <mat-icon>delete</mat-icon>
+          </button>
         </mat-card-actions>
-      </div>
-    </mat-card>
-  </div>
+      </mat-card>
+    }
+    <mat-card-actions>
+      <button mat-raised-button (click)="openEditDialog()" class="add-button">Add Qualification</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

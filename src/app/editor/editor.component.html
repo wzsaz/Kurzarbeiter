@@ -67,7 +67,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <label formArrayName="qualifications">
-            @for (q of qualificationsFormArray.controls; track $index) {
+            @for (unused of qualificationsFormArray.controls; track $index) {
               <mat-checkbox [formControlName]="$index">
                 {{ allQualifications[$index].skill }}
               </mat-checkbox>

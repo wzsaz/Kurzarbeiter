@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnInit, Output} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -7,12 +7,14 @@ import {MatIconModule} from '@angular/material/icon';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Employee, Qualification} from "../types";
 import {EmployeesComponent} from "../employees/employees.component";
-import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatBadge} from "@angular/material/badge";
 import {MatListSubheaderCssMatStyler} from "@angular/material/list";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {QualificationService} from "../service/qualification.service";
+import {EmployeeService} from "../service/employee.service";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-filter',
@@ -37,18 +39,18 @@ import {QualificationService} from "../service/qualification.service";
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnChanges, OnInit {
-  @Input() employeesToFilter: Employee[] = [];
-  filteredEmployees: Employee[] = [];
+  @Output() filteredEmployees = new EventEmitter<Employee[]>();
 
-  protected form: FormGroup;
+  private employeesToFilter: Employee[] = [];
   protected allQualifications: Qualification[] = [];
+  protected form: FormGroup;
 
-  firstNameOptions: string[] = [];
-  lastNameOptions: string[] = [];
-  cityOptions: string[] = [];
-  phoneOptions: string[] = [];
-  streetOptions: string[] = [];
-  postcodeOptions: string[] = [];
+  protected firstNameOptions: string[] = [];
+  protected lastNameOptions: string[] = [];
+  protected cityOptions: string[] = [];
+  protected phoneOptions: string[] = [];
+  protected streetOptions: string[] = [];
+  protected postcodeOptions: string[] = [];
 
   protected get qualificationsFormArray() {
     return this.form.controls['qualifications'] as FormArray;
@@ -56,7 +58,8 @@ export class FilterComponent implements OnChanges, OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private qs: QualificationService
+    private qs: QualificationService,
+    private es: EmployeeService
   ) {
     this.form = this.fb.group({
       firstName: [''],
@@ -78,14 +81,23 @@ export class FilterComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    this.form.valueChanges.subscribe(() => this.filterEmployees());
-
-    this.qs.getQualifications().subscribe(qualifications => {
+    forkJoin({
+      employees: this.es.getEmployees(),
+      qualifications: this.qs.getQualifications()
+    }).subscribe(({employees, qualifications}) => {
+      this.employeesToFilter = employees;
       this.allQualifications = qualifications;
-      this.qualificationsFormArray.clear()
+
+      this.qualificationsFormArray.clear();
       this.allQualifications.forEach(() => {
         this.qualificationsFormArray.push(this.fb.control(false));
       });
+
+      this.filterEmployees();
+    });
+
+    this.form.valueChanges.subscribe(() => {
+      this.filterEmployees();
     });
   }
 
@@ -103,7 +115,7 @@ export class FilterComponent implements OnChanges, OnInit {
   private filterEmployees() {
     const {firstName, lastName, city, phone} = this.form.value;
 
-    this.filteredEmployees = this.employeesToFilter.filter(employee => {
+    const filteredEmployees = this.employeesToFilter.filter(employee => {
       const firstNameMatch = !firstName || employee.firstName.includes(firstName);
       const lastNameMatch = !lastName || employee.lastName.includes(lastName);
       const cityMatch = !city || employee.city.includes(city);
@@ -118,5 +130,7 @@ export class FilterComponent implements OnChanges, OnInit {
 
       return firstNameMatch && lastNameMatch && cityMatch && phoneMatch && streetMatch && postcodeMatch && qualificationMatches;
     });
+
+    this.filteredEmployees.emit(filteredEmployees);
   }
 }
