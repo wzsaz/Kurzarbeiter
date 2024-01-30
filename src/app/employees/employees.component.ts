@@ -42,8 +42,7 @@ export class EmployeesComponent {
   }
 
   randomImage(id: number): string {
-    const mod = id % 70;
-    return 'https://i.pravatar.cc/200?img=' + mod;
+    return 'https://i.pravatar.cc/200?img=' + id % 70;
   }
 
   openDeleteDialog(employee: Employee): void {

@@ -7,7 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Employee, Qualification} from "../types";
 import {EmployeesComponent} from "../employees/employees.component";
-import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatBadge} from "@angular/material/badge";
 import {MatListSubheaderCssMatStyler} from "@angular/material/list";
@@ -15,6 +15,8 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {QualificationService} from "../service/qualification.service";
 import {EmployeeService} from "../service/employee.service";
 import {forkJoin} from "rxjs";
+import {MatAccordion, MatExpansionPanel, MatExpansionPanelActionRow} from "@angular/material/expansion";
+import {AutocompleteComponent} from "../autocomplete/autocomplete.component";
 
 @Component({
   selector: 'app-filter',
@@ -34,6 +36,10 @@ import {forkJoin} from "rxjs";
     MatBadge,
     MatListSubheaderCssMatStyler,
     MatCheckbox,
+    MatExpansionPanel,
+    MatAccordion,
+    MatExpansionPanelActionRow,
+    AutocompleteComponent,
   ],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
@@ -45,6 +51,10 @@ export class FilterComponent implements OnChanges, OnInit {
   protected allQualifications: Qualification[] = [];
   protected form: FormGroup;
 
+  getFormControl(name: string): FormControl {
+    return this.form.get(name) as FormControl;
+  }
+
   protected firstNameOptions: string[] = [];
   protected lastNameOptions: string[] = [];
   protected cityOptions: string[] = [];
@@ -52,7 +62,7 @@ export class FilterComponent implements OnChanges, OnInit {
   protected streetOptions: string[] = [];
   protected postcodeOptions: string[] = [];
 
-  protected get qualificationsFormArray() {
+  protected get qualificationsFormArray(): FormArray {
     return this.form.controls['qualifications'] as FormArray;
   }
 
