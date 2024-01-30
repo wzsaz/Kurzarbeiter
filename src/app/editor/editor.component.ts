@@ -61,7 +61,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
       id: [this.INVALID_ID],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern('^\\+?[1-9]\\d{1,14}$')]], // E.164 phone number pattern
+      phone: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
       street: ['', Validators.required],
       postcode: ['', [Validators.minLength(5), Validators.maxLength(9), Validators.pattern('^[0-9]{5,9}$')]], // Assuming postcode is numeric and 5-9 characters long
       city: ['', Validators.required],
