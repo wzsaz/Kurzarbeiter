@@ -14,6 +14,30 @@
       placeholder="Last name">
     </app-autocomplete>
 
+    <app-autocomplete
+      [options]="cityOptions"
+      [control]="getFormControl('city')"
+      placeholder="City">
+    </app-autocomplete>
+
+    <app-autocomplete
+      [options]="streetOptions"
+      [control]="getFormControl('street')"
+      placeholder="Street">
+    </app-autocomplete>
+
+    <app-autocomplete
+      [options]="postcodeOptions"
+      [control]="getFormControl('postcode')"
+      placeholder="Postcode">
+    </app-autocomplete>
+
+    <app-autocomplete
+      [options]="phoneOptions"
+      [control]="getFormControl('phone')"
+      placeholder="Phone">
+    </app-autocomplete>
+
     <div formArrayName="qualifications">
       @for (q of allQualifications; track $index) {
         <mat-checkbox [formControlName]="$index">

@@ -25,7 +25,7 @@ export class AutocompleteComponent {
   @Input() control: FormControl = new FormControl();
   @Input() placeholder: string = '';
 
-  getFilteredOptions(): string[] {
+  get autocompleted(): string[] {
     const input = this.control.value;
     if (!input) {
       return this.options;
