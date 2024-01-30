@@ -113,14 +113,14 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
     saveOperation.subscribe({
       next: () => {
         this.snackBar.open(`${employeeRequestDTO.firstName} ${employeeRequestDTO.lastName} was saved`, 'Close', {duration: 3000});
-        this.router.navigate(['/view']);
+        this.router.navigate(['/view']).then();
       },
       error: error => console.error(`Error ${this.form.value.id ? 'updating' : 'creating'} employee: ${error}`)
     });
   }
 
   onClear() {
-    this.form.reset({id: this.fb.control(this.form.value.id)});
+    this.form.reset({id: this.form.value.id});
     this.qualificationsFormArray.controls.forEach(control => control.setValue(false));
   }
 
