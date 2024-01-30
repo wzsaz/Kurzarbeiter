@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -44,7 +44,7 @@ import {AutocompleteComponent} from "../autocomplete/autocomplete.component";
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
 })
-export class FilterComponent implements OnChanges, OnInit {
+export class FilterComponent implements OnInit {
   @Output() filteredEmployees = new EventEmitter<Employee[]>();
 
   private employeesToFilter: Employee[] = [];
@@ -62,7 +62,7 @@ export class FilterComponent implements OnChanges, OnInit {
   protected streetOptions: string[] = [];
   protected postcodeOptions: string[] = [];
 
-  protected get qualificationsFormArray(): FormArray {
+  get qualificationsFormArray(): FormArray {
     return this.form.controls['qualifications'] as FormArray;
   }
 
@@ -82,14 +82,6 @@ export class FilterComponent implements OnChanges, OnInit {
     });
   }
 
-  getFilteredOptions(options: string[], input: string): string[] {
-    if (!input) {
-      return options;
-    }
-    const filterValue = input.toLowerCase();
-    return options.filter(option => option.toLowerCase().includes(filterValue));
-  }
-
   ngOnInit() {
     forkJoin({
       employees: this.es.getEmployees(),
@@ -107,19 +99,14 @@ export class FilterComponent implements OnChanges, OnInit {
     });
 
     this.form.valueChanges.subscribe(() => {
+      this.firstNameOptions = [...new Set(this.employeesToFilter.map(employee => employee.firstName))];
+      this.lastNameOptions = [...new Set(this.employeesToFilter.map(employee => employee.lastName))];
+      this.cityOptions = [...new Set(this.employeesToFilter.map(employee => employee.city))];
+      this.phoneOptions = [...new Set(this.employeesToFilter.map(employee => employee.phone))];
+      this.streetOptions = [...new Set(this.employeesToFilter.map(employee => employee.street))];
+      this.postcodeOptions = [...new Set(this.employeesToFilter.map(employee => employee.postcode))];
       this.filterEmployees();
     });
-  }
-
-  ngOnChanges() {
-    this.firstNameOptions = [...new Set(this.employeesToFilter.map(employee => employee.firstName))];
-    this.lastNameOptions = [...new Set(this.employeesToFilter.map(employee => employee.lastName))];
-    this.cityOptions = [...new Set(this.employeesToFilter.map(employee => employee.city))];
-    this.phoneOptions = [...new Set(this.employeesToFilter.map(employee => employee.phone))];
-    this.streetOptions = [...new Set(this.employeesToFilter.map(employee => employee.street))];
-    this.postcodeOptions = [...new Set(this.employeesToFilter.map(employee => employee.postcode))];
-
-    this.filterEmployees();
   }
 
   private filterEmployees() {
