@@ -12,6 +12,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatListModule} from "@angular/material/list";
 import {MatBadgeModule} from "@angular/material/badge";
 import {Router} from "@angular/router";
+import {EmployeeComponent} from "../employee/employee.component";
 
 @Component({
   selector: 'app-employees',
@@ -27,6 +28,7 @@ import {Router} from "@angular/router";
     MatExpansionModule,
     MatListModule,
     MatBadgeModule,
+    EmployeeComponent
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
@@ -41,11 +43,11 @@ export class EmployeesComponent {
   ) {
   }
 
-  randomImage(id: number): string {
-    return 'https://i.pravatar.cc/200?img=' + id % 70;
+  handleEdit(employee: Employee): void {
+    this.router.navigate(['/editor', employee.id]).then(r => console.log(r));
   }
 
-  openDeleteDialog(employee: Employee): void {
+  handleDelete(employee: Employee): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         message: `Are you sure you want to delete ${employee.firstName} ${employee.lastName}?`,
@@ -58,18 +60,10 @@ export class EmployeesComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.onDeleteView(employee)
+        this.es.deleteEmployee(employee.id).subscribe(() => {
+          this.inputEmployees = this.inputEmployees.filter(employee => employee.id !== employee.id);
+        });
       }
-    });
-  }
-
-  onEdit(employee: Employee): void {
-    this.router.navigate(['/editor', employee.id]).then(r => console.log(r));
-  }
-
-  onDeleteView(deletedEmployee: Employee): void {
-    this.es.deleteEmployee(deletedEmployee.id).subscribe(() => {
-      this.inputEmployees = this.inputEmployees.filter(employee => employee.id !== deletedEmployee.id);
     });
   }
 

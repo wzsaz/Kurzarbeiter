@@ -2,53 +2,7 @@
   <h3 mat-subheader>Employees<span matBadge="{{inputEmployees.length}}"> </span></h3>
   <mat-accordion>
     @for (employee of inputEmployees; track employee) {
-      <mat-expansion-panel class="employee-card">
-
-        <mat-expansion-panel-header>
-          <div mat-card-avatar class="employee-picture">
-            <img [src]=randomImage(employee.id) alt="employee-picture">
-          </div>
-          <mat-panel-title>{{ employee.firstName }} {{ employee.lastName }}</mat-panel-title>
-          <mat-panel-description>{{ employee.phone }}</mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <mat-action-row>
-          <button mat-button (click)="onEdit(employee)">
-            <mat-icon>edit</mat-icon>
-            <span>Edit</span>
-          </button>
-          <button mat-button (click)="openDeleteDialog(employee)">
-            <mat-icon>backspace</mat-icon>
-            <span>Delete</span>
-          </button>
-        </mat-action-row>
-
-        <mat-card>
-          <mat-card-title>Street</mat-card-title>
-          <mat-card-content>{{ employee.street }}</mat-card-content>
-
-          <mat-divider></mat-divider>
-
-          <mat-card-title>City</mat-card-title>
-          <mat-card-content>{{ employee.city }}</mat-card-content>
-
-          <mat-divider></mat-divider>
-
-          <mat-card-title>Postcode</mat-card-title>
-          <mat-card-content>{{ employee.postcode }}</mat-card-content>
-
-          <mat-divider></mat-divider>
-
-          <mat-card-title>Skills</mat-card-title>
-          <mat-card-content>
-            <mat-chip-listbox>
-              @for (skill of employee.skillSet; track skill) {
-                <mat-chip>{{ skill.skill }}</mat-chip>
-              }
-            </mat-chip-listbox>
-          </mat-card-content>
-        </mat-card>
-      </mat-expansion-panel>
+      <app-employee [employee]="employee" (editedEmployee)="handleEdit($event)" (deletedEmployee)="handleDelete($event)"></app-employee>
     }
   </mat-accordion>
 </mat-card>
