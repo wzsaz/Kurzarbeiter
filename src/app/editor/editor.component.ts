@@ -82,19 +82,21 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
           this.setupQualifications(employee.skillSet);
         });
       } else {
-        this.setupQualifications();
+        this.setupQualifications([]);
       }
     });
   }
 
-  private setupQualifications(existingQualifications: Qualification[] = []) {
+  private setupQualifications(existingQualifications: Qualification[]) {
     this.qualificationService.getQualifications().subscribe(qualifications => {
       this.allQualifications = qualifications;
-      const qualificationsControls = qualifications.map(qualification => {
+      this.qualificationsFormArray.clear()
+      qualifications.map(qualification => {
         const isQualified = existingQualifications.some(eq => eq.id === qualification.id);
         return this.fb.control(isQualified);
-      });
-      this.form.setControl('qualifications', this.fb.array(qualificationsControls));
+      }).forEach(q => {
+        this.qualificationsFormArray.push(q);
+      })
     });
   }
 
@@ -115,7 +117,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
         this.snackBar.open(`${employeeRequestDTO.firstName} ${employeeRequestDTO.lastName} was saved`, 'Close', {duration: 3000});
         this.router.navigate(['/view']).then();
       },
-      error: error => console.error(`Error ${this.form.value.id ? 'updating' : 'creating'} employee: ${error}`)
+      error: error => console.error(`Error ${this.form.value.id ? 'updating' : 'creating'} employee: ${error.toString()}`)
     });
   }
 
