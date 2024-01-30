@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, DoCheck, Input, ViewChild} from '@angular/core';
 import {Employee} from "../types";
 import {EmployeeService} from "../service/employee.service";
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
@@ -13,6 +13,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatBadgeModule} from "@angular/material/badge";
 import {Router} from "@angular/router";
 import {EmployeeComponent} from "../employee/employee.component";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-employees',
@@ -28,19 +29,46 @@ import {EmployeeComponent} from "../employee/employee.component";
     MatExpansionModule,
     MatListModule,
     MatBadgeModule,
-    EmployeeComponent
+    EmployeeComponent,
+    MatPaginator
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
 })
-export class EmployeesComponent {
+export class EmployeesComponent implements AfterViewInit, DoCheck {
   @Input() inputEmployees: Employee[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  displayedEmployees: Employee[] = [];
+
+  pageSize = 5;
+  pageSizeOptions = [5, 10, 20];
+  showFirstLastButtons = true;
 
   constructor(
     private dialog: MatDialog,
     private router: Router,
     private es: EmployeeService
   ) {
+  }
+
+  ngDoCheck(): void {
+    if (this.inputEmployees.length !== this.displayedEmployees.length) {
+      this.loadPage();
+    }
+  }
+
+  ngAfterViewInit() {
+    this.paginator.page.subscribe(() => this.loadPage());
+  }
+
+  loadPage() {
+    if (this.displayedEmployees.length === this.inputEmployees.length) {
+      return;
+    }
+    const start = this.paginator.pageIndex * this.paginator.pageSize;
+    const end = start + this.paginator.pageSize;
+    this.displayedEmployees = this.inputEmployees.slice(start, end);
   }
 
   handleEdit(employee: Employee): void {

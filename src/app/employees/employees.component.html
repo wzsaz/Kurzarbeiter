@@ -1,8 +1,16 @@
 <mat-card>
   <h3 mat-subheader>Employees<span matBadge="{{inputEmployees.length}}"> </span></h3>
   <mat-accordion>
-    @for (employee of inputEmployees; track employee) {
-      <app-employee [employee]="employee" (editedEmployee)="handleEdit($event)" (deletedEmployee)="handleDelete($event)"></app-employee>
+    @for (employee of displayedEmployees; track employee) {
+      <app-employee [employee]="employee"
+                    (editedEmployee)="handleEdit($event)"
+                    (deletedEmployee)="handleDelete($event)">
+      </app-employee>
     }
   </mat-accordion>
 </mat-card>
+<mat-paginator [length]="inputEmployees.length"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               [showFirstLastButtons]="showFirstLastButtons">
+</mat-paginator>
