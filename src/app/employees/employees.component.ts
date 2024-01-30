@@ -61,7 +61,7 @@ export class EmployeesComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.es.deleteEmployee(employee.id).subscribe(() => {
-          this.inputEmployees = this.inputEmployees.filter(employee => employee.id !== employee.id);
+          this.inputEmployees = this.inputEmployees.filter(({id}) => id !== employee.id);
         });
       }
     });
