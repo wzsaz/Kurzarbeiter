@@ -31,20 +31,22 @@
 
     <mat-card class="dashboard-card">
       <mat-card-header>
-        <mat-panel-title>
-          <mat-icon>bug_report</mat-icon>
-          Debug Window
-        </mat-panel-title>
+        <mat-icon>bug_report</mat-icon>
+        <mat-panel-title class="mat-typography">Debug Window</mat-panel-title>
       </mat-card-header>
 
       <mat-card class="dashboard-card">
         <mat-card-header>
-          <mat-card-title>Server Status</mat-card-title>
+          <mat-card-title>Status</mat-card-title>
           <mat-card-subtitle>Current system health</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="center-content">
-          <mat-icon class="status-icon">{{ serverStatusIcon }}</mat-icon>
-          <h1 class="mat-typography">{{ serverStatusText }}</h1>
+          <mat-icon class="status-icon">{{ serverStatusIcon() }}</mat-icon>
+          <h1 class="mat-typography">{{ serverStatus }}</h1>
+        </mat-card-content>
+        <mat-card-content class="center-content">
+          <mat-icon class="status-icon">{{ userStatusIcon() }}</mat-icon>
+          <h1 class="mat-typography">{{ userStatus }}</h1>
         </mat-card-content>
       </mat-card>
 
