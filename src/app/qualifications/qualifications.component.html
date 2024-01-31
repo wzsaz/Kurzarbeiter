@@ -1,10 +1,15 @@
-<app-qualifications-filter (filteredQualifications)="inputQualifications = $event"></app-qualifications-filter>
 <mat-card class="qualifications">
-  <mat-card-header>
-    <mat-card-title class="qualifications-header">
-      Qualifications
-      <span matBadge="{{inputQualifications.length}}"></span>
-    </mat-card-title>
+  <mat-card-header class="qualifications-header">
+    <div class="title-container">
+      <mat-card-title>
+        Qualifications
+        <span matBadge="{{inputQualifications.length}}"></span>
+      </mat-card-title>
+    </div>
+    <div class="filter-container">
+
+      <app-qualifications-filter (filteredQualifications)="inputQualifications = $event"></app-qualifications-filter>
+    </div>
   </mat-card-header>
 
   @for (qualification of paginatedQualifications; track qualification) {

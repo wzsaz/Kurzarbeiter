@@ -23,6 +23,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {QualificationItemComponent} from "../qualification-item/qualification-item.component";
 import {MatPaginator} from "@angular/material/paginator";
 import {QualificationsFilterComponent} from "../qualifications-filter/qualifications-filter.component";
+import {AutocompleteComponent} from "../autocomplete/autocomplete.component";
 
 @Component({
   selector: 'app-qualifications',
@@ -45,6 +46,7 @@ import {QualificationsFilterComponent} from "../qualifications-filter/qualificat
     QualificationItemComponent,
     MatPaginator,
     QualificationsFilterComponent,
+    AutocompleteComponent,
   ],
   templateUrl: './qualifications.component.html',
   styleUrl: './qualifications.component.scss'

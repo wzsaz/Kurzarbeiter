@@ -5,8 +5,23 @@
 }
 
 .qualifications-header {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 2px;
+}
+
+.title-container {
+  flex: 1;
+  margin: 10px 10px 0 10px; /* top, right, bottom, left */
+  padding: 5px 5px 0 0;
+}
+
+.filter-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 10px 0 0; /* top, right, bottom, left */
 }
 
 .qualification {

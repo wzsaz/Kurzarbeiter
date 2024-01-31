@@ -1,9 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {QualificationService} from '../service/qualification.service';
 import {Qualification} from '../types';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 
 @Component({
   selector: 'app-qualifications-filter',
@@ -13,7 +14,11 @@ import {MatInput} from "@angular/material/input";
     MatLabel,
     MatFormField,
     MatInput,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardTitle,
+    MatCardContent,
+    MatCard,
+    MatCardHeader
   ],
   styleUrls: ['./qualifications-filter.component.css']
 })
