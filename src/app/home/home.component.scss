@@ -19,12 +19,14 @@
     color: #1976d2;
   }
 
-  .status-icon.online {
-    color: #4CAF50; // Green for online
-  }
+  .status-icon {
+    &.online {
+      color: #4CAF50; // Green for online
+    }
 
-  .status-icon.offline {
-    color: #F44336; // Red for offline
+    &.offline {
+      color: #F44336; // Red for offline
+    }
   }
 
   .mat-card-content {
@@ -49,4 +51,3 @@
     }
   }
 }
-
