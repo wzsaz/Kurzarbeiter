@@ -22,8 +22,8 @@ import {CustomDialogComponent} from "./custom-dialog.component";
       </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button [mat-dialog-close]="qualificationControl.value" [disabled]="qualificationControl.invalid">
+      <button mat-raised-button mat-dialog-close>Cancel</button>
+      <button mat-raised-button [mat-dialog-close]="qualificationControl.value" [disabled]="qualificationControl.invalid">
         {{ data.title.split(' ')[0] }}
       </button>
     </mat-dialog-actions>
