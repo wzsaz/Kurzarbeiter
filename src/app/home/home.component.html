@@ -1,2 +1,49 @@
-<p>home works!</p>
-<app-generator></app-generator>
+<mat-grid-list cols="4" rowHeight="350px">
+  <mat-grid-tile>
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Server Status</mat-card-title>
+        <mat-card-subtitle>Current system health</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Status: <strong>Online</strong></p>
+        <mat-progress-spinner mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Login Status</mat-card-title>
+        <mat-card-subtitle>User authentication overview</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Current User: <strong>{{ currentUser }}</strong></p>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Project Insights</mat-card-title>
+        <mat-card-subtitle>Visualization of project metrics</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Total Users: <strong>{{ currentUserCount }}</strong></p>
+      </mat-card-content>
+      <mat-card-content>
+        <p>Total Qualifications: <strong>{{ currentQualificationCount }}</strong></p>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-card class="dashboard-card">
+      <app-generator></app-generator>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
