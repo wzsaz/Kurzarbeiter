@@ -137,9 +137,12 @@ This approach rebuilds the frontend image and restarts the services, guaranteein
 Here's a quick look at our application in action:
 
 ![Dashboard Screenshot](/.github/assets/keycloak.png)
-![Dashboard Screenshot](/.github/assets/employees.png)
-![Dashboard Screenshot](/.github/assets/editor.png)
-![Dashboard Screenshot](/.github/assets/filter.png)
+![Dashboard Screenshot](/.github/assets/home_v1.png)
+![Dashboard Screenshot](/.github/assets/view_v1.png)
+![Dashboard Screenshot](/.github/assets/view_v2.png)
+![Dashboard Screenshot](/.github/assets/view_v3.png)
+![Dashboard Screenshot](/.github/assets/editor_v1.png)
+![Dashboard Screenshot](/.github/assets/editor_v2.png)
 
 ## Contributing
 
@@ -152,7 +155,7 @@ For more detailed instructions, please refer to our [CONTRIBUTING.md](CONTRIBUTI
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/wzsaz/kurzarbeiter/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/wzsaz/Kurzarbeiter/blob/master/LICENSE) file for details.
 
 ## Acknowledgments
 
