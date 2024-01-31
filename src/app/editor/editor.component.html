@@ -2,10 +2,11 @@
 <form [formGroup]="form" class="editor-form">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>
+      <mat-card-title class="title">
         {{ editingValidId ? 'Editing existing employee' : 'Creating new employee' }}
       </mat-card-title>
     </mat-card-header>
+
     <mat-card-content>
       <div class="form-fields">
         <mat-form-field appearance="outline" class="full-width-input">
