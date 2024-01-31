@@ -1,5 +1,7 @@
 <mat-card>
-  <h3 mat-subheader>Employees<span matBadge="{{inputEmployees.length}}"> </span></h3>
+  <mat-card-header class="header">
+    <mat-card-title class="title">Employees<span matBadge="{{inputEmployees.length}}"></span></mat-card-title>
+  </mat-card-header>
   <mat-accordion>
     @if (isLoading) {
       <div class="spinner-container">

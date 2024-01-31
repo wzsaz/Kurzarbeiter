@@ -1,5 +1,8 @@
-<mat-card>
-  <h3 mat-subheader>Filter<span></span></h3>
+<mat-expansion-panel>
+  <mat-expansion-panel-header class="header">
+    <h3 mat-subheader class="title">Filter</h3>
+  </mat-expansion-panel-header>
+
   <form [formGroup]="form">
 
     <app-autocomplete
@@ -47,4 +50,4 @@
     </div>
 
   </form>
-</mat-card>
+</mat-expansion-panel>

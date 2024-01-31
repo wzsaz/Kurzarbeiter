@@ -15,7 +15,12 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {QualificationService} from "../service/qualification.service";
 import {EmployeeService} from "../service/employee.service";
 import {forkJoin} from "rxjs";
-import {MatAccordion, MatExpansionPanel, MatExpansionPanelActionRow} from "@angular/material/expansion";
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelActionRow, MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from "@angular/material/expansion";
 import {AutocompleteComponent} from "../autocomplete/autocomplete.component";
 
 @Component({
@@ -40,6 +45,8 @@ import {AutocompleteComponent} from "../autocomplete/autocomplete.component";
     MatAccordion,
     MatExpansionPanelActionRow,
     AutocompleteComponent,
+    MatExpansionPanelTitle,
+    MatExpansionPanelHeader
   ],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']

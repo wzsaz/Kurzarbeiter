@@ -35,7 +35,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
     MatProgressSpinner
   ],
   templateUrl: './employees.component.html',
-  styleUrl: './employees.component.css'
+  styleUrl: './employees.component.scss'
 })
 export class EmployeesComponent implements AfterViewInit, DoCheck {
   @Input() inputEmployees: Employee[] = [];
