@@ -20,6 +20,7 @@ import {Qualification} from "../types";
 import {CustomDialogComponent} from '../confirm-dialog/custom-dialog.component';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {QualificationItemComponent} from "../qualification-item/qualification-item.component";
 
 @Component({
   selector: 'app-qualifications',
@@ -39,6 +40,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
     MatInputModule,
     MatBadgeModule,
     MatProgressSpinner,
+    QualificationItemComponent,
   ],
   templateUrl: './qualifications.component.html',
   styleUrl: './qualifications.component.scss'
