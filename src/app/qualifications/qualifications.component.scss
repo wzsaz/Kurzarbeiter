@@ -1,6 +1,6 @@
 .qualifications {
   width: 100%;
-  max-width: 50%;
+  max-width: 55%;
   margin: 20px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
@@ -40,14 +40,12 @@
   padding-bottom: 10px;
 }
 
-.qualification-actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .edit-button,
 .delete-button {
+  display: grid;
   margin: 0 5px;
+  padding: 20px;
+  // spacer
 }
 
 .create-button {
