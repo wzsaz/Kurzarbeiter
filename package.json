@@ -26,8 +26,8 @@
     "@angular/platform-browser": "^17.1.1",
     "@angular/router": "^17.1.1",
     "@types/node": "^20.11.8",
-    "keycloak-angular": "^15.0.0",
-    "keycloak-js": "^22.0.5",
+    "keycloak-angular": "^15.1.0",
+    "keycloak-js": "^23.0.5",
     "ngx-cookieconsent": "^6.0.0",
     "rxjs": "~7.8.1",
     "zone.js": "^0.14.3"
