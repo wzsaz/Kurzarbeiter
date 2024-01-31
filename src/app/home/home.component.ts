@@ -50,8 +50,8 @@ const USER_STATUS_UNAUTHORIZED: string = 'User: Unauthorized';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  serverStatus: string = 'UNKNOWN';
-  userStatus: string = 'UNKNOWN';
+  serverStatus: string = 'User: Unknown';
+  userStatus: string = 'User: Unknown';
 
   aboutProjectText: string = 'Kurzarbeiter, an innovative solution, redefines organizational efficiency with its cutting-edge Angular-based frontend seamlessly integrated into the Employee Management Service (EMS). This dynamic dashboard not only streamlines backoffice operations but also envisions future adaptability on mobile platforms. Experience a singular, cohesive web application that anticipates and meets the evolving needs of modern organizational management, making Kurzarbeiter your gateway to streamlined and future-ready operations.';
 
