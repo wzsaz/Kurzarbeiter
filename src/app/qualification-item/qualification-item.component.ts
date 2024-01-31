@@ -17,7 +17,7 @@ import {MatButton, MatIconButton} from "@angular/material/button";
     MatButton
   ],
   templateUrl: './qualification-item.component.html',
-  styleUrl: './qualification-item.component.css'
+  styleUrl: './qualification-item.component.scss'
 })
 export class QualificationItemComponent {
   @Input() qualification!: Qualification;

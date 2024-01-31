@@ -1,0 +1,34 @@
+.qualification {
+  flex: 1;
+  min-width: 80px;
+  margin: 5px;
+  padding: 2px;
+}
+
+.qualification-header {
+  color: #666; /* Adjust as needed */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px;
+  margin: 2px;
+}
+
+.qualification-header mat-card-title {
+  padding: 0;
+}
+
+.qualification-header .qualification-skill {
+  font-size: 0.8em;
+}
+
+.qualification-header .hover-actions {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.qualification:hover .hover-actions {
+  opacity: 1;
+  visibility: visible;
+}
