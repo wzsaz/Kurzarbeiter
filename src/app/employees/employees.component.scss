@@ -6,6 +6,14 @@
   margin: 20px 0 20px 0;
 }
 
+.employees {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 0 20px 20px 20px;
+}
+
 .header {
   padding: 0;
   margin: 7px 0 0 10px;
