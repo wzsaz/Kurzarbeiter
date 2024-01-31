@@ -1,11 +1,10 @@
 <!-- src/app/editor/editor.component.html -->
+<mat-card class="editor-card">
+  @if (isLoading) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 
-@if (isLoading) {
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-}
-
-<form [formGroup]="form" class="editor-form">
-  <mat-card>
+  <form [formGroup]="form" class="editor-form">
     <mat-card-header>
       <mat-card-title class="title">
         {{ editingValidId ? ('Editing ' + original?.firstName + " " + original?.lastName) : 'Creating new employee' }}
@@ -79,7 +78,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-chip-listbox multiple>
-            @for (q of allQualifications; track $index) {
+            @for (q of allQualifications;track $index) {
               <mat-chip-option
                 [selected]="qualificationsFormArray.controls[$index].value"
                 (click)="toggleSelection($index)">
@@ -106,6 +105,6 @@
       </mat-card-actions>
 
     </mat-card-content>
-  </mat-card>
-</form>
 
+  </form>
+</mat-card>
