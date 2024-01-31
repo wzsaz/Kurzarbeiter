@@ -110,7 +110,8 @@ export class QualificationsComponent implements OnInit, AfterViewInit, DoCheck {
 
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {
-        this.snack.open(`Cancelled renaming ${qualification?.skill}`, 'Close', {duration: 3000});
+        const log = qualification ? `Cancelled renaming ${qualification?.skill}` : 'Cancelled creating qualification';
+        this.snack.open(log, 'Close', {duration: 3000});
         return;
       } else if (isEmpty(result)) {
         this.snack.open(`${result} cannot be empty`, 'Close', {duration: 3000});
