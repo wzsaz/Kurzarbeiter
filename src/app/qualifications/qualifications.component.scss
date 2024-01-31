@@ -1,18 +1,31 @@
 .qualifications-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* This sets the space between the cards */
   margin: 20px;
 }
 
 .qualification-card {
   width: 100%;
-  display: flex;
-  flex-direction: row; // fxLayout
-  flex-wrap: wrap; //fxLayout
-  box-sizing: border-box;
-  align-content: stretch; // fxLayoutAlign
-  align-items: stretch; // fxLayoutAlign
-  justify-content: flex-start; // fxLayoutAlign
 }
 
-.add-qualification-action {
+.qualification {
+  flex: 1;
+  min-width: 250px; /* Minimum width of a qualification card */
+}
+
+.qualification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-button,
+.delete-button {
+  margin: 0 5px;
+}
+
+.add-button {
+  width: 100%;
   margin-top: 20px;
 }
