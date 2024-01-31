@@ -48,6 +48,16 @@
     text-justify: inter-word;
     margin-bottom: 20px;
   }
+
+  .mat-list-item {
+    display: flex;
+    align-items: center; // This will vertically align the icons with the text
+    justify-content: flex-start;
+  }
+
+  .mat-icon {
+    margin-right: 10px; // Add some space between the icon and the text
+  }
 }
 
 .grid-container {
@@ -63,16 +73,7 @@
   position: sticky;
   top: 0;
   flex-grow: 1;
-  margin-left: 0; // Add this line
+  margin-left: 0;
   width: 300px;
 }
 
-mat-list-item {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-mat-icon {
-  padding-top: 0;
-  margin-top: 0;
-}
