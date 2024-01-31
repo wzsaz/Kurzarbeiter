@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
 
   aboutProjectText: string = 'Kurzarbeiter, an innovative solution, redefines organizational efficiency with its cutting-edge Angular-based frontend seamlessly integrated into the Employee Management Service (EMS). This dynamic dashboard not only streamlines backoffice operations but also envisions future adaptability on mobile platforms. Experience a singular, cohesive web application that anticipates and meets the evolving needs of modern organizational management, making Kurzarbeiter your gateway to streamlined and future-ready operations.';
 
-  coreObjectives = [
+  features = [
     {
       icon: 'hub',
       title: 'Unified Interface',
