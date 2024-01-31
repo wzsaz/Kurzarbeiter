@@ -1,11 +1,17 @@
 <mat-expansion-panel class="employee-card">
 
   <mat-expansion-panel-header>
-    <div mat-card-avatar class="employee-picture">
-      <img [src]=profilePicture alt="employee-picture">
+    <div class="header-content">
+
+      <div mat-card-avatar class="employee-picture">
+        <img [src]=profilePicture alt="employee-picture">
+      </div>
+
+      <div class="employee-details">
+        <mat-panel-title>{{ employee.firstName }} {{ employee.lastName }}</mat-panel-title>
+        <mat-panel-description>{{ employee.phone }}</mat-panel-description>
+      </div>
     </div>
-    <mat-panel-title>{{ employee.firstName }} {{ employee.lastName }}</mat-panel-title>
-    <mat-panel-description>{{ employee.phone }}</mat-panel-description>
   </mat-expansion-panel-header>
 
   <mat-action-row>
@@ -19,24 +25,26 @@
     </button>
   </mat-action-row>
 
-  <mat-card>
-    <mat-card-title>Street</mat-card-title>
-    <mat-card-content>{{ employee.street }}</mat-card-content>
+  <div class="address-cards">
+    <mat-card class="detail-card">
+      <mat-card-title>Street</mat-card-title>
+      <mat-card-content class="detail-content">{{ employee.street }}</mat-card-content>
+    </mat-card>
 
-    <mat-divider></mat-divider>
+    <mat-card class="detail-card">
+      <mat-card-title>City</mat-card-title>
+      <mat-card-content class="detail-content">{{ employee.city }}</mat-card-content>
+    </mat-card>
 
-    <mat-card-title>City</mat-card-title>
-    <mat-card-content>{{ employee.city }}</mat-card-content>
+    <mat-card class="detail-card">
+      <mat-card-title>Postcode</mat-card-title>
+      <mat-card-content class="detail-content">{{ employee.postcode }}</mat-card-content>
+    </mat-card>
+  </div>
 
-    <mat-divider></mat-divider>
-
-    <mat-card-title>Postcode</mat-card-title>
-    <mat-card-content>{{ employee.postcode }}</mat-card-content>
-
-    <mat-divider></mat-divider>
-
+  <mat-card class="detail-card">
     <mat-card-title>Skills</mat-card-title>
-    <mat-card-content>
+    <mat-card-content class="detail-content">
       <mat-chip-listbox>
         @for (skill of employee.skillSet; track skill) {
           <mat-chip>{{ skill.skill }}</mat-chip>
@@ -44,4 +52,5 @@
       </mat-chip-listbox>
     </mat-card-content>
   </mat-card>
+
 </mat-expansion-panel>

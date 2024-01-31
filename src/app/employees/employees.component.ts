@@ -14,6 +14,7 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {Router} from "@angular/router";
 import {EmployeeComponent} from "../employee/employee.component";
 import {MatPaginator} from "@angular/material/paginator";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-employees',
@@ -30,16 +31,19 @@ import {MatPaginator} from "@angular/material/paginator";
     MatListModule,
     MatBadgeModule,
     EmployeeComponent,
-    MatPaginator
+    MatPaginator,
+    MatProgressSpinner
   ],
   templateUrl: './employees.component.html',
-  styleUrl: './employees.component.scss'
+  styleUrl: './employees.component.css'
 })
 export class EmployeesComponent implements AfterViewInit, DoCheck {
   @Input() inputEmployees: Employee[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedEmployees: Employee[] = [];
+  isLoading = true;
+
+  paginatedEmployees: Employee[] = [];
 
   pageSize = 5;
   pageSizeOptions = [5, 10, 20];
@@ -50,10 +54,11 @@ export class EmployeesComponent implements AfterViewInit, DoCheck {
     private router: Router,
     private es: EmployeeService
   ) {
+    this.isLoading = true; // set isLoading to true when the component is initialized
   }
 
   ngDoCheck(): void {
-    if (this.inputEmployees.length !== this.displayedEmployees.length) {
+    if (this.inputEmployees.length !== this.paginatedEmployees.length) {
       this.loadPage();
     }
   }
@@ -63,12 +68,13 @@ export class EmployeesComponent implements AfterViewInit, DoCheck {
   }
 
   loadPage() {
-    if (this.displayedEmployees.length === this.inputEmployees.length) {
+    if (this.paginatedEmployees.length === this.inputEmployees.length) {
       return;
     }
+    this.isLoading = false
     const start = this.paginator.pageIndex * this.paginator.pageSize;
     const end = start + this.paginator.pageSize;
-    this.displayedEmployees = this.inputEmployees.slice(start, end);
+    this.paginatedEmployees = this.inputEmployees.slice(start, end);
   }
 
   handleEdit(employee: Employee): void {

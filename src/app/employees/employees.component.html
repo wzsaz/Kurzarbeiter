@@ -1,7 +1,10 @@
 <mat-card>
   <h3 mat-subheader>Employees<span matBadge="{{inputEmployees.length}}"> </span></h3>
   <mat-accordion>
-    @for (employee of displayedEmployees; track employee) {
+    @if (isLoading) {
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    }
+    @for (employee of paginatedEmployees; track employee) {
       <app-employee [employee]="employee"
                     (editedEmployee)="handleEdit($event)"
                     (deletedEmployee)="handleDelete($event)">

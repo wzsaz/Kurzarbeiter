@@ -1,0 +1,38 @@
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.employee-details {
+  margin-left: 15px;
+}
+
+.detail-card mat-card-title {
+  font-size: 14px;
+  font-weight: normal;
+  padding-left: 10px;
+}
+
+.employee-picture img {
+  border-radius: 50%;
+  max-width: 100%;
+  height: auto;
+  margin-top: 7px;
+}
+
+.detail-content {
+  font-size: 16px;
+}
+
+.detail-card {
+  flex: 1 1 auto; /* flex-grow flex-shrink flex-basis */
+  margin: 5px 10px 5px 0; /* top right bottom left */
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.address-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

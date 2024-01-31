@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardAvatar, MatCardContent, MatCardTitle} from "@angular/material/card";
-import {MatChip, MatChipListbox} from "@angular/material/chips";
+import {MatChip, MatChipAvatar, MatChipListbox} from "@angular/material/chips";
 import {MatDivider} from "@angular/material/divider";
 import {
   MatExpansionPanel,
@@ -29,7 +29,8 @@ import {Employee} from "../types";
     MatExpansionPanelDescription,
     MatExpansionPanelHeader,
     MatExpansionPanelTitle,
-    MatIcon
+    MatIcon,
+    MatChipAvatar
   ],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.css'
