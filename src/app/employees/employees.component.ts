@@ -15,6 +15,7 @@ import {Router} from "@angular/router";
 import {EmployeeComponent} from "../employee/employee.component";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {FilterComponent} from "../filter/filter.component";
 
 @Component({
   selector: 'app-employees',
@@ -32,7 +33,8 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
     MatBadgeModule,
     EmployeeComponent,
     MatPaginator,
-    MatProgressSpinner
+    MatProgressSpinner,
+    FilterComponent
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'

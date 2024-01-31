@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {ViewComponent} from "./view/view.component";
 import {CommonModule} from "@angular/common";
 import {NavbarComponent} from "./navbar/navbar.component";
 import {KeycloakAngularModule} from "keycloak-angular";
@@ -22,7 +21,6 @@ import {
     CommonModule,
     RouterOutlet,
     NavbarComponent,
-    ViewComponent,
     ReactiveFormsModule,
     EditorComponent,
     KeycloakAngularModule,

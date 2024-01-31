@@ -6,7 +6,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {Employee, Qualification} from "../types";
-import {EmployeesComponent} from "../employees/employees.component";
 import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatBadge} from "@angular/material/badge";
@@ -18,7 +17,8 @@ import {forkJoin} from "rxjs";
 import {
   MatAccordion,
   MatExpansionPanel,
-  MatExpansionPanelActionRow, MatExpansionPanelDescription,
+  MatExpansionPanelActionRow,
+  MatExpansionPanelDescription,
   MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
@@ -37,7 +37,6 @@ import {MatButtonToggle} from "@angular/material/button-toggle";
     MatButtonModule,
     MatIconModule,
     NgIf,
-    EmployeesComponent,
     NgForOf,
     AsyncPipe,
     ReactiveFormsModule,
