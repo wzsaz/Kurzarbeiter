@@ -152,7 +152,7 @@ For more detailed instructions, please refer to our [CONTRIBUTING.md](CONTRIBUTI
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/wzsaz/kurzarbeiter/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/wzsaz/Kurzarbeiter/blob/master/LICENSE) file for details.
 
 ## Acknowledgments
 
