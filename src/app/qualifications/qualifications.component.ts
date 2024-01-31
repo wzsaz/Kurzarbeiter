@@ -19,6 +19,7 @@ import {defaultIfEmpty, zip} from "rxjs";
 import {Qualification} from "../types";
 import {CustomDialogComponent} from '../confirm-dialog/custom-dialog.component';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-qualifications',
@@ -37,12 +38,14 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     FormsModule,
     MatInputModule,
     MatBadgeModule,
+    MatProgressSpinner,
   ],
   templateUrl: './qualifications.component.html',
   styleUrl: './qualifications.component.scss'
 })
 export class QualificationsComponent implements OnInit {
   qualifications: Qualification[] = [];
+  isLoading: boolean = true;
 
   constructor(
     private qualificationService: QualificationService,
@@ -57,9 +60,11 @@ export class QualificationsComponent implements OnInit {
   }
 
   private updateQualifications(): void {
+    this.isLoading = true;
     this.qualificationService.getQualifications().subscribe(qualifications => {
       this.qualifications = qualifications;
     });
+    this.isLoading = false;
   }
 
   openEditDialog(qualification ?: Qualification): void {
