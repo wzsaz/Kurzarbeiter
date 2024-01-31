@@ -89,7 +89,7 @@
       <br>
 
       <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="form.invalid || !form.dirty">
+        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="form.invalid || !form.dirty" class="save-button">
           <ng-container>
             @if (editingValidId) {
               <mat-icon>compare</mat-icon>
@@ -100,9 +100,13 @@
             }
           </ng-container>
         </button>
-        <button mat-raised-button color="warn" (click)="onClear()">
+        <button mat-raised-button color="warn" (click)="onClear()" class="clear-button">
           <mat-icon>delete</mat-icon>
           <span>Clear</span>
+        </button>
+        <button mat-raised-button color="accent" (click)="onCancel()" class="cancel-button">
+          <mat-icon>cancel</mat-icon>
+          <span>Cancel</span>
         </button>
       </mat-card-actions>
 

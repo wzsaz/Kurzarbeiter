@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {EmployeeRequestDTO, Qualification} from "../types";
 import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -144,6 +144,10 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
   onClear() {
     this.form.reset({id: this.form.value.id});
     this.qualificationsFormArray.controls.forEach(control => control.setValue(false));
+  }
+
+  onCancel() {
+    this.router.navigate(['/view']).then();
   }
 
   hasUnsavedChanges(): boolean {
