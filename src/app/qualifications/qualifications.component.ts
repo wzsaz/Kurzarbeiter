@@ -62,8 +62,6 @@ export class QualificationsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.pageIndex = 0;
-    this.pageSize = 10;
     this.updateQualifications();
   }
 
@@ -76,7 +74,7 @@ export class QualificationsComponent implements OnInit, AfterViewInit {
     this.isLoading = true;
     this.qualificationService.getQualifications().subscribe(qualifications => {
       this.qualifications = qualifications;
-      this.paginatedQualifications = qualifications.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
+      this.loadPage();
     });
     this.isLoading = false;
   }
