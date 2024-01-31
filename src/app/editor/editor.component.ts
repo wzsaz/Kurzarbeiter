@@ -1,6 +1,6 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
-import {EmployeeRequestDTO, Qualification} from "../types";
+import {Employee, EmployeeRequestDTO, Qualification} from "../types";
 import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -48,6 +48,7 @@ import {MatChipListbox, MatChipOption} from "@angular/material/chips";
   styleUrl: './editor.component.scss'
 })
 export class EditorComponent implements OnInit, CanComponentDeactivate {
+  protected original: Employee | null = null;
   protected form: FormGroup;
   protected allQualifications: Qualification[] = [];
   private INVALID_ID: number = -1;
@@ -94,6 +95,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
       const id = params.get('id');
       if (id) {
         this.employeeService.getEmployee(+id).subscribe(employee => {
+          this.original = employee;
           this.form.patchValue(employee);
           this.setupQualifications(employee.skillSet);
         });
