@@ -2,11 +2,24 @@ import {Component, OnInit} from '@angular/core';
 import {GeneratorComponent} from "../generator/generator.component";
 import {MatToolbar} from "@angular/material/toolbar";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
-import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardHeader,
+  MatCardSubtitle,
+  MatCardTitle
+} from "@angular/material/card";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {NgIf} from "@angular/common";
 import {QualificationService} from "../service/qualification.service";
 import {EmployeeService} from "../service/employee.service";
+import {MatIcon} from "@angular/material/icon";
+import {fa, th} from "@faker-js/faker";
+import {forkJoin} from "rxjs";
+import {MatList, MatListItem, MatListSubheaderCssMatStyler} from "@angular/material/list";
+import {MatLine} from "@angular/material/core";
+import {MatAnchor} from "@angular/material/button";
 
 @Component({
   selector: 'app-home',
@@ -22,7 +35,14 @@ import {EmployeeService} from "../service/employee.service";
     MatProgressSpinner,
     MatCardSubtitle,
     MatCardTitle,
-    NgIf
+    NgIf,
+    MatIcon,
+    MatCardActions,
+    MatListItem,
+    MatList,
+    MatListSubheaderCssMatStyler,
+    MatLine,
+    MatAnchor
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -40,35 +60,35 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    //delay the loading of the page to show the spinner
-    this.fetchCurrentUser();
     this.checkServerStatus();
     this.loading = false;
   }
 
-  fetchCurrentUser() {
-    this.currentUser = "user"
-  }
-
   checkServerStatus() {
-    this.employeeService.getEmployees().subscribe(employees => {
-      if (employees.length > 0) {
-        this.serverStatus = 'Online';
-        this.currentUserCount = employees.length.toString();
-      } else {
-        this.serverStatus = 'Offline';
-        this.currentUserCount = 'Could not connect to server';
-      }
-    })
+    const employeesRequest = this.employeeService.getEmployees();
+    const qualificationsRequest = this.qualificationService.getQualifications();
 
-    this.qualificationService.getQualifications().subscribe(qualifications => {
-      if (qualifications.length > 0) {
-        this.serverStatus = 'Online';
-        this.currentQualificationCount = qualifications.length.toString();
-      } else {
+    forkJoin([employeesRequest, qualificationsRequest]).subscribe({
+      next: ([employees, qualifications]) => {
+        // Assuming 'getEmployees' and 'getQualifications' return arrays
+        if (employees && qualifications) {
+          this.serverStatus = 'Online';
+          this.currentUserCount = employees.length.toString();
+          this.currentQualificationCount = qualifications.length.toString();
+          //todo: maybe fix this and use keycloak to get the name out of keycloak profile
+          this.currentUser = "user";
+        }
+        throw new Error('Invalid response from server');
+      },
+      error: () => {
         this.serverStatus = 'Offline';
-        this.currentQualificationCount = 'Could not connect to server';
+        this.currentUserCount = 'Error connecting to server';
+        this.currentQualificationCount = 'Error connecting to server';
+        this.currentUser = 'Error connecting to server';
+      },
+      complete: () => {
+        this.loading = false;
       }
-    })
+    });
   }
 }
