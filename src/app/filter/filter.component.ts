@@ -100,6 +100,7 @@ export class FilterComponent implements OnInit {
       qualifications: this.fb.array([])
     });
   }
+
   ngOnInit() {
     forkJoin({
       employees: this.es.getEmployees(),
@@ -154,7 +155,8 @@ export class FilterComponent implements OnInit {
     this.filteredEmployees.emit(filteredEmployees);
   }
 
-  toggleFilter(): void {
+  toggleFilter(event: Event): void {
+    event.stopPropagation();
     this.filterEnabled = !this.filterEnabled;
     this.filterEmployees();
   }

@@ -1,9 +1,17 @@
 .header {
   padding-left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   .title {
+    margin-right: auto;
     font-size: 20px;
     margin-left: 10px;
+  }
+
+  button {
+    margin-left: auto;
   }
 }
 
