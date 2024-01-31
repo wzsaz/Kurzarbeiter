@@ -75,17 +75,23 @@ export class QualificationsComponent implements OnInit {
       }
     });
 
-    const validateQualification = (skill: string): boolean => {
-      if (!skill || skill.trim().length === 0) return false;
-      return !this.qualifications.some(q => q.skill === skill);
+    const isEmpty = (skill: string): boolean => {
+      return !skill || skill.trim().length === 0;
+    }
+
+    const isDuplicate = (skill: string): boolean => {
+      return this.qualifications.some(q => q.skill === skill);
     }
 
     dialogRef.afterClosed().subscribe(result => {
-      if (!validateQualification(result)) {
-        // Don't just instantly return but rather show a mat-error
-        if (result) {
-          this.snack.open(`${result} already exists`, 'Close', {duration: 3000});
-        }
+      if (!result) {
+        this.snack.open(`An error occurred. Try again later.`, 'Close', {duration: 3000});
+        return;
+      } else if (isEmpty(result)) {
+        this.snack.open(`${result} cannot be empty`, 'Close', {duration: 3000});
+        return;
+      } else if (isDuplicate(result)) {
+        this.snack.open(`${result} already exists`, 'Close', {duration: 3000});
         return;
       }
 
@@ -111,6 +117,8 @@ export class QualificationsComponent implements OnInit {
       if (qualification) {
         this.updateQualifications()
         this.snack.open(`${qualification.skill} created`, 'Ok', {duration: 3000});
+      } else {
+        this.snack.open(`Failed to create ${skill}. Try again later.`, 'Ok', {duration: 3000});
       }
     });
   }
