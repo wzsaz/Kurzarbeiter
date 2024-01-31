@@ -5,49 +5,115 @@
 
   <form [formGroup]="form">
 
-    <app-autocomplete
-      [options]="firstNameOptions"
-      [control]="getFormControl('firstName')"
-      placeholder="First name">
-    </app-autocomplete>
+    <div class="card-container">
 
-    <app-autocomplete
-      [options]="lastNameOptions"
-      [control]="getFormControl('lastName')"
-      placeholder="Last name">
-    </app-autocomplete>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>First Name</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-autocomplete
+            [options]="firstNameOptions"
+            [control]="getFormControl('firstName')"
+            placeholder="First name">
+          </app-autocomplete>
+        </mat-card-content>
+      </mat-card>
 
-    <app-autocomplete
-      [options]="cityOptions"
-      [control]="getFormControl('city')"
-      placeholder="City">
-    </app-autocomplete>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Last Name</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-autocomplete
+            [options]="lastNameOptions"
+            [control]="getFormControl('lastName')"
+            placeholder="Last name">
+          </app-autocomplete>
+        </mat-card-content>
+      </mat-card>
 
-    <app-autocomplete
-      [options]="streetOptions"
-      [control]="getFormControl('street')"
-      placeholder="Street">
-    </app-autocomplete>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Last Name</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-autocomplete
+            [options]="phoneOptions"
+            [control]="getFormControl('phone')"
+            placeholder="Phone">
+          </app-autocomplete>
+        </mat-card-content>
+      </mat-card>
 
-    <app-autocomplete
-      [options]="postcodeOptions"
-      [control]="getFormControl('postcode')"
-      placeholder="Postcode">
-    </app-autocomplete>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Location</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-autocomplete
+            [options]="streetOptions"
+            [control]="getFormControl('street')"
+            placeholder="Street">
+          </app-autocomplete>
+        </mat-card-content>
+      </mat-card>
 
-    <app-autocomplete
-      [options]="phoneOptions"
-      [control]="getFormControl('phone')"
-      placeholder="Phone">
-    </app-autocomplete>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Location</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-autocomplete
+            [options]="cityOptions"
+            [control]="getFormControl('city')"
+            placeholder="City">
+          </app-autocomplete>
+        </mat-card-content>
+      </mat-card>
 
-    <div formArrayName="qualifications">
-      @for (q of allQualifications; track $index) {
-        <mat-checkbox [formControlName]="$index">
-          {{ q.skill }}
-        </mat-checkbox>
-      }
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Location</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-autocomplete
+            [options]="postcodeOptions"
+            [control]="getFormControl('postcode')"
+            placeholder="Postcode">
+          </app-autocomplete>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Add other mat-cards for other fields here -->
     </div>
 
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Qualifications</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div formArrayName="qualifications">
+          <mat-chip-listbox multiple>
+            @for (q of allQualifications; track $index) {
+              <mat-chip-option
+                [selected]="qualificationsFormArray.controls[$index].value"
+                (selectionChange)="qualificationsFormArray.controls[$index].setValue(!qualificationsFormArray.controls[$index].value)">
+                {{ q.skill }}
+              </mat-chip-option>
+            }
+          </mat-chip-listbox>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
   </form>
+
+  <mat-action-row>
+    <mat-slide-toggle>
+      Show only available
+    </mat-slide-toggle>
+    <!-- Toggle button for filtering and reset button for filtering -->
+  </mat-action-row>
+
 </mat-expansion-panel>
