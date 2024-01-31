@@ -85,14 +85,13 @@
         </mat-card-content>
       </mat-card>
 
-      <!-- Add other mat-cards for other fields here -->
     </div>
 
-    <mat-card>
+    <mat-card class="qualifications-card">
       <mat-card-header>
         <mat-card-title>Qualifications</mat-card-title>
       </mat-card-header>
-      <mat-card-content>
+      <mat-card-content class="qualifications-list">
         <div formArrayName="qualifications">
           <mat-chip-listbox multiple>
             @for (q of allQualifications; track $index) {
@@ -110,10 +109,9 @@
   </form>
 
   <mat-action-row>
-    <mat-slide-toggle>
-      Show only available
-    </mat-slide-toggle>
-    <!-- Toggle button for filtering and reset button for filtering -->
+    <button mat-icon-button (click)="toggleFilter()">
+      <mat-icon>{{ filterEnabled ? 'filter_list' : 'filter_list_off' }}</mat-icon>
+    </button>
   </mat-action-row>
 
 </mat-expansion-panel>

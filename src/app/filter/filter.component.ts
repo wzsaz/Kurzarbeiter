@@ -18,12 +18,14 @@ import {forkJoin} from "rxjs";
 import {
   MatAccordion,
   MatExpansionPanel,
-  MatExpansionPanelActionRow, MatExpansionPanelHeader,
+  MatExpansionPanelActionRow, MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {AutocompleteComponent} from "../autocomplete/autocomplete.component";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {MatChip, MatChipListbox, MatChipOption} from "@angular/material/chips";
+import {MatButtonToggle} from "@angular/material/button-toggle";
 
 @Component({
   selector: 'app-filter',
@@ -52,7 +54,9 @@ import {MatChip, MatChipListbox, MatChipOption} from "@angular/material/chips";
     MatSlideToggle,
     MatChip,
     MatChipListbox,
-    MatChipOption
+    MatChipOption,
+    MatButtonToggle,
+    MatExpansionPanelDescription
   ],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
@@ -61,6 +65,8 @@ export class FilterComponent implements OnInit {
   @Output() filteredEmployees = new EventEmitter<Employee[]>();
 
   private employeesToFilter: Employee[] = [];
+  filterEnabled: boolean = true;
+
   protected allQualifications: Qualification[] = [];
   protected form: FormGroup;
 
@@ -94,11 +100,6 @@ export class FilterComponent implements OnInit {
       qualifications: this.fb.array([])
     });
   }
-
-  selectedChip(event: any) {
-    console.log(event);
-  }
-
   ngOnInit() {
     forkJoin({
       employees: this.es.getEmployees(),
@@ -127,6 +128,11 @@ export class FilterComponent implements OnInit {
   }
 
   protected filterEmployees() {
+    if (!this.filterEnabled) {
+      this.filteredEmployees.emit(this.employeesToFilter);
+      return;
+    }
+
     const {firstName, lastName, city, phone} = this.form.value;
 
     const filteredEmployees = this.employeesToFilter.filter(employee => {
@@ -146,5 +152,10 @@ export class FilterComponent implements OnInit {
     });
 
     this.filteredEmployees.emit(filteredEmployees);
+  }
+
+  toggleFilter(): void {
+    this.filterEnabled = !this.filterEnabled;
+    this.filterEmployees();
   }
 }
