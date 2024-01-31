@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
@@ -21,6 +21,7 @@ import {CustomDialogComponent} from '../confirm-dialog/custom-dialog.component';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {QualificationItemComponent} from "../qualification-item/qualification-item.component";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-qualifications',
@@ -41,12 +42,15 @@ import {QualificationItemComponent} from "../qualification-item/qualification-it
     MatBadgeModule,
     MatProgressSpinner,
     QualificationItemComponent,
+    MatPaginator,
   ],
   templateUrl: './qualifications.component.html',
   styleUrl: './qualifications.component.scss'
 })
-export class QualificationsComponent implements OnInit {
+export class QualificationsComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   qualifications: Qualification[] = [];
+  paginatedQualifications: Qualification[] = [];
   isLoading: boolean = true;
 
   constructor(
@@ -58,15 +62,33 @@ export class QualificationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.pageIndex = 0;
+    this.pageSize = 10;
     this.updateQualifications();
   }
+
+  pageIndex: number = 0;
+  pageSize: number = 10;
+  pageSizeOptions: number[] = [5, 10, 20];
+  showFirstLastButtons: boolean = true;
 
   private updateQualifications(): void {
     this.isLoading = true;
     this.qualificationService.getQualifications().subscribe(qualifications => {
       this.qualifications = qualifications;
+      this.paginatedQualifications = qualifications.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
     });
     this.isLoading = false;
+  }
+
+  loadPage() {
+    const start = this.paginator.pageIndex * this.paginator.pageSize;
+    const end = start + this.paginator.pageSize;
+    this.paginatedQualifications = this.qualifications.slice(start, end);
+  }
+
+  ngAfterViewInit() {
+    this.paginator.page.subscribe(() => this.loadPage());
   }
 
   openEditDialog(qualification ?: Qualification): void {

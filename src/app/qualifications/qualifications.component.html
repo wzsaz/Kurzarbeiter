@@ -6,7 +6,7 @@
     </mat-card-title>
   </mat-card-header>
 
-  @for (qualification of qualifications; track qualification) {
+  @for (qualification of paginatedQualifications; track qualification) {
     <app-qualification-item
       [qualification]="qualification"
       (deletedQualification)="openDeleteDialog($event)"
@@ -21,3 +21,8 @@
   </mat-card-actions>
 
 </mat-card>
+<mat-paginator [length]="qualifications.length"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               [showFirstLastButtons]="showFirstLastButtons">
+</mat-paginator>
