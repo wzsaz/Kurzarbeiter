@@ -14,10 +14,14 @@ import {MatLine} from "@angular/material/core";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {GeneratorComponent} from "../generator/generator.component";
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from "@angular/material/expansion";
-import {EmployeeService} from "../service/employee.service";
-import {catchError} from "rxjs/operators";
-import {of} from "rxjs";
 import {NgClass, NgForOf} from "@angular/common";
+import {QualificationService} from "../service/qualification.service";
+
+const SERVER_STATUS_ONLINE: string = 'Server: Online';
+const SERVER_STATUS_OFFLINE: string = 'Server: Offline';
+const USER_STATUS_AUTHORIZED: string = 'User: Authorized';
+const USER_STATUS_UNAUTHORIZED: string = 'User: Unauthorized';
+
 
 @Component({
   selector: 'app-home',
@@ -48,9 +52,8 @@ import {NgClass, NgForOf} from "@angular/common";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  serverStatus: string = 'offline';
-  serverStatusIcon: string = 'error';
-  serverStatusText: string = 'Server is offline';
+  serverStatus: string = 'UNKNOWN';
+  userStatus: string = 'UNKNOWN';
 
   aboutProjectText: string = 'Kurzarbeiter, an innovative solution, redefines organizational efficiency with its cutting-edge Angular-based frontend seamlessly integrated into the Employee Management Service (EMS). This dynamic dashboard not only streamlines backoffice operations but also envisions future adaptability on mobile platforms. Experience a singular, cohesive web application that anticipates and meets the evolving needs of modern organizational management, making Kurzarbeiter your gateway to streamlined and future-ready operations.';
 
@@ -75,43 +78,46 @@ export class HomeComponent implements OnInit {
       title: 'Design and Usability',
       text: 'Focus on intuitive navigation and responsiveness to accommodate diverse needs.'
     }
-    // Add more objectives as needed...
   ];
 
-  constructor(private es: EmployeeService) {
+  constructor(private qs: QualificationService) {
   }
 
   ngOnInit() {
-    this.es.getEmployee(0).pipe(
-      catchError(error => {
-        if (error.status === 401) {
-          return of('unauthorized');
-        } else if (error.status === 404) {
-          return of('online');
+    this.qs.getQualifications().subscribe({
+      next: () => {
+        this.serverStatus = SERVER_STATUS_ONLINE;
+        this.userStatus = USER_STATUS_AUTHORIZED;
+      },
+      error: (err) => {
+        if (err.status === 401) {
+          this.serverStatus = SERVER_STATUS_ONLINE;
+          this.userStatus = USER_STATUS_UNAUTHORIZED;
         } else {
-          return of(null);
+          this.serverStatus = SERVER_STATUS_OFFLINE;
         }
-      })
-    ).subscribe((data) => {
-      if (data === null) {
-        this.serverStatus = 'offline';
-      } else if (typeof data === 'string') {
-        this.serverStatus = data;
-      } else {
-        this.serverStatus = 'online';
-      }
-
-      if (this.serverStatus === 'online') {
-        this.serverStatusIcon = 'check_circle';
-        this.serverStatusText = 'Server is online';
-      } else if (this.serverStatus === 'unauthorized') {
-        this.serverStatusIcon = 'error';
-        this.serverStatusText = 'Unauthorized';
-      } else {
-        this.serverStatusIcon = 'error';
-        this.serverStatusText = 'Server is offline';
       }
     });
+  }
+
+  userStatusIcon(): string {
+    if (this.userStatus === USER_STATUS_AUTHORIZED) {
+      return 'check_circle'; // Icon for authorized user
+    } else if (this.userStatus === USER_STATUS_UNAUTHORIZED) {
+      return 'lock'; // Icon for unauthorized user
+    } else {
+      return 'help'; // Default icon
+    }
+  }
+
+  serverStatusIcon(): string {
+    if (this.serverStatus === SERVER_STATUS_ONLINE) {
+      return 'cloud_done'; // Icon for online server
+    } else if (this.serverStatus === SERVER_STATUS_OFFLINE) {
+      return 'cloud_off'; // Icon for offline server
+    } else {
+      return 'help'; // Default icon
+    }
   }
 
 }
