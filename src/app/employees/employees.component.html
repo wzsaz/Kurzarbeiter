@@ -1,25 +1,27 @@
-<app-filter (filteredEmployees)="inputEmployees = $event"></app-filter>
-<mat-card>
-  <mat-card-header class="header">
-    <mat-card-title class="title">Employees<span matBadge="{{inputEmployees.length}}"></span></mat-card-title>
-  </mat-card-header>
-  <mat-accordion>
-    @if (isLoading) {
-      <div class="spinner-container">
-        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-      </div>
-    } @else {
-      @for (employee of paginatedEmployees;track employee) {
-        <app-employee [employee]="employee"
-                      (editedEmployee)="handleEdit($event)"
-                      (deletedEmployee)="handleDelete($event)">
-        </app-employee>
+<mat-card class="container-cars">
+  <app-filter class="filter-card" (filteredEmployees)="inputEmployees = $event"></app-filter>
+  <mat-card>
+    <mat-card-header class="header">
+      <mat-card-title class="title">Employees<span matBadge="{{inputEmployees.length}}"></span></mat-card-title>
+    </mat-card-header>
+    <mat-accordion>
+      @if (isLoading) {
+        <div class="spinner-container">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+      } @else {
+        @for (employee of paginatedEmployees;track employee) {
+          <app-employee [employee]="employee"
+                        (editedEmployee)="handleEdit($event)"
+                        (deletedEmployee)="handleDelete($event)">
+          </app-employee>
+        }
       }
-    }
-  </mat-accordion>
+    </mat-accordion>
+  </mat-card>
+  <mat-paginator [length]="inputEmployees.length"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 [showFirstLastButtons]="showFirstLastButtons">
+  </mat-paginator>
 </mat-card>
-<mat-paginator [length]="inputEmployees.length"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="pageSizeOptions"
-               [showFirstLastButtons]="showFirstLastButtons">
-</mat-paginator>

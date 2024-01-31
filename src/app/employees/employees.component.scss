@@ -1,3 +1,14 @@
+.container-cars {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 20px;
+}
+
+.filter-card {
+  margin: 10px;
+}
+
 .spinner-container {
   display: flex;
   justify-content: center;
@@ -7,11 +18,8 @@
 }
 
 .employees {
-  display: flex;
   flex-direction: column;
   height: 100%;
-  width: 100%;
-  padding: 0 20px 20px 20px;
 }
 
 .header {
@@ -20,6 +28,6 @@
 
   .title {
     font-size: 20px;
-    margin: 0 0 10px 0;
+    margin: 0 0 10px 8px;
   }
 }
