@@ -1,23 +1,31 @@
-<div class="qualifications-container">
-  <h3 mat-subheader>Qualifications <span matBadge="{{qualifications.length}}"> </span></h3>
-  <mat-card class="qualification-card">
-    @for (qualification of qualifications; track qualification.id) {
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{ qualification.skill }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-actions>
-          <button mat-icon-button (click)="openEditDialog(qualification)">
+<mat-card class="qualifications" appearance="outlined">
+  <mat-card-header>
+    <mat-card-subtitle class="qualifications-header">
+      Qualifications
+      <span matBadge="{{qualifications.length}}"></span>
+    </mat-card-subtitle>
+  </mat-card-header>
+  @for (qualification of qualifications;track qualification.id) {
+    <mat-card class="qualification" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title class="qualification-header">{{ qualification.skill }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-actions>
+        <mat-card class="qualification-actions" appearance="outlined">
+          <button mat-icon-button (click)="openEditDialog(qualification)" class="edit-button">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="openDeleteDialog(qualification)">
+          <button mat-icon-button (click)="openDeleteDialog(qualification)" class="delete-button">
             <mat-icon>delete</mat-icon>
           </button>
-        </mat-card-actions>
-      </mat-card>
-    }
-    <mat-card-actions>
-      <button mat-raised-button (click)="openEditDialog()" class="add-button">Add Qualification</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+        </mat-card>
+      </mat-card-actions>
+    </mat-card>
+  }
+  <mat-card-actions>
+    <button mat-raised-button (click)="openEditDialog()" class="add-button">
+      Add Qualification
+    </button>
+  </mat-card-actions>
+</mat-card>

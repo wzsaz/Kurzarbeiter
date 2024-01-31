@@ -1,18 +1,41 @@
-.qualifications-container {
-  margin: 20px;
-}
-
-.qualification-card {
+.qualifications {
   width: 100%;
-  display: flex;
-  flex-direction: row; // fxLayout
-  flex-wrap: wrap; //fxLayout
-  box-sizing: border-box;
-  align-content: stretch; // fxLayoutAlign
-  align-items: stretch; // fxLayoutAlign
-  justify-content: flex-start; // fxLayoutAlign
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.add-qualification-action {
+.qualifications-header {
+  justify-content: space-between;
+  padding: 2px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.qualification {
+  flex: 1;
+  min-width: 250px;
+  margin: 10px;
+  padding: 5px;
+}
+
+.qualification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.qualification-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-button,
+.delete-button {
+  margin: 0 5px;
+  color: #757575;
+}
+
+.add-button {
+  width: 100%;
   margin-top: 20px;
 }
