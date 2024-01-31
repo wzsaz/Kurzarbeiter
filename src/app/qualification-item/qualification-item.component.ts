@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Qualification} from "../types";
 import {MatCard, MatCardActions, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatIcon} from "@angular/material/icon";
-import {MatIconButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-qualification-item',
@@ -13,7 +13,8 @@ import {MatIconButton} from "@angular/material/button";
     MatCardActions,
     MatIcon,
     MatIconButton,
-    MatCardTitle
+    MatCardTitle,
+    MatButton
   ],
   templateUrl: './qualification-item.component.html',
   styleUrl: './qualification-item.component.css'

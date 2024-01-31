@@ -1,16 +1,19 @@
 <mat-card class="qualification" appearance="outlined">
   <mat-card-header>
-    <mat-card-title class="qualification-header">{{ qualification.skill }}
-    </mat-card-title>
+    <div class="qualification-header">
+      <mat-card-title>{{ qualification.skill }}</mat-card-title>
+      <div class="hover-actions">
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="onEdit()" class="edit-button">
+            <mat-icon>edit</mat-icon>
+            <span>Rename</span>
+          </button>
+          <button mat-raised-button color="warn" (click)="onDelete()" class="delete-button">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-card-actions>
+      </div>
+    </div>
   </mat-card-header>
-  <div class="hover-actions">
-    <mat-card-actions>
-      <button mat-icon-button (click)="onEdit()" class="edit-button">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button (click)="onDelete()" class="delete-button">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-card-actions>
-  </div>
 </mat-card>

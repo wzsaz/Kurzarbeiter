@@ -92,11 +92,11 @@ export class QualificationsComponent implements OnInit, AfterViewInit, DoCheck {
     this.paginator.page.subscribe(() => this.paginate());
   }
 
-  openEditDialog(qualification ?: Qualification): void {
+  openEditDialog(qualification?: Qualification): void {
     const dialogRef = this.dialog.open(AddEditQualificationDialogComponent, {
       data: {
         qualification,
-        title: qualification ? 'Edit Qualification' : 'Add Qualification'
+        title: qualification ? 'Rename ' + qualification.skill : 'Create Qualification'
       }
     });
 
@@ -110,7 +110,7 @@ export class QualificationsComponent implements OnInit, AfterViewInit, DoCheck {
 
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {
-        this.snack.open(`An error occurred. Try again later.`, 'Close', {duration: 3000});
+        this.snack.open(`Cancelled renaming ${qualification?.skill}`, 'Close', {duration: 3000});
         return;
       } else if (isEmpty(result)) {
         this.snack.open(`${result} cannot be empty`, 'Close', {duration: 3000});
@@ -173,8 +173,10 @@ export class QualificationsComponent implements OnInit, AfterViewInit, DoCheck {
 
         dialogRef.afterClosed().subscribe(confirmed => {
           if (!confirmed) {
+            this.snack.open(`Cancelled deleting ${qualification.skill}`, 'Close', {duration: 3000});
             return;
           }
+          this.snack.open(`Deleted ${qualification.skill}`, 'Ok', {duration: 3000});
 
           zip(employeesWithQualification.map(employee => this.employeeService.removeQualificationFromEmployee(employee.id, qualification.id)))
             .pipe(defaultIfEmpty([]))
