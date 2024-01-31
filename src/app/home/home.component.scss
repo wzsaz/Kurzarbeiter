@@ -23,8 +23,8 @@
   .center-content {
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
+    justify-content: start;
+    text-align: left;
   }
 
   .server-status {
@@ -51,12 +51,11 @@
 
   .mat-list-item {
     display: flex;
-    align-items: center; // This will vertically align the icons with the text
-    justify-content: flex-start;
+    flex-direction: row
   }
 
   .mat-icon {
-    margin-right: 10px; // Add some space between the icon and the text
+    margin-right: 10px;
   }
 }
 
