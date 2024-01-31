@@ -12,7 +12,6 @@ import {MatList, MatListItem} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 import {MatLine} from "@angular/material/core";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
-import {GeneratorComponent} from "../generator/generator.component";
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from "@angular/material/expansion";
 import {NgClass, NgForOf} from "@angular/common";
 import {QualificationService} from "../service/qualification.service";
@@ -42,7 +41,6 @@ const USER_STATUS_UNAUTHORIZED: string = 'User: Unauthorized';
     MatButton,
     MatGridList,
     MatGridTile,
-    GeneratorComponent,
     MatExpansionPanel,
     MatExpansionPanelTitle,
     MatExpansionPanelHeader,
