@@ -1,32 +1,31 @@
-/* src/app/editor/editor.component.scss */
-.editor-form {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  .form-fields {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  .full-width-input {
-    width: 100%;
-  }
-
-  .qualifications-accordion {
-    margin-top: 10px;
-  }
-
-  .save-button,
-  .cancel-button,
-  .delete-button {
-    width: 100%;
-    margin: 5px;
-  }
+.form-fields {
+  max-width: 50%;
 }
 
 .title {
   margin-bottom: 10px;
+}
+
+.input-row {
+  display: flex;
+}
+
+.input-row mat-form-field {
+  margin: 10px; /* Adjust as needed */
+  flex: 1; /* This will make the input fields expand to take up available space */
+  max-width: 60%; /* This will limit the width of the input fields to half of the .input-row div */
+}
+
+.button-row {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-row button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.button-row button:first-child {
+  margin-left: auto;
 }

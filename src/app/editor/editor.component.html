@@ -14,57 +14,61 @@
 
     <mat-card-content class="form-fields">
 
-      <mat-form-field appearance="outline" class="full-width-input">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="firstName" required>
-        @if (form.controls['firstName'].invalid) {
-          <mat-error>Please enter a name</mat-error>
-        }
-      </mat-form-field>
+      <div class="input-row">
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="firstName" required>
+          @if (form.controls['firstName'].invalid) {
+            <mat-error>Please enter a name</mat-error>
+          }
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width-input">
-        <mat-label>Surname</mat-label>
-        <input matInput formControlName="lastName" required>
-        @if (form.controls['lastName'].invalid) {
-          <mat-error>Please enter a surname</mat-error>
-        }
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Surname</mat-label>
+          <input matInput formControlName="lastName" required>
+          @if (form.controls['lastName'].invalid) {
+            <mat-error>Please enter a surname</mat-error>
+          }
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="full-width-input">
-        <mat-label>Phone number</mat-label>
-        <input matInput formControlName="phone" required>
-        @if (form.controls['phone'].invalid) {
-          <mat-error>Does not match E.164 format</mat-error>
-        }
-      </mat-form-field>
+      <div class="input-row">
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Phone number</mat-label>
+          <input matInput formControlName="phone" required>
+          @if (form.controls['phone'].invalid) {
+            <mat-error>Does not match E.164 format</mat-error>
+          }
+        </mat-form-field>
+      </div>
 
-      <br>
+      <div class="input-row">
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Street</mat-label>
+          <input matInput formControlName="street" required>
+          @if (form.controls['street'].invalid) {
+            <mat-error>Please enter a street</mat-error>
+          }
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="full-width-input">
-        <mat-label>Street</mat-label>
-        <input matInput formControlName="street" required>
-        @if (form.controls['street'].invalid) {
-          <mat-error>Please enter a street</mat-error>
-        }
-      </mat-form-field>
+      <div class="input-row">
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Postcode</mat-label>
+          <input matInput formControlName="postcode" required>
+          @if (form.controls['postcode'].invalid) {
+            <mat-error>Please enter a postcode</mat-error>
+          }
+        </mat-form-field>
 
-      <br>
-
-      <mat-form-field appearance="outline" class="full-width-input">
-        <mat-label>Postcode</mat-label>
-        <input matInput formControlName="postcode" required>
-        @if (form.controls['postcode'].invalid) {
-          <mat-error>Please enter a postcode</mat-error>
-        }
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width-input">
-        <mat-label>City</mat-label>
-        <input matInput formControlName="city" required>
-        @if (form.controls['city'].invalid) {
-          <mat-error>Please enter a city</mat-error>
-        }
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" required>
+          @if (form.controls['city'].invalid) {
+            <mat-error>Please enter a city</mat-error>
+          }
+        </mat-form-field>
+      </div>
 
       <mat-accordion class="qualifications-accordion">
         <mat-expansion-panel>
@@ -86,25 +90,16 @@
         </mat-expansion-panel>
       </mat-accordion>
 
-      <br>
-
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="form.invalid || !form.dirty" class="save-button">
-          <ng-container>
-            @if (editingValidId) {
-              <mat-icon>compare</mat-icon>
-              Update
-            } @else {
-              <mat-icon>add_box</mat-icon>
-              Create
-            }
-          </ng-container>
+      <mat-card-actions class="button-row">
+        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="form.invalid || !form.dirty">
+          <mat-icon> {{ editingValidId ? 'compare' : 'add_box' }}</mat-icon>
+          <span> {{ editingValidId ? 'Save' : 'Create' }} </span>
         </button>
-        <button mat-raised-button color="warn" (click)="onClear()" class="clear-button">
+        <button mat-raised-button color="warn" (click)="onClear()">
           <mat-icon>delete</mat-icon>
           <span>Clear</span>
         </button>
-        <button mat-raised-button color="accent" (click)="onCancel()" class="cancel-button">
+        <button mat-raised-button color="accent" (click)="onCancel()">
           <mat-icon>cancel</mat-icon>
           <span>Cancel</span>
         </button>
