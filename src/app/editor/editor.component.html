@@ -5,7 +5,7 @@
 }
 
 <form [formGroup]="form" class="editor-form">
-  <mat-card>
+  <mat-card class="editor-card">
     <mat-card-header>
       <mat-card-title class="title">
         {{ editingValidId ? ('Editing ' + original?.firstName + " " + original?.lastName) : 'Creating new employee' }}
