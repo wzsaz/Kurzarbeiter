@@ -54,8 +54,11 @@
         <mat-card-title>Login Status</mat-card-title>
         <mat-card-subtitle>User authentication overview</mat-card-subtitle>
       </mat-card-header>
-      <mat-card-content>
-        <p>{{ serverStatus === 'Online' ? ('Currently logged in as: ' + currentUser) : 'Not logged in' }}</p>
+      <mat-card-content class="center-content">
+        <mat-icon class="status-icon" [class.online]="currentUser !== 'Not logged in'" [class.offline]="currentUser === 'Not logged in'">
+          {{ serverStatus === 'Online' ? 'check_circle' : 'error' }}
+        </mat-icon>
+        <p>{{ currentUser === 'Not logged in' ? ('Currently logged in as: ' + currentUser) : 'Not logged in' }}</p>
       </mat-card-content>
     </mat-card>
   </mat-grid-tile>

@@ -60,11 +60,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkServerStatus();
+    this.checkAuthStatus();
     this.loading = false;
   }
 
-  checkServerStatus() {
+  checkAuthStatus() {
     const employeesRequest = this.employeeService.getEmployees();
     const qualificationsRequest = this.qualificationService.getQualifications();
 
@@ -80,11 +80,25 @@ export class HomeComponent implements OnInit {
         }
         throw new Error('Invalid response from server');
       },
-      error: () => {
-        this.serverStatus = 'Offline';
-        this.currentUserCount = 'Error connecting to server';
-        this.currentQualificationCount = 'Error connecting to server';
-        this.currentUser = 'Error connecting to server';
+      error: (err) => {
+        //if response code is 401, then user is not logged in
+        if (err.status === 401) {
+          this.serverStatus = 'Online';
+          this.currentUserCount = 'Not authenticated';
+          this.currentQualificationCount = 'Not authenticated';
+          this.currentUser = 'Not authenticated';
+        } else if (err.status === 403) {
+          this.serverStatus = 'Online';
+          this.currentUserCount = 'Authenticated';
+          this.currentQualificationCount = 'Authenticated';
+          this.currentUser = 'user';
+        } else {
+          this.serverStatus = 'Offline';
+          this.currentUserCount = 'Offline';
+          this.currentQualificationCount = 'Offline';
+          this.currentUser = 'Offline';
+        }
+
       },
       complete: () => {
         this.loading = false;
