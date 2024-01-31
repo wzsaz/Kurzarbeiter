@@ -33,7 +33,7 @@ import {Employee} from "../types";
     MatChipAvatar
   ],
   templateUrl: './employee.component.html',
-  styleUrl: './employee.component.css'
+  styleUrl: './employee.component.scss'
 })
 export class EmployeeComponent {
 
