@@ -8,7 +8,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
-import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
+import {Router, RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {KeycloakService} from "keycloak-angular";
 
 @Component({
@@ -41,6 +41,6 @@ export class NavbarComponent {
     );
 
   logout(): void {
-    this.keycloakService.logout().then(() => console.log('Logged out!'));
+    this.keycloakService.logout("http://localhost:4200/home").then();
   }
 }
