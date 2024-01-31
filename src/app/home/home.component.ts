@@ -1,7 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {GeneratorComponent} from "../generator/generator.component";
-import {MatToolbar} from "@angular/material/toolbar";
-import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {
   MatCard,
   MatCardActions,
@@ -10,99 +7,103 @@ import {
   MatCardSubtitle,
   MatCardTitle
 } from "@angular/material/card";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {NgIf} from "@angular/common";
-import {QualificationService} from "../service/qualification.service";
-import {EmployeeService} from "../service/employee.service";
+import {MatAnchor, MatButton} from "@angular/material/button";
+import {MatList, MatListItem} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
-import {fa, th} from "@faker-js/faker";
-import {forkJoin} from "rxjs";
-import {MatList, MatListItem, MatListSubheaderCssMatStyler} from "@angular/material/list";
 import {MatLine} from "@angular/material/core";
-import {MatAnchor} from "@angular/material/button";
+import {MatGridList, MatGridTile} from "@angular/material/grid-list";
+import {GeneratorComponent} from "../generator/generator.component";
+import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from "@angular/material/expansion";
+import {EmployeeService} from "../service/employee.service";
+import {catchError} from "rxjs/operators";
+import {of} from "rxjs";
+import {NgClass, NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-home',
+  templateUrl: './home.component.html',
   standalone: true,
   imports: [
-    GeneratorComponent,
-    MatToolbar,
+    MatCardHeader,
+    MatCard,
+    MatCardContent,
+    MatCardActions,
+    MatAnchor,
+    MatList,
+    MatListItem,
+    MatIcon,
+    MatLine,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatButton,
     MatGridList,
     MatGridTile,
-    MatCard,
-    MatCardHeader,
-    MatCardContent,
-    MatProgressSpinner,
-    MatCardSubtitle,
-    MatCardTitle,
-    NgIf,
-    MatIcon,
-    MatCardActions,
-    MatListItem,
-    MatList,
-    MatListSubheaderCssMatStyler,
-    MatLine,
-    MatAnchor
+    GeneratorComponent,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelHeader,
+    NgClass,
+    NgForOf
   ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  loading = true;
-  currentUser: string = 'Not logged in';
-  serverStatus: string = 'Offline';
-  currentUserCount: string = '0';
-  currentQualificationCount: string = '0';
+  serverStatus: string = 'offline';
+  serverStatusIcon: string = 'error';
+  serverStatusText: string = 'Server is offline';
 
-  constructor(
-    private employeeService: EmployeeService,
-    private qualificationService: QualificationService) {
+  aboutProjectText: string = 'Kurzarbeiter, an innovative solution, redefines organizational efficiency with its cutting-edge Angular-based frontend seamlessly integrated into the Employee Management Service (EMS). This dynamic dashboard not only streamlines backoffice operations but also envisions future adaptability on mobile platforms. Experience a singular, cohesive web application that anticipates and meets the evolving needs of modern organizational management, making Kurzarbeiter your gateway to streamlined and future-ready operations.';
+
+  coreObjectives = [
+    {
+      icon: 'hub',
+      title: 'Unified Interface',
+      text: 'Central hub for accessing and managing employee data and project assignments.'
+    },
+    {
+      icon: 'tune',
+      title: 'Advanced Data Management',
+      text: 'Advanced filtering capabilities to enhance decision-making processes.'
+    },
+    {
+      icon: 'lock_open',
+      title: 'Seamless Authentication',
+      text: 'Keycloak SSO service to bolster security and usability.'
+    },
+    {
+      icon: 'palette',
+      title: 'Design and Usability',
+      text: 'Focus on intuitive navigation and responsiveness to accommodate diverse needs.'
+    }
+    // Add more objectives as needed...
+  ];
+
+  constructor(private es: EmployeeService) {
   }
 
   ngOnInit() {
-    this.checkAuthStatus();
-    this.loading = false;
-  }
-
-  checkAuthStatus() {
-    const employeesRequest = this.employeeService.getEmployees();
-    const qualificationsRequest = this.qualificationService.getQualifications();
-
-    forkJoin([employeesRequest, qualificationsRequest]).subscribe({
-      next: ([employees, qualifications]) => {
-        // Assuming 'getEmployees' and 'getQualifications' return arrays
-        if (employees && qualifications) {
-          this.serverStatus = 'Online';
-          this.currentUserCount = employees.length.toString();
-          this.currentQualificationCount = qualifications.length.toString();
-          //todo: maybe fix this and use keycloak to get the name out of keycloak profile
-          this.currentUser = "user";
-        }
-        throw new Error('Invalid response from server');
-      },
-      error: (err) => {
-        //if response code is 401, then user is not logged in
-        if (err.status === 401) {
-          this.serverStatus = 'Online';
-          this.currentUserCount = 'Not authenticated';
-          this.currentQualificationCount = 'Not authenticated';
-          this.currentUser = 'Not authenticated';
-        } else if (err.status === 403) {
-          this.serverStatus = 'Online';
-          this.currentUserCount = 'Authenticated';
-          this.currentQualificationCount = 'Authenticated';
-          this.currentUser = 'user';
+    this.es.getEmployee(0).pipe(
+      catchError(error => {
+        if (error.status === 404) {
+          return of('online');
         } else {
-          this.serverStatus = 'Offline';
-          this.currentUserCount = 'Offline';
-          this.currentQualificationCount = 'Offline';
-          this.currentUser = 'Offline';
+          return of(null);
         }
-
-      },
-      complete: () => {
-        this.loading = false;
+      })
+    ).subscribe((data) => {
+      if (data === null) {
+        this.serverStatus = 'offline';
+      } else {
+        this.serverStatus = 'online';
+      }
+      if (this.serverStatus === 'online') {
+        this.serverStatusIcon = 'check_circle';
+        this.serverStatusText = 'Server is online';
+      } else {
+        this.serverStatusIcon = 'error';
+        this.serverStatusText = 'Server is offline';
       }
     });
   }
+
 }

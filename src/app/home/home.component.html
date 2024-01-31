@@ -1,81 +1,62 @@
-<mat-card class="dashboard-card">
-  <mat-card-header>
-    <mat-card-title>About The Project</mat-card-title>
-    <mat-card-subtitle>Kurzarbeiter: Empowering Backoffice Operations</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <p>Kurzarbeiter emerges as a pivotal solution designed to enrich the backoffice operations of organizations by providing a sophisticated, Angular-based frontend to the Employee Management Service (EMS). This initiative is aimed at encapsulating a wide array of functionalities into a single, cohesive web application that anticipates future expansion into mobile platforms.</p>
-  </mat-card-content>
-  <mat-card-content>
-    <mat-list>
-      <h3 mat-subheader>Core Objectives:</h3>
-      <mat-list-item>
-        <mat-icon mat-list-icon>hub</mat-icon>
-        <p mat-line><strong>Unified Interface</strong>: Develop a central hub for accessing and managing employee data and project assignments.</p>
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon mat-list-icon>tune</mat-icon>
-        <p mat-line><strong>Advanced Data Management</strong>: Implement advanced filtering capabilities to enhance decision-making processes.</p>
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon mat-list-icon>lock_open</mat-icon>
-        <p mat-line><strong>Seamless Authentication</strong>: Integrate with Keycloak's SSO service to bolster security and usability.</p>
-      </mat-list-item>
-      <mat-list-item>
-        <mat-icon mat-list-icon>palette</mat-icon>
-        <p mat-line><strong>Design and Usability</strong>: Focus on intuitive navigation and responsiveness to accommodate diverse needs.</p>
-      </mat-list-item>
-    </mat-list>
-  </mat-card-content>
-  <mat-card-actions align="end">
-    <a href="https://employee.szut.dev/swagger" mat-button color="primary">View EMS API</a>
-  </mat-card-actions>
-</mat-card>
-
-<mat-grid-list cols="3" rowHeight="350px" gutterSize="15px">
-  <mat-grid-tile>
+<div class="grid-container">
+  <div class="content-container">
     <mat-card class="dashboard-card">
       <mat-card-header>
-        <mat-card-title>Server Status</mat-card-title>
-        <mat-card-subtitle>Current system health</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content class="center-content">
-        <mat-icon class="status-icon" [class.online]="serverStatus === 'Online'" [class.offline]="serverStatus !== 'Online'">
-          {{ serverStatus === 'Online' ? 'check_circle' : 'error' }}
-        </mat-icon>
-        <p>{{ serverStatus === 'Online' ? 'Server is running' : 'Server is not running' }}</p>
-      </mat-card-content>
-    </mat-card>
-  </mat-grid-tile>
-
-  <mat-grid-tile>
-    <mat-card class="dashboard-card">
-      <mat-card-header>
-        <mat-card-title>Login Status</mat-card-title>
-        <mat-card-subtitle>User authentication overview</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content class="center-content">
-        <mat-icon class="status-icon" [class.online]="currentUser !== 'Not logged in'" [class.offline]="currentUser === 'Not logged in'">
-          {{ serverStatus === 'Online' ? 'check_circle' : 'error' }}
-        </mat-icon>
-        <p>{{ currentUser === 'Not logged in' ? ('Currently logged in as: ' + currentUser) : 'Not logged in' }}</p>
-      </mat-card-content>
-    </mat-card>
-  </mat-grid-tile>
-
-  <mat-grid-tile>
-    <mat-card class="dashboard-card">
-      <mat-card-header>
-        <mat-card-title>Project Insights</mat-card-title>
-        <mat-card-subtitle>Visualization of project metrics</mat-card-subtitle>
+        <mat-card-title>About The Project</mat-card-title>
+        <mat-card-subtitle>Kurzarbeiter: Empowering Backoffice Operations</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p>Total Users: <strong>{{ currentUserCount }}</strong></p>
-        <p>Total Qualifications: <strong>{{ currentQualificationCount }}</strong></p>
+        <h1 class="mat-typography about-project-text"> {{ aboutProjectText }}</h1>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <a href="https://employee.szut.dev/swagger" mat-raised-button color="primary">View EMS API</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Core Objectives</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          @for (objective of coreObjectives; track objective) {
+            <mat-list-item>
+              <mat-icon>{{ objective.icon }}</mat-icon>
+              <p mat-line>
+                <strong>{{ objective.title }}</strong>: {{ objective.text }}
+              </p>
+            </mat-list-item>
+          }
+        </mat-list>
       </mat-card-content>
     </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
-<mat-card class="dashboard-card">
-  <app-generator></app-generator>
-</mat-card>
+
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-panel-title>
+          <mat-icon>bug_report</mat-icon>
+          Debug Window
+        </mat-panel-title>
+      </mat-card-header>
+
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>Server Status</mat-card-title>
+          <mat-card-subtitle>Current system health</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="center-content">
+          <mat-icon class="status-icon">{{ serverStatusIcon }}</mat-icon>
+          <h1 class="mat-typography">{{ serverStatusText }}</h1>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="dashboard-card">
+        <app-generator></app-generator>
+      </mat-card>
+    </mat-card>
+  </div>
+
+
+</div>
+
+

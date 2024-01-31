@@ -1,11 +1,2 @@
 /* You can add global styles to this file, and also import other style files */
 @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
-
-:root {
-  --muted-accent-blue: #234e6e;
-  --bright-accent-blue: #1095f3;
-  --dark-background-grey: #161616;
-  --light-background-grey: #282828;
-  --bright-accent-red: #e30000;
-  --text-white: #ffffff;
-}
