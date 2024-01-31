@@ -84,7 +84,9 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.es.getEmployee(0).pipe(
       catchError(error => {
-        if (error.status === 404) {
+        if (error.status === 401) {
+          return of('unauthorized');
+        } else if (error.status === 404) {
           return of('online');
         } else {
           return of(null);
@@ -93,12 +95,18 @@ export class HomeComponent implements OnInit {
     ).subscribe((data) => {
       if (data === null) {
         this.serverStatus = 'offline';
+      } else if (typeof data === 'string') {
+        this.serverStatus = data;
       } else {
         this.serverStatus = 'online';
       }
+
       if (this.serverStatus === 'online') {
         this.serverStatusIcon = 'check_circle';
         this.serverStatusText = 'Server is online';
+      } else if (this.serverStatus === 'unauthorized') {
+        this.serverStatusIcon = 'error';
+        this.serverStatusText = 'Unauthorized';
       } else {
         this.serverStatusIcon = 'error';
         this.serverStatusText = 'Server is offline';
