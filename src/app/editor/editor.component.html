@@ -14,6 +14,7 @@
 
     <mat-card-content>
       <mat-card class="form-fields" appearance="raised">
+
         <mat-form-field appearance="outline" class="full-width-input">
           <mat-label>Name</mat-label>
           <input matInput formControlName="firstName" required>
@@ -21,6 +22,7 @@
             <mat-error>Please enter a name</mat-error>
           }
         </mat-form-field>
+
         <mat-form-field appearance="outline" class="full-width-input">
           <mat-label>Surname</mat-label>
           <input matInput formControlName="lastName" required>
@@ -28,6 +30,7 @@
             <mat-error>Please enter a surname</mat-error>
           }
         </mat-form-field>
+
         <mat-form-field appearance="outline" class="full-width-input">
           <mat-label>Phone number</mat-label>
           <input matInput formControlName="phone" required>
@@ -37,6 +40,7 @@
         </mat-form-field>
 
         <br>
+
         <mat-form-field appearance="outline" class="full-width-input">
           <mat-label>Street</mat-label>
           <input matInput formControlName="street" required>
@@ -44,7 +48,9 @@
             <mat-error>Please enter a street</mat-error>
           }
         </mat-form-field>
+
         <br>
+
         <mat-form-field appearance="outline" class="full-width-input">
           <mat-label>Postcode</mat-label>
           <input matInput formControlName="postcode" required>
@@ -52,6 +58,7 @@
             <mat-error>Please enter a postcode</mat-error>
           }
         </mat-form-field>
+
         <mat-form-field appearance="outline" class="full-width-input">
           <mat-label>City</mat-label>
           <input matInput formControlName="city" required>
@@ -59,7 +66,9 @@
             <mat-error>Please enter a city</mat-error>
           }
         </mat-form-field>
+
       </mat-card>
+
       <mat-accordion class="qualifications-accordion">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -68,16 +77,20 @@
               <span>Skills</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <label formArrayName="qualifications" class="checkbox-group">
-            @for (unused of qualificationsFormArray.controls;track $index) {
-              <mat-checkbox [formControlName]="$index">
-                {{ allQualifications[$index].skill }}
-              </mat-checkbox>
+          <mat-chip-listbox multiple>
+            @for (q of allQualifications; track $index) {
+              <mat-chip-option
+                [selected]="qualificationsFormArray.controls[$index].value"
+                (click)="toggleSelection($index)">
+                {{ q.skill }}
+              </mat-chip-option>
             }
-          </label>
+          </mat-chip-listbox>
         </mat-expansion-panel>
       </mat-accordion>
+
       <br>
+
       <mat-card-actions>
         <button mat-raised-button color="primary" (click)="onSave()" [disabled]="form.invalid || !form.dirty">
           <ng-container>
@@ -95,6 +108,7 @@
           <span>Clear</span>
         </button>
       </mat-card-actions>
+
     </mat-card-content>
   </mat-card>
 </form>

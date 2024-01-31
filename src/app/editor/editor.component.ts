@@ -18,6 +18,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatProgressBar} from "@angular/material/progress-bar";
+import {MatChipListbox, MatChipOption} from "@angular/material/chips";
 
 @Component({
   selector: 'app-editor',
@@ -39,7 +40,9 @@ import {MatProgressBar} from "@angular/material/progress-bar";
     MatGridList,
     MatGridTile,
     MatProgressSpinner,
-    MatProgressBar
+    MatProgressBar,
+    MatChipListbox,
+    MatChipOption
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss'
@@ -77,6 +80,12 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
 
   get editingValidId(): boolean {
     return typeof this.form.value.id === 'number' && this.form.value.id !== this.INVALID_ID;
+  }
+
+  toggleSelection(index: number): void {
+    const control = this.qualificationsFormArray.controls[index];
+    control.setValue(!control.value);
+    control.markAsDirty();
   }
 
   ngOnInit() {
