@@ -78,7 +78,7 @@ export class EmployeesComponent implements AfterViewInit, DoCheck {
   }
 
   handleEdit(employee: Employee): void {
-    this.router.navigate(['/editor', employee.id]).then(r => console.log(r));
+    this.router.navigate(['/editor', employee.id]).then();
   }
 
   handleDelete(employee: Employee): void {
