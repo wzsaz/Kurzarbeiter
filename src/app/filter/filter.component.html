@@ -1,6 +1,9 @@
 <mat-expansion-panel>
   <mat-expansion-panel-header class="header">
     <h3 mat-subheader class="title">Filter</h3>
+    <button mat-icon-button (click)="toggleFilter($event)">
+      <mat-icon>{{ filterEnabled ? 'filter_list' : 'filter_list_off' }}</mat-icon>
+    </button>
   </mat-expansion-panel-header>
 
   <form [formGroup]="form">
@@ -107,11 +110,4 @@
     </mat-card>
 
   </form>
-
-  <mat-action-row>
-    <button mat-icon-button (click)="toggleFilter()">
-      <mat-icon>{{ filterEnabled ? 'filter_list' : 'filter_list_off' }}</mat-icon>
-    </button>
-  </mat-action-row>
-
 </mat-expansion-panel>
