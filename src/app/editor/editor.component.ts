@@ -134,7 +134,10 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
         this.snackBar.open(`${employeeRequestDTO.firstName} ${employeeRequestDTO.lastName} was saved`, 'Close', {duration: 3000});
         this.router.navigate(['/view']).then();
       },
-      error: error => console.error(`Error ${this.form.value.id ? 'updating' : 'creating'} employee: ${error.toString()}`)
+      error: () => {
+        this.snackBar.open("An error occurred while saving the employee. Try again later.", 'Close', {duration: 3000});
+        this.saving = false;
+      }
     });
   }
 

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {forkJoin, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Qualification} from "../types";
 import {HttpClient} from "@angular/common/http";
 

@@ -32,7 +32,7 @@ export class CanDeactivateGuardService {
       map(result => result),
       catchError((error) => {
         const router = inject(Router);
-        return of(router.createUrlTree(['route-to-fallback-page']));
+        return of(router.createUrlTree(['/home']));
       })
     );
   }
