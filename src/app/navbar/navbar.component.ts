@@ -8,7 +8,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
-import {RouterLink, RouterLinkActive} from "@angular/router";
+import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {KeycloakService} from "keycloak-angular";
 
 @Component({
@@ -25,6 +25,7 @@ import {KeycloakService} from "keycloak-angular";
     AsyncPipe,
     RouterLink,
     RouterLinkActive,
+    RouterOutlet,
   ]
 })
 export class NavbarComponent {
