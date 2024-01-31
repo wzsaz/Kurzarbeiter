@@ -1,0 +1,12 @@
+<mat-card class="form-fields-card">
+  <mat-card-title>{{ label }}</mat-card-title>
+  <mat-card-content class="form-fields-content">
+    <mat-form-field appearance="outline" class="full-width-input">
+      <mat-label>{{ label }}</mat-label>
+      <input matInput [formControl]="formControl" [type]="type" [disabled]="disabled">
+      @if (formControl.invalid) {
+        <mat-error>{{ errorMessage }}</mat-error>
+      }
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>

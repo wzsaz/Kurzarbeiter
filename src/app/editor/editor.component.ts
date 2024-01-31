@@ -1,7 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {EmployeeRequestDTO, Qualification} from "../types";
-import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -16,6 +24,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {CanComponentDeactivate} from "../service/can-deactivate-guard.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
+import {FormFieldComponent} from "../formfield/formfield.component";
 
 @Component({
   selector: 'app-editor',
@@ -35,7 +44,8 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
     MatIconModule,
     SlicePipe,
     MatGridList,
-    MatGridTile
+    MatGridTile,
+    FormFieldComponent
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss'
@@ -66,10 +76,14 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
       lastName: ['', Validators.required],
       phone: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
       street: ['', Validators.required],
-      postcode: ['', [Validators.minLength(5), Validators.maxLength(9), Validators.pattern('^[0-9]{5,9}$')]], // Assuming postcode is numeric and 5-9 characters long
+      postcode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(9), Validators.pattern('^[0-9]{5,9}$')]], // Assuming postcode is numeric and 5-9 characters long
       city: ['', Validators.required],
       qualifications: this.fb.array([])
     });
+  }
+
+  formControlOf(name: string): FormControl {
+    return this.form.controls[name] as FormControl;
   }
 
   get editingValidId(): boolean {
