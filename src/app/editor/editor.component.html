@@ -1,4 +1,9 @@
 <!-- src/app/editor/editor.component.html -->
+
+@if (isLoading) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+
 <form [formGroup]="form" class="editor-form">
   <mat-card>
     <mat-card-header>
@@ -8,7 +13,7 @@
     </mat-card-header>
 
     <mat-card-content>
-      <div class="form-fields">
+      <mat-card class="form-fields" appearance="raised">
         <mat-form-field appearance="outline" class="full-width-input">
           <mat-label>Name</mat-label>
           <input matInput formControlName="firstName" required>
@@ -54,7 +59,7 @@
             <mat-error>Please enter a city</mat-error>
           }
         </mat-form-field>
-      </div>
+      </mat-card>
       <mat-accordion class="qualifications-accordion">
         <mat-expansion-panel>
           <mat-expansion-panel-header>

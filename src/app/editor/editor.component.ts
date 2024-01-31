@@ -16,6 +16,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {CanComponentDeactivate} from "../service/can-deactivate-guard.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {MatProgressBar} from "@angular/material/progress-bar";
 
 @Component({
   selector: 'app-editor',
@@ -35,7 +37,9 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
     MatIconModule,
     SlicePipe,
     MatGridList,
-    MatGridTile
+    MatGridTile,
+    MatProgressSpinner,
+    MatProgressBar
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss'
@@ -43,10 +47,9 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 export class EditorComponent implements OnInit, CanComponentDeactivate {
   protected form: FormGroup;
   protected allQualifications: Qualification[] = [];
-
   private INVALID_ID: number = -1;
-
   private saving: boolean = false;
+  isLoading: boolean = true;
 
   protected get qualificationsFormArray() {
     return this.form.controls['qualifications'] as FormArray;
@@ -77,6 +80,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
@@ -87,6 +91,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
       } else {
         this.setupQualifications([]);
       }
+      this.isLoading = false;
     });
   }
 
