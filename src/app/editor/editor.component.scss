@@ -19,13 +19,11 @@
     margin-top: 10px;
   }
 
-  .checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    mat-checkbox {
-      flex: 1 1 45%;
-    }
+  .save-button,
+  .cancel-button,
+  .delete-button {
+    width: 100%;
+    margin: 5px;
   }
 }
 
