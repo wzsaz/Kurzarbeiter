@@ -1,8 +1,9 @@
+<app-qualifications-filter (filteredQualifications)="inputQualifications = $event"></app-qualifications-filter>
 <mat-card class="qualifications">
   <mat-card-header>
     <mat-card-title class="qualifications-header">
       Qualifications
-      <span matBadge="{{qualifications.length}}"></span>
+      <span matBadge="{{inputQualifications.length}}"></span>
     </mat-card-title>
   </mat-card-header>
 
@@ -21,8 +22,7 @@
   </mat-card-actions>
 
 </mat-card>
-<mat-paginator [length]="qualifications.length"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="pageSizeOptions"
-               [showFirstLastButtons]="showFirstLastButtons">
+<mat-paginator [length]="inputQualifications.length"
+               [pageSizeOptions]="[5, 10, 20]"
+               [showFirstLastButtons]="true">
 </mat-paginator>

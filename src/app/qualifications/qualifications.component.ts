@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, DoCheck, Input, OnInit, ViewChild} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
@@ -22,6 +22,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {QualificationItemComponent} from "../qualification-item/qualification-item.component";
 import {MatPaginator} from "@angular/material/paginator";
+import {QualificationsFilterComponent} from "../qualifications-filter/qualifications-filter.component";
 
 @Component({
   selector: 'app-qualifications',
@@ -43,13 +44,14 @@ import {MatPaginator} from "@angular/material/paginator";
     MatProgressSpinner,
     QualificationItemComponent,
     MatPaginator,
+    QualificationsFilterComponent,
   ],
   templateUrl: './qualifications.component.html',
   styleUrl: './qualifications.component.scss'
 })
-export class QualificationsComponent implements OnInit, AfterViewInit {
+export class QualificationsComponent implements OnInit, AfterViewInit, DoCheck {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  qualifications: Qualification[] = [];
+  @Input() inputQualifications: Qualification[] = [];
   paginatedQualifications: Qualification[] = [];
   isLoading: boolean = true;
 
@@ -61,32 +63,33 @@ export class QualificationsComponent implements OnInit, AfterViewInit {
   ) {
   }
 
+  ngDoCheck(): void {
+    if (this.inputQualifications.length !== this.paginatedQualifications.length) {
+      this.paginate();
+    }
+  }
+
   ngOnInit(): void {
     this.updateQualifications();
   }
 
-  pageIndex: number = 0;
-  pageSize: number = 10;
-  pageSizeOptions: number[] = [5, 10, 20];
-  showFirstLastButtons: boolean = true;
-
   private updateQualifications(): void {
     this.isLoading = true;
     this.qualificationService.getQualifications().subscribe(qualifications => {
-      this.qualifications = qualifications;
-      this.loadPage();
+      this.inputQualifications = qualifications;
+      this.paginate();
     });
     this.isLoading = false;
   }
 
-  loadPage() {
+  paginate() {
     const start = this.paginator.pageIndex * this.paginator.pageSize;
     const end = start + this.paginator.pageSize;
-    this.paginatedQualifications = this.qualifications.slice(start, end);
+    this.paginatedQualifications = this.inputQualifications.slice(start, end);
   }
 
   ngAfterViewInit() {
-    this.paginator.page.subscribe(() => this.loadPage());
+    this.paginator.page.subscribe(() => this.paginate());
   }
 
   openEditDialog(qualification ?: Qualification): void {
@@ -102,7 +105,7 @@ export class QualificationsComponent implements OnInit, AfterViewInit {
     }
 
     const isDuplicate = (skill: string): boolean => {
-      return this.qualifications.some(q => q.skill === skill);
+      return this.inputQualifications.some(q => q.skill === skill);
     }
 
     dialogRef.afterClosed().subscribe(result => {
