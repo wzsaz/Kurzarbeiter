@@ -1,3 +1,4 @@
+<app-filter (filteredEmployees)="inputEmployees = $event"></app-filter>
 <mat-card>
   <mat-card-header class="header">
     <mat-card-title class="title">Employees<span matBadge="{{inputEmployees.length}}"></span></mat-card-title>
@@ -8,7 +9,7 @@
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
     } @else {
-      @for (employee of paginatedEmployees; track employee) {
+      @for (employee of paginatedEmployees;track employee) {
         <app-employee [employee]="employee"
                       (editedEmployee)="handleEdit($event)"
                       (deletedEmployee)="handleDelete($event)">
