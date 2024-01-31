@@ -22,6 +22,8 @@ import {
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {AutocompleteComponent} from "../autocomplete/autocomplete.component";
+import {MatSlideToggle} from "@angular/material/slide-toggle";
+import {MatChip, MatChipListbox, MatChipOption} from "@angular/material/chips";
 
 @Component({
   selector: 'app-filter',
@@ -46,7 +48,11 @@ import {AutocompleteComponent} from "../autocomplete/autocomplete.component";
     MatExpansionPanelActionRow,
     AutocompleteComponent,
     MatExpansionPanelTitle,
-    MatExpansionPanelHeader
+    MatExpansionPanelHeader,
+    MatSlideToggle,
+    MatChip,
+    MatChipListbox,
+    MatChipOption
   ],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
@@ -89,6 +95,10 @@ export class FilterComponent implements OnInit {
     });
   }
 
+  selectedChip(event: any) {
+    console.log(event);
+  }
+
   ngOnInit() {
     forkJoin({
       employees: this.es.getEmployees(),
@@ -116,7 +126,7 @@ export class FilterComponent implements OnInit {
     });
   }
 
-  private filterEmployees() {
+  protected filterEmployees() {
     const {firstName, lastName, city, phone} = this.form.value;
 
     const filteredEmployees = this.employeesToFilter.filter(employee => {
