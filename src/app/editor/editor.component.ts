@@ -15,6 +15,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatIconModule} from "@angular/material/icon";
 import {CanComponentDeactivate} from "../service/can-deactivate-guard.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 
 @Component({
   selector: 'app-editor',
@@ -32,7 +33,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     NgForOf,
     MatCheckboxModule,
     MatIconModule,
-    SlicePipe
+    SlicePipe,
+    MatGridList,
+    MatGridTile
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss'
