@@ -66,7 +66,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
       lastName: ['', Validators.required],
       phone: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
       street: ['', Validators.required],
-      postcode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(9), Validators.pattern('^[0-9]{5,9}$')]], // Assuming postcode is numeric and 5-9 characters long
+      postcode: ['', [Validators.minLength(5), Validators.maxLength(5), Validators.pattern('^[0-9]{5,9}$')]], // Assuming postcode is numeric and 5-9 characters long
       city: ['', Validators.required],
       qualifications: this.fb.array([])
     });
