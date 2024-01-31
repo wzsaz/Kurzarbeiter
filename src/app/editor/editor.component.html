@@ -8,7 +8,7 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title class="title">
-        {{ editingValidId ? 'Editing existing employee' : 'Creating new employee' }}
+        {{ editingValidId ? ('Editing ' + original?.firstName + " " + original?.lastName) : 'Creating new employee' }}
       </mat-card-title>
     </mat-card-header>
 
