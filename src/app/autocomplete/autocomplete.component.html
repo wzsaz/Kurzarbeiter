@@ -1,4 +1,5 @@
 <mat-form-field appearance="outline" class="autocomplete-field">
+  <mat-label>{{ label }}</mat-label>
   <input type="text" matInput [formControl]="control" [matAutocomplete]="auto" [placeholder]="placeholder">
   <mat-autocomplete #auto="matAutocomplete">
     @for (option of autocompleted; track option) {

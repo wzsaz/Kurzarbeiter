@@ -11,81 +11,51 @@
     <mat-card class="card-container">
 
       <div class="inner-card">
-        <mat-card-header>
-          <mat-card-title>First Name</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-autocomplete
-            [options]="firstNameOptions"
-            [control]="getFormControl('firstName')"
-            placeholder="First name">
-          </app-autocomplete>
-        </mat-card-content>
+        <app-autocomplete
+          [options]="firstNameOptions"
+          [control]="getFormControl('firstName')"
+          label="First Name">
+        </app-autocomplete>
       </div>
 
       <div class="inner-card">
-        <mat-card-header>
-          <mat-card-title>Last Name</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-autocomplete
-            [options]="lastNameOptions"
-            [control]="getFormControl('lastName')"
-            placeholder="Last name">
-          </app-autocomplete>
-        </mat-card-content>
+        <app-autocomplete
+          [options]="lastNameOptions"
+          [control]="getFormControl('lastName')"
+          label="Last name">
+        </app-autocomplete>
       </div>
 
       <div class="inner-card">
-        <mat-card-header>
-          <mat-card-title>Phone</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-autocomplete
-            [options]="phoneOptions"
-            [control]="getFormControl('phone')"
-            placeholder="Phone">
-          </app-autocomplete>
-        </mat-card-content>
+        <app-autocomplete
+          [options]="phoneOptions"
+          [control]="getFormControl('phone')"
+          label="Phone">
+        </app-autocomplete>
       </div>
 
       <div class="inner-card">
-        <mat-card-header>
-          <mat-card-title>Location</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-autocomplete
-            [options]="streetOptions"
-            [control]="getFormControl('street')"
-            placeholder="Street">
-          </app-autocomplete>
-        </mat-card-content>
+        <app-autocomplete
+          [options]="streetOptions"
+          [control]="getFormControl('street')"
+          label="Street">
+        </app-autocomplete>
       </div>
 
       <div class="inner-card">
-        <mat-card-header>
-          <mat-card-title>Location</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-autocomplete
-            [options]="cityOptions"
-            [control]="getFormControl('city')"
-            placeholder="City">
-          </app-autocomplete>
-        </mat-card-content>
+        <app-autocomplete
+          [options]="cityOptions"
+          [control]="getFormControl('city')"
+          label="City">
+        </app-autocomplete>
       </div>
 
       <div class="inner-card">
-        <mat-card-header>
-          <mat-card-title>Location</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-autocomplete
-            [options]="postcodeOptions"
-            [control]="getFormControl('postcode')"
-            placeholder="Postcode">
-          </app-autocomplete>
-        </mat-card-content>
+        <app-autocomplete
+          [options]="postcodeOptions"
+          [control]="getFormControl('postcode')"
+          label="Postcode">
+        </app-autocomplete>
       </div>
 
     </mat-card>
@@ -97,11 +67,11 @@
       <mat-card-content class="qualifications-list">
         <div formArrayName="qualifications">
           <mat-chip-listbox multiple>
-            @for (q of allQualifications; track $index) {
+            @for (qualification of allQualifications; track $index) {
               <mat-chip-option
                 [selected]="qualificationsFormArray.controls[$index].value"
                 (selectionChange)="qualificationsFormArray.controls[$index].setValue(!qualificationsFormArray.controls[$index].value)">
-                {{ q.skill }}
+                {{ qualification.skill }}
               </mat-chip-option>
             }
           </mat-chip-listbox>
