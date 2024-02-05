@@ -82,22 +82,20 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    setInterval(() => {
-      this.qs.getQualifications().subscribe({
-        next: () => {
+    this.qs.getQualifications().subscribe({
+      next: () => {
+        this.serverStatus = SERVER_STATUS_ONLINE;
+        this.userStatus = USER_STATUS_AUTHORIZED;
+      },
+      error: (err) => {
+        if (err.status === 401) {
           this.serverStatus = SERVER_STATUS_ONLINE;
-          this.userStatus = USER_STATUS_AUTHORIZED;
-        },
-        error: (err) => {
-          if (err.status === 401) {
-            this.serverStatus = SERVER_STATUS_ONLINE;
-            this.userStatus = USER_STATUS_UNAUTHORIZED;
-          } else {
-            this.serverStatus = SERVER_STATUS_OFFLINE;
-          }
+          this.userStatus = USER_STATUS_UNAUTHORIZED;
+        } else {
+          this.serverStatus = SERVER_STATUS_OFFLINE;
         }
-      });
-    }, 100);
+      }
+    });
   }
 
   userStatusIcon(): string {

@@ -20,19 +20,22 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 15px;
 }
 
 .qualifications-list {
   margin-bottom: 10px;
 }
 
-.inner-card {
+mat-card {
   margin: 2px 10px 2px 0;
   padding: 2px;
   flex: 1 0 calc(33% - 20px);
   transition: 0.3s;
   border-radius: 5px;
+
+  &:hover {
+    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2);
+  }
 
   mat-card-header {
     padding: 0;
@@ -41,7 +44,7 @@
   mat-card-title {
     font-size: 14px;
     font-weight: normal;
-    margin-left: 20px;
+    padding: 0 0 0 10px;
   }
 
   mat-card-content {
