@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {EMPTY, Observable} from 'rxjs';
-import {Employee, EmployeeRequestDTO} from '../types';
+import {Employee, EmployeeRequest} from '../types';
 import {switchMap} from 'rxjs/operators';
 import {HttpClient} from "@angular/common/http";
 
@@ -20,11 +20,11 @@ export class EmployeeService {
     return this.http.get<Employee[]>(this.apiUrl);
   }
 
-  createEmployee(employeeData: EmployeeRequestDTO): Observable<Employee> {
+  createEmployee(employeeData: EmployeeRequest): Observable<Employee> {
     return this.http.post<Employee>(this.apiUrl, employeeData);
   }
 
-  updateEmployee(employeeId: number, updatedEmployeeData: EmployeeRequestDTO): Observable<Employee> {
+  updateEmployee(employeeId: number, updatedEmployeeData: EmployeeRequest): Observable<Employee> {
     return this.http.put<Employee>(`${this.apiUrl}/${employeeId}`, updatedEmployeeData);
   }
 
@@ -36,7 +36,7 @@ export class EmployeeService {
     return this.getEmployee(employeeId).pipe(
       switchMap((employee: Employee) => {
         if (employee) {
-          const updatedEmployee: EmployeeRequestDTO = {
+          const updatedEmployee: EmployeeRequest = {
             ...employee,
             skillSet: employee.skillSet.filter(({id}) => id !== qualificationId).map(({id}) => id)
           };

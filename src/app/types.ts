@@ -1,4 +1,4 @@
-export interface EmployeeRequestDTO {
+export interface EmployeeRequest {
   lastName: string;
   firstName: string;
   street: string;
@@ -22,15 +22,4 @@ export interface Employee {
 export interface Qualification {
   readonly id: number;
   skill: string;
-}
-
-export interface TokenResponseDTO {
-  access_token: string;
-  expires_in: number;
-  refresh_expires_in: number;
-  refresh_token: string;
-  token_type: string;
-  'not-before-policy': number;
-  session_state: string;
-  scope: string;
 }

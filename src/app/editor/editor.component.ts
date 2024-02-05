@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
-import {Employee, EmployeeRequestDTO, Qualification} from "../types";
+import {Employee, EmployeeRequest, Qualification} from "../types";
 import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -160,7 +160,7 @@ export class EditorComponent implements OnInit, CanComponentDeactivate {
     return this.form.dirty && !this.form.pristine;
   }
 
-  private mapToRequestDTO(formValue: any): EmployeeRequestDTO {
+  private mapToRequestDTO(formValue: any): EmployeeRequest {
     // @ts-ignore
     const selectedQualificationIds: number[] = this.qualificationsFormArray.controls
       .map((control, index) => control.value ? this.allQualifications[index].id : null)
