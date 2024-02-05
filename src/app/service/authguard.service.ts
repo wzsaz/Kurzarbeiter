@@ -31,4 +31,8 @@ export class AuthguardService extends KeycloakAuthGuard {
 
     return requiredRoles.every((role) => this.roles.includes(role));
   }
+
+  public logout() {
+    this.keycloak.logout('http://localhost:4200/home').then();
+  }
 }
