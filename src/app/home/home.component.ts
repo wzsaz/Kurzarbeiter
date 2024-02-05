@@ -14,12 +14,17 @@ import {MatLine} from "@angular/material/core";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from "@angular/material/expansion";
 import {NgClass, NgForOf} from "@angular/common";
-import {QualificationService} from "../service/qualification.service";
+import {EmployeeService} from "../service/employee.service";
+import {catchError} from "rxjs/operators";
+import {of} from "rxjs";
 
 const SERVER_STATUS_ONLINE: string = 'Server: Online';
 const SERVER_STATUS_OFFLINE: string = 'Server: Offline';
+const SERVER_STATUS_UNKNOWN: string = 'Server: Unknown';
+
 const USER_STATUS_AUTHORIZED: string = 'User: Authorized';
 const USER_STATUS_UNAUTHORIZED: string = 'User: Unauthorized';
+const USER_STATUS_UNKNOWN: string = 'User: Unknown';
 
 
 @Component({
@@ -50,8 +55,8 @@ const USER_STATUS_UNAUTHORIZED: string = 'User: Unauthorized';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  serverStatus: string = 'User: Unknown';
-  userStatus: string = 'User: Unknown';
+  serverStatus: string = SERVER_STATUS_UNKNOWN
+  userStatus: string = USER_STATUS_UNKNOWN
 
   aboutProjectText: string = 'Kurzarbeiter, an innovative solution, redefines organizational efficiency with its cutting-edge Angular-based frontend seamlessly integrated into the Employee Management Service (EMS). This dynamic dashboard not only streamlines backoffice operations but also envisions future adaptability on mobile platforms. Experience a singular, cohesive web application that anticipates and meets the evolving needs of modern organizational management, making Kurzarbeiter your gateway to streamlined and future-ready operations.';
 
@@ -78,46 +83,53 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  constructor(private qs: QualificationService) {
+  constructor(private es: EmployeeService) {
   }
 
   ngOnInit() {
     setInterval(() => {
-      this.qs.getQualifications().subscribe({
-        next: () => {
-          this.serverStatus = SERVER_STATUS_ONLINE;
-          this.userStatus = USER_STATUS_AUTHORIZED;
-        },
-        error: (err) => {
-          if (err.status === 401) {
-            this.serverStatus = SERVER_STATUS_ONLINE;
-            this.userStatus = USER_STATUS_UNAUTHORIZED;
+      this.es.getEmployee(-1).pipe(
+        catchError(error => of(error.status))
+      ).subscribe({
+        next: (status) => {
+          if (status === 401) {
+            this.serverStatus = SERVER_STATUS_ONLINE
+            this.userStatus = USER_STATUS_UNAUTHORIZED
+          } else if (status === 404) {
+            this.serverStatus = SERVER_STATUS_ONLINE
+            this.userStatus = USER_STATUS_AUTHORIZED
           } else {
-            this.serverStatus = SERVER_STATUS_OFFLINE;
+            this.serverStatus = SERVER_STATUS_OFFLINE
+            this.userStatus = USER_STATUS_UNKNOWN
           }
+        },
+        error: () => {
+
+        },
+        complete: () => {
+
         }
-      });
-    }, 100);
+      })
+    }, 5000)
   }
 
   userStatusIcon(): string {
-    if (this.userStatus === USER_STATUS_AUTHORIZED) {
-      return 'check_circle'; // Icon for authorized user
-    } else if (this.userStatus === USER_STATUS_UNAUTHORIZED) {
-      return 'lock'; // Icon for unauthorized user
-    } else {
-      return 'help'; // Default icon
+    switch (this.userStatus) {
+      case USER_STATUS_AUTHORIZED:
+        return 'check_circle';
+      case USER_STATUS_UNAUTHORIZED:
+        return 'lock';
     }
+    return 'help'
   }
 
   serverStatusIcon(): string {
-    if (this.serverStatus === SERVER_STATUS_ONLINE) {
-      return 'cloud_done'; // Icon for online server
-    } else if (this.serverStatus === SERVER_STATUS_OFFLINE) {
-      return 'cloud_off'; // Icon for offline server
-    } else {
-      return 'help'; // Default icon
+    switch (this.serverStatus) {
+      case SERVER_STATUS_ONLINE:
+        return 'cloud_done'; // Icon for online server
+      case SERVER_STATUS_OFFLINE:
+        return 'cloud_off';
     }
+    return 'help'
   }
-
 }
