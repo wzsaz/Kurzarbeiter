@@ -87,33 +87,44 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    setInterval(() => {
+    const delay = 10_000;
+    let currentDelay = delay;
+
+    const pingServer = () => {
+      console.log("Pinging backend. Current backoff delay: " + currentDelay);
+      // Workaround for backend not supporting pinging
       this.es.getEmployee(-1).pipe(
         catchError(error => of(error.status))
       ).subscribe({
         next: (status) => {
-          if (status === 401) {
-            this.serverStatus = SERVER_STATUS_ONLINE
-            this.userStatus = USER_STATUS_UNAUTHORIZED
-          } else if (status === 404) {
-            this.serverStatus = SERVER_STATUS_ONLINE
-            this.userStatus = USER_STATUS_AUTHORIZED
-          } else {
-            this.serverStatus = SERVER_STATUS_OFFLINE
-            this.userStatus = USER_STATUS_UNKNOWN
+          switch (status) {
+            case 401: currentDelay = delay; break;
+            case 404: currentDelay = delay; break;
+            default: currentDelay = Math.min(currentDelay * 2, 60000);
           }
+          this.updateStatus(status);
         },
-        error: () => {
+        complete: () => setTimeout(pingServer, currentDelay)
+      });
+    };
 
-        },
-        complete: () => {
-
-        }
-      })
-    }, 5000)
+    pingServer();
   }
 
-  userStatusIcon(): string {
+  private updateStatus(status: number) {
+    if (status === 401) {
+      this.serverStatus = SERVER_STATUS_ONLINE;
+      this.userStatus = USER_STATUS_UNAUTHORIZED;
+    } else if (status === 404) {
+      this.serverStatus = SERVER_STATUS_ONLINE;
+      this.userStatus = USER_STATUS_AUTHORIZED;
+    } else {
+      this.serverStatus = SERVER_STATUS_OFFLINE;
+      this.userStatus = USER_STATUS_UNKNOWN;
+    }
+  }
+
+  get userStatusIcon(): string {
     switch (this.userStatus) {
       case USER_STATUS_AUTHORIZED:
         return 'check_circle';
@@ -123,10 +134,10 @@ export class HomeComponent implements OnInit {
     return 'help'
   }
 
-  serverStatusIcon(): string {
+  get serverStatusIcon(): string {
     switch (this.serverStatus) {
       case SERVER_STATUS_ONLINE:
-        return 'cloud_done'; // Icon for online server
+        return 'cloud_done';
       case SERVER_STATUS_OFFLINE:
         return 'cloud_off';
     }
